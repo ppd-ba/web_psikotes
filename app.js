@@ -624,16 +624,16 @@ function renderScoreDistributionChart(db) {
   const excBar = document.getElementById('bar-exc');
   
   failedBar.style.height = `${(intervals.failed / maxIntervalVal) * 100}%`;
-  failedBar.querySelector('.bar-value').textContent = intervals.failed;
+  failedBar.parentElement.querySelector('.bar-value').textContent = intervals.failed;
   
   lowBar.style.height = `${(intervals.low / maxIntervalVal) * 100}%`;
-  lowBar.querySelector('.bar-value').textContent = intervals.low;
+  lowBar.parentElement.querySelector('.bar-value').textContent = intervals.low;
   
   avgBar.style.height = `${(intervals.average / maxIntervalVal) * 100}%`;
-  avgBar.querySelector('.bar-value').textContent = intervals.average;
+  avgBar.parentElement.querySelector('.bar-value').textContent = intervals.average;
   
   excBar.style.height = `${(intervals.excellent / maxIntervalVal) * 100}%`;
-  excBar.querySelector('.bar-value').textContent = intervals.excellent;
+  excBar.parentElement.querySelector('.bar-value').textContent = intervals.excellent;
 }
 
 function renderCategoryPerformance(db) {
@@ -812,24 +812,29 @@ window.resetParticipant = function(nrp, date) {
 function fetchResultsFromGoogleSheets() {
   if (!state.gasUrl) return Promise.resolve(state.resultsDb);
   
-  return fetch(state.gasUrl)
-    .then(res => {
-      if (!res.ok) throw new Error('gSheet fetch failed');
-      return res.json();
-    })
-    .then(data => {
-      if (Array.isArray(data)) {
-        // Reverse array so new ones appear at the top, since doGet returns top-to-bottom
-        state.resultsDb = data.reverse();
-        saveLocalDatabase();
-        return data;
-      }
-      return state.resultsDb;
-    })
-    .catch(err => {
-      console.error('Failed to sync from Google Sheets, using local cache:', err);
-      return state.resultsDb;
-    });
+  try {
+    return fetch(state.gasUrl)
+      .then(res => {
+        if (!res.ok) throw new Error('gSheet fetch failed');
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          // Reverse array so new ones appear at the top, since doGet returns top-to-bottom
+          state.resultsDb = data.reverse();
+          saveLocalDatabase();
+          return data;
+        }
+        return state.resultsDb;
+      })
+      .catch(err => {
+        console.error('Failed to sync from Google Sheets, using local cache:', err);
+        return state.resultsDb;
+      });
+  } catch (err) {
+    console.error('Synchronous fetch failure from Google Sheets:', err);
+    return Promise.resolve(state.resultsDb);
+  }
 }
 
 function deleteFromGoogleSheets(nrp, date) {
