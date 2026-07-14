@@ -492,14 +492,14 @@ function submitTest(autoSubmit = false) {
   }
   
   // 6. Populate results screen UI
-  document.getElementById('res-score-num').textContent = correctAnswers;
+  document.getElementById('res-score-num').textContent = correctAnswers * 2;
   document.getElementById('res-name').textContent = `Peserta: ${state.nrp}`;
   document.getElementById('res-nrp').textContent = `Seksi: PPD BA | Durasi: ${durationStr}`;
   document.getElementById('res-feedback-text').innerHTML = `
     <strong>Analisis Hasil:</strong><br>
-    • Deret Angka & Deret Gambar: ${catScores.logic}/18 benar<br>
-    • Perhitungan Aritmatika & Logika: ${catScores.math}/16 benar<br>
-    • Logika Spasial & Bangun Ruang: ${catScores.spatial}/16 benar<br><br>
+    • Deret Angka & Deret Gambar: ${catScores.logic * 2}/36<br>
+    • Perhitungan Aritmatika & Logika: ${catScores.math * 2}/32<br>
+    • Logika Spasial & Bangun Ruang: ${catScores.spatial * 2}/32<br><br>
     <strong>Rekomendasi Evaluasi:</strong><br>
     ${insight}
   `;
@@ -587,6 +587,17 @@ function sendToGoogleSheetsAPI(record) {
 
 // ADMIN DASHBOARD RENDERING
 function renderAdminDashboard() {
+  // Sort chronologically to calculate attempt numbers
+  const sortedChronologically = [...state.resultsDb].sort((a, b) => new Date(a.date) - new Date(b.date));
+  const nrpAttemptCounts = {};
+  sortedChronologically.forEach(r => {
+    if (!nrpAttemptCounts[r.nrp]) {
+      nrpAttemptCounts[r.nrp] = 0;
+    }
+    nrpAttemptCounts[r.nrp]++;
+    r.attemptNumber = nrpAttemptCounts[r.nrp];
+  });
+
   const db = state.resultsDb;
   
   // 1. Set URL Input
@@ -598,7 +609,7 @@ function renderAdminDashboard() {
   
   if (totalParticipants === 0) {
     document.getElementById('admin-avg-score').textContent = '0%';
-    document.getElementById('admin-max-score').textContent = '0/50';
+    document.getElementById('admin-max-score').textContent = '0/100';
     document.getElementById('admin-pass-rate').textContent = '0%';
     document.getElementById('participants-table-body').innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada riwayat hasil ujian.</td></tr>`;
     return;
@@ -618,8 +629,8 @@ function renderAdminDashboard() {
   const avgPct = ((avgScore / 50) * 100).toFixed(0);
   const passRate = ((passedCount / totalParticipants) * 100).toFixed(0);
   
-  document.getElementById('admin-avg-score').textContent = `${avgPct}% (${avgScore}/50)`;
-  document.getElementById('admin-max-score').textContent = `${maxScore}/50`;
+  document.getElementById('admin-avg-score').textContent = `${avgPct}% (${(avgScore * 2).toFixed(1)}/100)`;
+  document.getElementById('admin-max-score').textContent = `${maxScore * 2}/100`;
   document.getElementById('admin-pass-rate').textContent = `${passRate}%`;
   
   // 3. Render SVG Histogram (Score Distribution Chart)
@@ -821,23 +832,37 @@ function renderParticipantsTable(db) {
   const tbody = document.getElementById('participants-table-body');
   tbody.innerHTML = '';
   
-  db.forEach((r, idx) => {
+  // Sort by score descending (highest score first) for ranking
+  const sortedByScore = [...db].sort((a, b) => b.score - a.score);
+  
+  sortedByScore.forEach((r) => {
     const tr = document.createElement('tr');
-    tr.id = `row-participant-${idx}`;
     
-    // Determine score class badge
+    // Determine score class badge on a scale of 100
+    const scaledScore = r.score * 2;
     let badgeClass = 'score-mid';
-    if (r.score >= 40) badgeClass = 'score-high';
-    else if (r.score < 30) badgeClass = 'score-low';
+    if (scaledScore >= 80) badgeClass = 'score-high';
+    else if (scaledScore < 60) badgeClass = 'score-low';
+    
+    // Find absolute rank in globally sorted list of all records
+    const globalRank = state.resultsDb
+      .slice()
+      .sort((a, b) => b.score - a.score)
+      .findIndex(item => item.nrp === r.nrp && item.date === r.date) + 1;
     
     tr.innerHTML = `
-      <td><strong>${r.nrp}</strong></td>
+      <td>
+        <span style="display:inline-block; padding: 0.15rem 0.35rem; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.25); border-radius:4px; font-size:0.7rem; color:var(--accent); font-weight:bold; margin-bottom:0.25rem;">Peringkat #${globalRank}</span>
+        <br>
+        <strong>${r.nrp}</strong>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Tes ke-${r.attemptNumber || 1}</div>
+      </td>
       <td>${formatDisplayDate(r.date)}</td>
-      <td><span class="score-badge ${badgeClass}">${r.score} / ${r.total}</span></td>
+      <td><span class="score-badge ${badgeClass}">${scaledScore} / 100</span></td>
       <td>${formatDisplayDuration(r.duration)}</td>
       <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.insight.replace(/<\/?[^>]+(>|$)/g, "")}</td>
       <td>
-        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewParticipantDetails(${idx})">Detail</button>
+        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewParticipantDetails('${r.nrp}', '${r.date}')">Detail</button>
         <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetParticipant('${r.nrp}', '${r.date}')">Reset</button>
       </td>
     `;
@@ -861,25 +886,27 @@ function filterParticipantsTable(query) {
 }
 
 // VIEW PARTICIPANT DETAILS MODAL
-window.viewParticipantDetails = function(index) {
-  const r = state.resultsDb[index];
+window.viewParticipantDetails = function(nrp, date) {
+  const r = state.resultsDb.find(item => item.nrp === nrp && item.date === date);
+  if (!r) return;
   
   let competenceClass = '';
   let traits = '';
   let coachingPlan = '';
   let badgeColor = '';
+  const scaledScore = r.score * 2;
   
-  if (r.score >= 42) {
+  if (scaledScore >= 84) {
     competenceClass = 'Sangat Kompeten (Kategori A)';
     badgeColor = 'score-high';
     traits = 'Memiliki logika penalaran taktis dan pemahaman pola visual yang sangat tajam. Sangat mampu menganalisis masalah teknis yang kompleks dan cepat mengambil keputusan pengawasan yang aman.';
     coachingPlan = 'Sangat cocok untuk dipromosikan segera menjadi Group Leader Mandiri dan didelegasikan tanggung jawab pengawasan shift kritis.';
-  } else if (r.score >= 32) {
+  } else if (scaledScore >= 64) {
     competenceClass = 'Kompeten (Kategori B)';
     badgeColor = 'score-high';
     traits = 'Memiliki pemahaman logika kerja yang stabil dan perhitungan matematis operasional yang baik. Mampu mengarahkan anggota tim sesuai SOP dengan andal.';
     coachingPlan = 'Diberikan pendampingan (coaching) mandiri selama 3 bulan pertama, fokus pada peningkatan kecepatan respon situasi darurat.';
-  } else if (r.score >= 25) {
+  } else if (scaledScore >= 50) {
     competenceClass = 'Cukup Kompeten (Kategori C)';
     badgeColor = 'score-mid';
     traits = 'Memiliki pemahaman dasar untuk logika pengawasan, namun masih rentan melakukan kesalahan kalkulasi di bawah tekanan kerja lapangan yang tinggi.';
@@ -898,15 +925,15 @@ window.viewParticipantDetails = function(index) {
     </div>
     <p><strong>NRP Pegawai:</strong> ${r.nrp}</p>
     <p><strong>Waktu Selesai:</strong> ${formatDisplayDate(r.date)}</p>
-    <p><strong>Skor Total:</strong> <span class="score-badge ${r.score >= 40 ? 'score-high' : r.score >= 30 ? 'score-mid' : 'score-low'}">${r.score} dari ${r.total} benar</span></p>
+    <p><strong>Skor Total:</strong> <span class="score-badge ${scaledScore >= 80 ? 'score-high' : scaledScore >= 60 ? 'score-mid' : 'score-low'}">${scaledScore} dari 100 poin</span></p>
     <p><strong>Durasi Pengisian:</strong> ${formatDisplayDuration(r.duration)}</p>
     <br>
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
       <strong>Rincian Kategori Soal:</strong><br>
-      • Deret Angka & Deret Gambar: ${r.categoryScores ? r.categoryScores.logic : 'N/A'}/18 benar<br>
-      • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math : 'N/A'}/16 benar<br>
-      • Spasial 2D & Bangun Ruang: ${r.categoryScores ? r.categoryScores.spatial : 'N/A'}/16 benar
+      • Deret Angka & Deret Gambar: ${r.categoryScores ? r.categoryScores.logic * 2 : 'N/A'}/36<br>
+      • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math * 2 : 'N/A'}/32<br>
+      • Spasial 2D & Bangun Ruang: ${r.categoryScores ? r.categoryScores.spatial * 2 : 'N/A'}/32
     </div>
     
     <div style="background: rgba(251,191,36,0.05); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
