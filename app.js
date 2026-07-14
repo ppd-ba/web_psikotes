@@ -287,18 +287,36 @@ function renderQuestion(index) {
   const optionsList = document.getElementById('options-list');
   optionsList.innerHTML = '';
   
+  const hasSvgOptions = q.options.some(opt => opt.trim().startsWith('<svg'));
+  if (hasSvgOptions) {
+    optionsList.className = 'options-list grid-options';
+  } else {
+    optionsList.className = 'options-list';
+  }
+  
   q.options.forEach((opt, idx) => {
     const isSelected = state.answers[q.id] === opt;
     const optionChar = String.fromCharCode(65 + idx); // A, B, C, D, E
+    const isSvg = opt.trim().startsWith('<svg');
     
     const optItem = document.createElement('div');
-    optItem.className = `option-item ${isSelected ? 'selected' : ''}`;
+    optItem.className = `option-item ${isSelected ? 'selected' : ''} ${isSvg ? 'is-svg-option' : ''}`;
     optItem.addEventListener('click', () => selectOption(q.id, opt));
     
-    optItem.innerHTML = `
-      <div class="option-radio"></div>
-      <div class="option-text"><strong>${optionChar}.</strong> ${opt}</div>
-    `;
+    if (isSvg) {
+      optItem.innerHTML = `
+        <div class="option-radio"></div>
+        <div class="option-text option-text-svg">
+          <strong>${optionChar}.</strong>
+          <div class="svg-wrapper">${opt}</div>
+        </div>
+      `;
+    } else {
+      optItem.innerHTML = `
+        <div class="option-radio"></div>
+        <div class="option-text"><strong>${optionChar}.</strong> ${opt}</div>
+      `;
+    }
     
     optionsList.appendChild(optItem);
   });

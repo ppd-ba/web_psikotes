@@ -414,7 +414,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .question-media svg {
-  max-width: 320px;
+  max-width: 480px; /* Increased from 320px */
+  width: 100%;
   height: auto;
 }
 
@@ -1026,4 +1027,50 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   left: 0;
   font-weight: bold;
+}
+
+/* Grid options style for SVG choices */
+.options-list.grid-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .options-list.grid-options {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.is-svg-option {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem !important;
+}
+
+.option-text-svg {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.option-text-svg .svg-wrapper {
+  background-color: #1a202c;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  padding: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 80px;
+}
+
+.option-text-svg .svg-wrapper svg {
+  max-width: 90px;
+  max-height: 70px;
+  width: 100%;
+  height: auto;
 }
