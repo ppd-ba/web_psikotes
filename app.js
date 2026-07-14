@@ -834,8 +834,9 @@ function renderParticipantsTable(db) {
   
   // Sort by score descending (highest score first) for ranking
   const sortedByScore = [...db].sort((a, b) => b.score - a.score);
+  state.currentlyRenderedDb = sortedByScore; // Save list state for clean onclick indexing
   
-  sortedByScore.forEach((r) => {
+  sortedByScore.forEach((r, idx) => {
     const tr = document.createElement('tr');
     
     // Determine score class badge on a scale of 100
@@ -862,8 +863,8 @@ function renderParticipantsTable(db) {
       <td>${formatDisplayDuration(r.duration)}</td>
       <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.insight.replace(/<\/?[^>]+(>|$)/g, "")}</td>
       <td>
-        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewParticipantDetails('${r.nrp}', '${r.date}')">Detail</button>
-        <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetParticipant('${r.nrp}', '${r.date}')">Reset</button>
+        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewParticipantDetails(${idx})">Detail</button>
+        <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetParticipant(${idx})">Reset</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -886,8 +887,8 @@ function filterParticipantsTable(query) {
 }
 
 // VIEW PARTICIPANT DETAILS MODAL
-window.viewParticipantDetails = function(nrp, date) {
-  const r = state.resultsDb.find(item => item.nrp === nrp && item.date === date);
+window.viewParticipantDetails = function(index) {
+  const r = state.currentlyRenderedDb ? state.currentlyRenderedDb[index] : state.resultsDb[index];
   if (!r) return;
   
   let competenceClass = '';
@@ -953,10 +954,16 @@ window.viewParticipantDetails = function(nrp, date) {
 };
 
 // RESET PARTICIPANT RECORD (Perubahan by NRP)
-window.resetParticipant = function(nrp, date) {
+window.resetParticipant = function(index) {
+  const r = state.currentlyRenderedDb ? state.currentlyRenderedDb[index] : state.resultsDb[index];
+  if (!r) return;
+  
+  const nrp = r.nrp;
+  const date = r.date;
+  
   if (confirm(`Apakah Anda yakin ingin menghapus data ujian NRP ${nrp} tanggal ${date}? Tindakan ini akan memungkinkan karyawan tersebut untuk login dan menguji ulang dari awal.`)) {
     // 1. Filter out the selected record from local memory
-    state.resultsDb = state.resultsDb.filter(r => !(r.nrp === nrp && r.date === date));
+    state.resultsDb = state.resultsDb.filter(item => !(item.nrp === nrp && item.date === date));
     saveLocalDatabase();
     
     // 2. Delete from Google Sheets if URL configured
