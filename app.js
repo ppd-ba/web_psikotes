@@ -601,8 +601,77 @@ function renderAdminDashboard() {
   // 5. Render overall suggestions recommendations
   renderOverallRecommendations(db);
   
+  // 5.5. Render overall group psychology profile
+  renderGroupPsychology(db);
+  
   // 6. Render Table Rows
   renderParticipantsTable(db);
+}
+
+function renderGroupPsychology(db) {
+  const count = db.length;
+  const box = document.getElementById('group-psychology-box');
+  if (!box) return;
+  
+  if (count === 0) {
+    box.innerHTML = 'Belum ada riwayat hasil ujian untuk dianalisa.';
+    return;
+  }
+  
+  let countA = 0, countB = 0, countC = 0, countD = 0;
+  let totalScore = 0;
+  
+  db.forEach(r => {
+    totalScore += r.score;
+    if (r.score >= 42) countA++;
+    else if (r.score >= 32) countB++;
+    else if (r.score >= 25) countC++;
+    else countD++;
+  });
+  
+  const avgScore = totalScore / count;
+  const pctA = ((countA / count) * 100).toFixed(0);
+  const pctB = ((countB / count) * 100).toFixed(0);
+  const pctC = ((countC / count) * 100).toFixed(0);
+  const pctD = ((countD / count) * 100).toFixed(0);
+  
+  let summaryText = '';
+  let leadershipStyleText = '';
+  let hrInterventionText = '';
+  
+  if (avgScore >= 35) {
+    summaryText = `Kelompok kandidat ini secara umum memiliki <strong>keunggulan kognitif yang merata</strong>. Sebanyak ${pctA}% peserta berada pada kategori Sangat Kompeten (A) dan ${pctB}% Kompeten (B).`;
+    leadershipStyleText = `Gaya kepemimpinan kelompok cenderung bersifat <strong>analitis, berorientasi pada data operasional, dan taktis dalam perencanaan kerja lapangan</strong>.`;
+    hrInterventionText = `Rekomendasi PPD: Kelompok ini dapat segera diakselerasi untuk pelatihan supervisi lapangan (*Leadership & Supervision*) dan diposisikan pada front kerja aktif.`;
+  } else if (avgScore >= 25) {
+    summaryText = `Kelompok kandidat ini berada pada level <strong>cukup siap pakai</strong> dengan catatan khusus. Sebanyak ${pctB}% berada pada kategori Kompeten (B) dan ${pctC}% Cukup Kompeten (C).`;
+    leadershipStyleText = `Gaya kepemimpinan kelompok cenderung bertipe <strong>hati-hati (kalkulatif) namun berisiko lambat merespon masalah</strong> di bawah tekanan lapangan.`;
+    hrInterventionText = `Rekomendasi PPD: Diperlukan pembekalan teknis mendalam mengenai perhitungan produktivitas harian dan dasar-dasar pemecahan masalah operasional tim.`;
+  } else {
+    summaryText = `Sebagian besar kandidat dalam kelompok ini (${pctD}% kategori D) memiliki <strong>celah kompetensi logika dan numerik yang cukup lebar</strong>.`;
+    leadershipStyleText = `Kelompok ini cenderung menunjukkan gaya kerja yang <strong>kurang terstruktur dan rentan melakukan kesalahan pengambilan keputusan taktis di lapangan</strong>.`;
+    hrInterventionText = `Rekomendasi PPD: Disarankan mengadakan program pembinaan kompetensi dasar matematika praktis dan materi keselamatan kerja sebelum ditugaskan penuh sebagai pengawas lapangan.`;
+  }
+  
+  box.innerHTML = `
+    <div style="margin-bottom:0.75rem; display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align:center;">
+      <div style="background:rgba(16,185,129,0.1); padding:0.5rem; border-radius:4px; border:1px solid rgba(16,185,129,0.2);">
+        <strong style="color:#10b981; font-size:1.1rem;">${pctA}%</strong><br><span style="font-size:0.7rem;">Kategori A</span>
+      </div>
+      <div style="background:rgba(59,130,246,0.1); padding:0.5rem; border-radius:4px; border:1px solid rgba(59,130,246,0.2);">
+        <strong style="color:#3b82f6; font-size:1.1rem;">${pctB}%</strong><br><span style="font-size:0.7rem;">Kategori B</span>
+      </div>
+      <div style="background:rgba(245,158,11,0.1); padding:0.5rem; border-radius:4px; border:1px solid rgba(245,158,11,0.2);">
+        <strong style="color:#f59e0b; font-size:1.1rem;">${pctC}%</strong><br><span style="font-size:0.7rem;">Kategori C</span>
+      </div>
+      <div style="background:rgba(239,68,68,0.1); padding:0.5rem; border-radius:4px; border:1px solid rgba(239,68,68,0.2);">
+        <strong style="color:#ef4444; font-size:1.1rem;">${pctD}%</strong><br><span style="font-size:0.7rem;">Kategori D</span>
+      </div>
+    </div>
+    <p style="margin-bottom:0.35rem;">🎯 <strong>Kesimpulan Profil:</strong> ${summaryText}</p>
+    <p style="margin-bottom:0.35rem;">⚡ <strong>Karakter Pengawasan Kelompok:</strong> ${leadershipStyleText}</p>
+    <p style="margin-bottom:0.35rem;">💡 <strong>Rekomendasi Intervensi PPD:</strong> ${hrInterventionText}</p>
+  `;
 }
 
 function renderScoreDistributionChart(db) {
@@ -765,6 +834,33 @@ function filterParticipantsTable(query) {
 window.viewParticipantDetails = function(index) {
   const r = state.resultsDb[index];
   
+  let competenceClass = '';
+  let traits = '';
+  let coachingPlan = '';
+  let badgeColor = '';
+  
+  if (r.score >= 42) {
+    competenceClass = 'Sangat Kompeten (Kategori A)';
+    badgeColor = 'score-high';
+    traits = 'Memiliki logika penalaran taktis dan pemahaman pola visual yang sangat tajam. Sangat mampu menganalisis masalah teknis yang kompleks dan cepat mengambil keputusan pengawasan yang aman.';
+    coachingPlan = 'Sangat cocok untuk dipromosikan segera menjadi Group Leader Mandiri dan didelegasikan tanggung jawab pengawasan shift kritis.';
+  } else if (r.score >= 32) {
+    competenceClass = 'Kompeten (Kategori B)';
+    badgeColor = 'score-high';
+    traits = 'Memiliki pemahaman logika kerja yang stabil dan perhitungan matematis operasional yang baik. Mampu mengarahkan anggota tim sesuai SOP dengan andal.';
+    coachingPlan = 'Diberikan pendampingan (coaching) mandiri selama 3 bulan pertama, fokus pada peningkatan kecepatan respon situasi darurat.';
+  } else if (r.score >= 25) {
+    competenceClass = 'Cukup Kompeten (Kategori C)';
+    badgeColor = 'score-mid';
+    traits = 'Memiliki pemahaman dasar untuk logika pengawasan, namun masih rentan melakukan kesalahan kalkulasi di bawah tekanan kerja lapangan yang tinggi.';
+    coachingPlan = 'Disarankan mengikuti program pembinaan (mentoring) intensif dan pelatihan dasar manajemen operasional sebelum memegang shift mandiri.';
+  } else {
+    competenceClass = 'Perlu Pembinaan Intensif (Kategori D)';
+    badgeColor = 'score-low';
+    traits = 'Menunjukkan kendala yang signifikan pada penalaran logis, hitungan operasional dasar, maupun pemahaman pola visual. Kurang direkomendasikan untuk tanggung jawab pengawasan langsung saat ini.';
+    coachingPlan = 'Wajib mengikuti training ulang (retraining) materi teknis dasar dan didampingi secara ketat oleh Group Leader senior.';
+  }
+  
   document.getElementById('modal-details-title').textContent = `Analisis Hasil: ${r.nrp}`;
   document.getElementById('modal-details-body').innerHTML = `
     <div style="font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
@@ -775,16 +871,24 @@ window.viewParticipantDetails = function(index) {
     <p><strong>Skor Total:</strong> <span class="score-badge ${r.score >= 40 ? 'score-high' : r.score >= 30 ? 'score-mid' : 'score-low'}">${r.score} dari ${r.total} benar</span></p>
     <p><strong>Durasi Pengisian:</strong> ${r.duration} menit</p>
     <br>
-    <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color);">
-      <strong>Rincian Kategori:</strong><br>
+    
+    <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
+      <strong>Rincian Kategori Soal:</strong><br>
       • Deret Angka & Deret Gambar: ${r.categoryScores ? r.categoryScores.logic : 'N/A'}/18 benar<br>
       • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math : 'N/A'}/16 benar<br>
-      • Spasial 3D (Bangun Ruang): ${r.categoryScores ? r.categoryScores.spatial : 'N/A'}/16 benar
+      • Spasial 2D & Bangun Ruang: ${r.categoryScores ? r.categoryScores.spatial : 'N/A'}/16 benar
     </div>
-    <br>
+    
+    <div style="background: rgba(251,191,36,0.05); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
+      <strong>Analisa Psikologi Individu:</strong><br>
+      <span class="score-badge ${badgeColor}" style="margin: 0.5rem 0; display:inline-block;">${competenceClass}</span>
+      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem; margin-bottom:0.5rem;"><strong>Karakter Pengawasan:</strong> ${traits}</p>
+      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem;"><strong>Rencana Pendampingan:</strong> ${coachingPlan}</p>
+    </div>
+    
     <div>
-      <strong>Umpan Balik Psikologi Lapangan:</strong><br>
-      <p style="color: var(--text-secondary); line-height: 1.5; margin-top: 0.25rem;">${r.insight}</p>
+      <strong>Umpan Balik Logika Kerja (Saran Peserta):</strong><br>
+      <p style="color: var(--text-secondary); line-height: 1.5; margin-top: 0.25rem; font-size:0.85rem;">${r.insight}</p>
     </div>
   `;
   
