@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPD BA - Portal Psikotes Online Calon Group Leader PPA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- App Container -->
+  <div id="app">
+    
+    <!-- 1. MAIN HEADER -->
+    <header class="main-header">
+      <div class="brand">
+        <!-- Default Fallback SVG Logo representing People Development (Graduation cap + Gear) -->
+        <img class="brand-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24'><path d='M12 2L1 7l11 5 9-4.09V14a1 1 0 0 0 2 0V7.5L12 2z'/><path d='M12 14.5a3.5 3.5 0 0 1-3.5-3.5h-2a5.5 5.5 0 0 0 11 0h-2A3.5 3.5 0 0 1 12 14.5z'/><path d='M12 16a4 4 0 1 0 4-4 4 4 0 0 0-4 4zm4-2a2 2 0 1 1-2 2 2 2 0 0 1 2-2z'/></svg>" alt="Logo PPD BA">
+        <div class="brand-info">
+          <h1 class="brand-name">PPD <span>BA</span></h1>
+          <span class="brand-section">Plant People Development</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="admin-link" id="link-admin-login">Portal Admin</span>
+        <span class="admin-link" id="link-admin-logout" style="display:none; color:#ef4444;">Keluar Admin</span>
+      </div>
+    </header>
+
+    <!-- 2. LOGIN VIEW -->
+    <main class="view-container active" id="login-view">
+      <div class="login-view">
+        <div class="card login-card">
+          <!-- Big Fallback SVG Logo -->
+          <img class="brand-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24'><path d='M12 2L1 7l11 5 9-4.09V14a1 1 0 0 0 2 0V7.5L12 2z'/><path d='M12 14.5a3.5 3.5 0 0 1-3.5-3.5h-2a5.5 5.5 0 0 0 11 0h-2A3.5 3.5 0 0 1 12 14.5z'/><path d='M12 16a4 4 0 1 0 4-4 4 4 0 0 0-4 4zm4-2a2 2 0 1 1-2 2 2 2 0 0 1 2-2z'/></svg>" alt="Logo PPD BA">
+          <h2 class="login-title">Seleksi Group Leader</h2>
+          <p class="login-subtitle">Masukkan NRP Karyawan Anda untuk memulai tes logika</p>
+          
+          <form id="login-form">
+            <div class="form-group">
+              <label for="nrp-input">NRP Karyawan</label>
+              <input type="text" class="input-control" id="nrp-input" placeholder="Contoh: PPA1234" required autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary login-btn">Mulai Ujian</button>
+          </form>
+          
+          <div class="login-footer">
+            &copy; 2026 Plant People Development Bukit Asam (PPD BA).
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 3. TEST VIEW -->
+    <main class="view-container" id="test-view">
+      <div class="timer-bar-container">
+        <div class="timer-bar" id="timer-bar"></div>
+      </div>
+      
+      <div class="test-layout">
+        
+        <!-- Left Side: Question Box -->
+        <div class="test-content">
+          <div class="card">
+            <div class="test-header">
+              <div class="question-counter" id="question-idx">Soal No. 1 dari 30</div>
+              <div class="timer-display" id="timer-display">45:00</div>
+            </div>
+            
+            <div class="question-box">
+              <div class="brand-section" id="question-cat-label" style="color:var(--accent); font-weight:bold; margin-bottom:0.5rem;">Kategori Soal</div>
+              <div class="question-text" id="question-text">Loading question text...</div>
+              
+              <div class="question-media" id="question-media-box">
+                <!-- SVG Graphics injected here dynamically -->
+              </div>
+              
+              <div class="options-list" id="options-list">
+                <!-- Option items injected here dynamically -->
+              </div>
+            </div>
+            
+            <div class="test-navigation">
+              <button class="btn btn-secondary" id="btn-prev">Sebelumnya</button>
+              <button class="btn btn-secondary" id="btn-flag">Ragu-ragu</button>
+              <button class="btn btn-primary" id="btn-next">Selanjutnya</button>
+              <button class="btn btn-success" id="btn-submit">Selesai Ujian</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Side: Question Navigator Grid -->
+        <div class="navigator-sidebar">
+          <div class="card navigator-card">
+            <h3 class="navigator-title">Peta Navigasi Soal</h3>
+            <div class="navigator-grid" id="navigator-grid">
+              <!-- Grid items injected here dynamically -->
+            </div>
+            
+            <div class="test-summary-meta">
+              <p>Terjawab: <span id="answered-count">0</span> / 30</p>
+              <p>Batas Waktu: <span>45 Menit</span></p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+
+    <!-- 4. RESULT VIEW -->
+    <main class="view-container" id="result-view">
+      <div class="result-view">
+        <div class="card result-card">
+          <div class="result-icon">🎓</div>
+          <h2 class="result-name" id="res-name">Nama Karyawan</h2>
+          <p class="result-nrp" id="res-nrp">NRP: PPA1234</p>
+          
+          <div class="result-score-circle">
+            <div class="score-num" id="res-score-num">0</div>
+            <div class="score-total" id="res-score-total">dari 30 benar</div>
+          </div>
+          
+          <div class="feedback-box">
+            <h3 class="feedback-title">📋 Evaluasi & Rekomendasi</h3>
+            <p class="feedback-text" id="res-feedback-text">Memuat analisis psikologis kerja...</p>
+          </div>
+          
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="btn-retake">Kerjakan Ulang Ujian</button>
+            <button class="btn btn-primary" id="btn-finish-test">Selesai</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 5. ADMIN LOGIN VIEW -->
+    <main class="view-container" id="admin-login-view">
+      <div class="admin-login-card card">
+        <h2 class="login-title" style="color:var(--error); margin-bottom:0.5rem;">Portal Admin</h2>
+        <p class="login-subtitle">Masukkan password otorisasi untuk mengakses dasbor nilai</p>
+        
+        <form id="admin-login-form">
+          <div class="form-group">
+            <label for="admin-pass-input">Password Admin</label>
+            <input type="password" class="input-control" id="admin-pass-input" placeholder="Masukkan password" required>
+          </div>
+          <button type="submit" class="btn btn-danger login-btn">Login Admin</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- 6. ADMIN DASHBOARD VIEW -->
+    <main class="view-container" id="admin-dashboard-view">
+      <div class="admin-header">
+        <div class="admin-title-group">
+          <h2 class="brand-name" style="font-size:1.6rem;">Dasbor Analitik Ujian</h2>
+          <span class="admin-subtitle">Seksi: PPD BA Site Bukit Asam</span>
+        </div>
+        <div class="btn-group" style="display:flex; gap:0.5rem;">
+          <button class="btn btn-secondary" onclick="showModal('config-modal')">Integrasi gSheet</button>
+          <button class="btn btn-danger" id="link-admin-logout-dash" onclick="state.isAdminAuthenticated=false; showView('login');">Keluar Admin</button>
+        </div>
+      </div>
+      
+      <!-- Statistics KPI Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-val" id="admin-total-participants">0</span>
+          <span class="stat-label">Total Peserta</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-val" id="admin-avg-score">0%</span>
+          <span class="stat-label">Rata-rata Nilai</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-val" id="admin-max-score">0/30</span>
+          <span class="stat-label">Nilai Tertinggi</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-val" id="admin-pass-rate">0%</span>
+          <span class="stat-label">Kelulusan (Skor >= 18)</span>
+        </div>
+      </div>
+      
+      <!-- Charts Analysis Section -->
+      <div class="charts-grid">
+        <!-- Left Chart: Score Distribution Histogram -->
+        <div class="card">
+          <h3 class="navigator-title" style="margin-bottom:1.5rem;">Distribusi Rentang Nilai</h3>
+          <div class="chart-container">
+            <div class="bar-wrapper">
+              <div class="bar-value">0</div>
+              <div class="bar-column" id="bar-failed" style="height:0%;"></div>
+              <span class="bar-label">&lt; 12</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">0</div>
+              <div class="bar-column" id="bar-low" style="height:0%;"></div>
+              <span class="bar-label">12 - 17</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">0</div>
+              <div class="bar-column" id="bar-avg" style="height:0%;"></div>
+              <span class="bar-label">18 - 23</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-value">0</div>
+              <div class="bar-column" id="bar-exc" style="height:0%;"></div>
+              <span class="bar-label">24 - 30</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Chart: Category Performance Progress Bars -->
+        <div class="card">
+          <h3 class="navigator-title" style="margin-bottom:1rem;">Analisa Performa Kategori Soal</h3>
+          <div class="pie-chart-list">
+            <div class="progress-row">
+              <div class="progress-row-header">
+                <span>Deret Angka (Kognitif Dasar)</span>
+                <span id="val-logic">0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progress-logic" style="width:0%;"></div>
+              </div>
+            </div>
+            
+            <div class="progress-row" style="margin-top:1rem;">
+              <div class="progress-row-header">
+                <span>Aritmatika Logika (Soal Cerita)</span>
+                <span id="val-math">0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progress-math" style="width:0%;"></div>
+              </div>
+            </div>
+            
+            <div class="progress-row" style="margin-top:1rem;">
+              <div class="progress-row-header">
+                <span>Logika Spasial & Bangun Ruang 3D</span>
+                <span id="val-spatial">0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progress-spatial" style="width:0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- General Training Recommendations based on average weakness -->
+      <div class="card">
+        <h3 class="navigator-title" style="margin-bottom:0.5rem;">Saran & Rekomendasi Training Keseluruhan (PPD BA)</h3>
+        <div class="recommendations-box">
+          <p class="rec-title">🎯 Celah Kompetensi Peserta:</p>
+          <ul class="rec-list" id="recommendations-list">
+            <!-- Injected dynamically based on aggregate scores -->
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Participants Management Table -->
+      <div class="card">
+        <div class="panel-header">
+          <h3 class="navigator-title" style="margin-bottom:0;">Daftar Hasil Ujian</h3>
+          <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="Cari berdasarkan NRP...">
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>NRP Pegawai</th>
+                <th>Tanggal Selesai</th>
+                <th>Skor Akhir</th>
+                <th>Durasi</th>
+                <th>Kesimpulan Singkat</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="participants-table-body">
+              <!-- Dynamic rows injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- 7. MODALS -->
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submit-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Konfirmasi Selesai Ujian</h3>
+          <button class="modal-close btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Apakah Anda yakin ingin mengakhiri ujian ini? Seluruh jawaban Anda akan disimpan dan tidak dapat diubah kembali.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-close-modal">Batal</button>
+          <button class="btn btn-success" id="btn-confirm-submit">Kirim Jawaban</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Participant Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+      <div class="modal-card" style="max-width: 550px;">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modal-details-title">Detail Hasil Peserta</h3>
+          <button class="modal-close btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-details-body">
+          <!-- Injected dynamically -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn-close-modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Sheet Configuration Modal -->
+    <div class="modal-overlay" id="config-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Integrasi Google Sheets Database</h3>
+          <button class="modal-close btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p style="margin-bottom:1rem; font-size:0.85rem; color:var(--text-secondary);">Dengan menghubungkan URL Web App Google Apps Script, setiap hasil tes online karyawan di HP masing-masing akan otomatis terkirim langsung ke Spreadsheet admin secara real-time.</p>
+          <div class="form-group">
+            <label for="gas-url-input">Google Apps Script Web App URL</label>
+            <input type="text" class="input-control" id="gas-url-input" placeholder="Pasti URL .exec di sini">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-close-modal">Tutup</button>
+          <button class="btn btn-primary" id="btn-save-gas">Simpan URL</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Loading scripts -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
