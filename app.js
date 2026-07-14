@@ -649,6 +649,55 @@ function renderAdminDashboard() {
   renderParticipantsTable(db);
 }
 
+function getAspectAnalysis(scoreLogic, scoreMath, scoreSpatial) {
+  // logic max: 18, math max: 16, spatial max: 16
+  const pctLogic = (scoreLogic / 18) * 100;
+  const pctMath = (scoreMath / 16) * 100;
+  const pctSpatial = (scoreSpatial / 16) * 100;
+
+  let logicLevel = 'Kurang', logicColor = '#ef4444', logicDesc = '';
+  if (pctLogic >= 80) {
+    logicLevel = 'Tinggi'; logicColor = '#10b981';
+    logicDesc = 'Sangat tajam dalam menganalisis pola kerusakan unit. Mampu mendeteksi pola kegagalan berulang secara prediktif dan mengambil keputusan pemecahan masalah secara terstruktur.';
+  } else if (pctLogic >= 60) {
+    logicLevel = 'Sedang'; logicColor = '#3b82f6';
+    logicDesc = 'Cukup baik dalam memahami logika kerja komponen dan mencari akar masalah kerusakan standar. Mampu mengambil tindakan taktis harian dengan bimbingan berkala.';
+  } else {
+    logicLevel = 'Kurang'; logicColor = '#f59e0b';
+    logicDesc = 'Cenderung reaktif dalam penanganan breakdown. Membutuhkan instruksi kerja yang detail untuk mendeteksi akar penyebab kerusakan mekanis.';
+  }
+
+  let mathLevel = 'Kurang', mathColor = '#ef4444', mathDesc = '';
+  if (pctMath >= 80) {
+    mathLevel = 'Tinggi'; mathColor = '#10b981';
+    mathDesc = 'Akurasi hitungan dan estimasi MTTR sangat presisi. Mampu mengelola resource workshop secara maksimal, memperhitungkan PA/MA secara rasional, serta peka terhadap biaya operasional.';
+  } else if (pctMath >= 60) {
+    mathLevel = 'Sedang'; mathColor = '#3b82f6';
+    mathDesc = 'Cukup mampu membagi beban kerja kru workshop secara proporsional. Estimasi waktu rilis unit wajar namun membutuhkan kontrol berkala agar terhindar dari keterlambatan.';
+  } else {
+    mathLevel = 'Kurang'; mathColor = '#f59e0b';
+    mathDesc = 'Rawan salah membuat kalkulasi prioritas rilis unit. Mengalami kesulitan dalam mengatur pembagian shift mekanik secara efisien dan memprediksi target kesiapan unit.';
+  }
+
+  let spatialLevel = 'Kurang', spatialColor = '#ef4444', spatialDesc = '';
+  if (pctSpatial >= 80) {
+    spatialLevel = 'Tinggi'; spatialColor = '#10b981';
+    spatialDesc = 'Memiliki orientasi ruang dan visualisasi K3 yang sangat matang. Sangat terampil membaca blueprint elektrikal/hidrolik serta disiplin tinggi terhadap standardisasi layout workshop (5S).';
+  } else if (pctSpatial >= 60) {
+    spatialLevel = 'Sedang'; spatialColor = '#3b82f6';
+    spatialDesc = 'Cukup memahami rambu-rambu bahaya di area workshop/tambang. Mampu membaca manual book teknik dasar dan mengikuti layout penataan workshop standar.';
+  } else {
+    spatialLevel = 'Kurang'; spatialColor = '#f59e0b';
+    spatialDesc = 'Sensitivitas bahaya spasial lingkungan kerja kurang optimal. Memerlukan pengawasan ketat saat membaca peta layout tambang dan penegakan penggunaan APD/keselamatan kerja dasar.';
+  }
+
+  return {
+    logic: { level: logicLevel, color: logicColor, desc: logicDesc, pct: pctLogic.toFixed(0) },
+    math: { level: mathLevel, color: mathColor, desc: mathDesc, pct: pctMath.toFixed(0) },
+    spatial: { level: spatialLevel, color: spatialColor, desc: spatialDesc, pct: pctSpatial.toFixed(0) }
+  };
+}
+
 function renderGroupPsychology(db) {
   const count = db.length;
   const box = document.getElementById('group-psychology-box');
@@ -661,6 +710,7 @@ function renderGroupPsychology(db) {
   
   let countA = 0, countB = 0, countC = 0, countD = 0;
   let totalScore = 0;
+  let totalLogic = 0, totalMath = 0, totalSpatial = 0;
   
   db.forEach(r => {
     totalScore += r.score;
@@ -668,6 +718,16 @@ function renderGroupPsychology(db) {
     else if (r.score >= 32) countB++;
     else if (r.score >= 25) countC++;
     else countD++;
+
+    if (r.categoryScores) {
+      totalLogic += r.categoryScores.logic || 0;
+      totalMath += r.categoryScores.math || 0;
+      totalSpatial += r.categoryScores.spatial || 0;
+    } else {
+      totalLogic += Math.round(r.score * 0.36);
+      totalMath += Math.round(r.score * 0.32);
+      totalSpatial += Math.round(r.score * 0.32);
+    }
   });
   
   const avgScore = totalScore / count;
@@ -693,6 +753,47 @@ function renderGroupPsychology(db) {
     leadershipStyleText = `Kelompok ini cenderung menunjukkan gaya kerja yang <strong>kurang terstruktur dan rentan melakukan kesalahan pengambilan keputusan taktis di lapangan</strong>.`;
     hrInterventionText = `Rekomendasi PPD: Disarankan mengadakan program pembinaan kompetensi dasar matematika praktis dan materi keselamatan kerja sebelum ditugaskan penuh sebagai pengawas lapangan.`;
   }
+
+  // Calculate average percentages
+  const avgLogicPct = ((totalLogic / count) / 18) * 100;
+  const avgMathPct = ((totalMath / count) / 16) * 100;
+  const avgSpatialPct = ((totalSpatial / count) / 16) * 100;
+
+  let groupLogicLevel = 'Cukup', groupLogicColor = '#f59e0b', groupLogicDesc = '';
+  if (avgLogicPct >= 75) {
+    groupLogicLevel = 'Kuat (Tinggi)'; groupLogicColor = '#10b981';
+    groupLogicDesc = 'Mayoritas kelompok memiliki kompetensi analisis kerusakan unit tambang yang sangat tajam dan pemecahan masalah taktis yang cepat.';
+  } else if (avgLogicPct >= 55) {
+    groupLogicLevel = 'Cukup (Menengah)'; groupLogicColor = '#3b82f6';
+    groupLogicDesc = 'Kelompok memiliki dasar pemecahan masalah yang wajar, namun respons taktis harian sering kali reaktif saat menghadapi breakdown unit ganda.';
+  } else {
+    groupLogicLevel = 'Butuh Perhatian'; groupLogicColor = '#ef4444';
+    groupLogicDesc = 'Kemampuan analisis troubleshooting kelompok masih sangat terbatas, berisiko menyebabkan waktu tunda perbaikan unit bertambah lama.';
+  }
+
+  let groupMathLevel = 'Cukup', groupMathColor = '#f59e0b', groupMathDesc = '';
+  if (avgMathPct >= 75) {
+    groupMathLevel = 'Kuat (Tinggi)'; groupMathColor = '#10b981';
+    groupMathDesc = 'Kemampuan kelompok dalam mengkalkulasi waktu MTTR, produktivitas harian, dan pembagian porsi penugasan kru di workshop dinilai presisi.';
+  } else if (avgMathPct >= 55) {
+    groupMathLevel = 'Cukup (Menengah)'; groupMathColor = '#3b82f6';
+    groupMathDesc = 'Kalkulasi perencanaan estimasi unit dirilis sudah memadai, tetapi rawan meleset jika dihadapkan pada target produksi tambang yang ketat.';
+  } else {
+    groupMathLevel = 'Butuh Perhatian'; groupMathColor = '#ef4444';
+    groupMathDesc = 'Akurasi pembagian alokasi mekanik dan efisiensi waktu pemulihan unit kerja kelompok masih rendah, rawan menghambat produktivitas site.';
+  }
+
+  let groupSpatialLevel = 'Cukup', groupSpatialColor = '#f59e0b', groupSpatialDesc = '';
+  if (avgSpatialPct >= 75) {
+    groupSpatialLevel = 'Kuat (Tinggi)'; groupSpatialColor = '#10b981';
+    groupSpatialDesc = 'Kelompok menunjukkan pemahaman gambar teknik hidrolik/elektrikal yang unggul serta pemeliharaan standar layout workshop (5S) yang disiplin.';
+  } else if (avgSpatialPct >= 55) {
+    groupSpatialLevel = 'Cukup (Menengah)'; groupSpatialColor = '#3b82f6';
+    groupSpatialDesc = 'Tingkat kepatuhan keselamatan (K3) kelompok tergolong aman, namun penerapan kerapian workshop (5S) masih perlu dimonitor secara reguler.';
+  } else {
+    groupSpatialLevel = 'Butuh Perhatian'; groupSpatialColor = '#ef4444';
+    groupSpatialDesc = 'Tingkat pengenalan bahaya visual/spasial kelompok di lingkungan kerja masih minim, meningkatkan risiko insiden kerja atau penyimpangan APD.';
+  }
   
   box.innerHTML = `
     <div style="margin-bottom:0.75rem; display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align:center;">
@@ -709,9 +810,52 @@ function renderGroupPsychology(db) {
         <strong style="color:#ef4444; font-size:1.1rem;">${pctD}%</strong><br><span style="font-size:0.7rem;">Kategori D</span>
       </div>
     </div>
-    <p style="margin-bottom:0.35rem;">🎯 <strong>Kesimpulan Profil:</strong> ${summaryText}</p>
-    <p style="margin-bottom:0.35rem;">⚡ <strong>Karakter Pengawasan Kelompok:</strong> ${leadershipStyleText}</p>
-    <p style="margin-bottom:0.35rem;">💡 <strong>Rekomendasi Intervensi PPD:</strong> ${hrInterventionText}</p>
+    
+    <div style="border-bottom: 1px dashed var(--border-color); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+      <p style="margin-bottom:0.35rem;">🎯 <strong>Kesimpulan Profil:</strong> ${summaryText}</p>
+      <p style="margin-bottom:0.35rem;">⚡ <strong>Karakter Pengawasan Kelompok:</strong> ${leadershipStyleText}</p>
+      <p style="margin-bottom:0.35rem;">💡 <strong>Rekomendasi Intervensi PPD:</strong> ${hrInterventionText}</p>
+    </div>
+
+    <div>
+      <h4 style="font-size:0.85rem; margin-bottom:0.5rem; color:var(--accent);">Analisis Detail Aspek Psikologi Kelompok:</h4>
+      
+      <!-- Aspek 1 -->
+      <div style="margin-bottom:0.5rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">
+          <span>🧠 <strong>Penalaran Taktis & Logika Lapangan</strong></span>
+          <span style="color:${groupLogicColor}; font-weight:bold;">${groupLogicLevel} (${avgLogicPct.toFixed(0)}%)</span>
+        </div>
+        <div style="height:5px; background:#334155; border-radius:2px; overflow:hidden;">
+          <div style="width:${avgLogicPct}%; height:100%; background:${groupLogicColor}; border-radius:2px;"></div>
+        </div>
+        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:2px; margin-bottom:0.4rem; line-height:1.3;">${groupLogicDesc}</p>
+      </div>
+
+      <!-- Aspek 2 -->
+      <div style="margin-bottom:0.5rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">
+          <span>📊 <strong>Akurasi & Pengambilan Keputusan Numerik</strong></span>
+          <span style="color:${groupMathColor}; font-weight:bold;">${groupMathLevel} (${avgMathPct.toFixed(0)}%)</span>
+        </div>
+        <div style="height:5px; background:#334155; border-radius:2px; overflow:hidden;">
+          <div style="width:${avgMathPct}%; height:100%; background:${groupMathColor}; border-radius:2px;"></div>
+        </div>
+        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:2px; margin-bottom:0.4rem; line-height:1.3;">${groupMathDesc}</p>
+      </div>
+
+      <!-- Aspek 3 -->
+      <div style="margin-bottom:0.25rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">
+          <span>🗺️ <strong>Kesadaran Spasial & Orientasi K3</strong></span>
+          <span style="color:${groupSpatialColor}; font-weight:bold;">${groupSpatialLevel} (${avgSpatialPct.toFixed(0)}%)</span>
+        </div>
+        <div style="height:5px; background:#334155; border-radius:2px; overflow:hidden;">
+          <div style="width:${avgSpatialPct}%; height:100%; background:${groupSpatialColor}; border-radius:2px;"></div>
+        </div>
+        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:2px; line-height:1.3;">${groupSpatialDesc}</p>
+      </div>
+    </div>
   `;
 }
 
@@ -919,6 +1063,13 @@ window.viewParticipantDetails = function(index) {
     coachingPlan = 'Wajib mengikuti training ulang (retraining) materi teknis dasar dan didampingi secara ketat oleh Group Leader senior.';
   }
   
+  // Get Aspect Analysis
+  const logicScore = r.categoryScores ? r.categoryScores.logic : Math.round(r.score * 0.36);
+  const mathScore = r.categoryScores ? r.categoryScores.math : Math.round(r.score * 0.32);
+  const spatialScore = r.categoryScores ? r.categoryScores.spatial : Math.round(r.score * 0.32);
+  
+  const aspectAnalysis = getAspectAnalysis(logicScore, mathScore, spatialScore);
+  
   document.getElementById('modal-details-title').textContent = `Analisis Hasil: ${r.nrp}`;
   document.getElementById('modal-details-body').innerHTML = `
     <div style="font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
@@ -932,16 +1083,57 @@ window.viewParticipantDetails = function(index) {
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
       <strong>Rincian Kategori Soal:</strong><br>
-      • Deret Angka & Deret Gambar: ${r.categoryScores ? r.categoryScores.logic * 2 : 'N/A'}/36<br>
-      • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math * 2 : 'N/A'}/32<br>
-      • Spasial 2D & Bangun Ruang: ${r.categoryScores ? r.categoryScores.spatial * 2 : 'N/A'}/32
+      • Deret Angka & Deret Gambar: ${logicScore * 2}/36<br>
+      • Aritmatika Logika (Soal Cerita): ${mathScore * 2}/32<br>
+      • Spasial 2D & Bangun Ruang: ${spatialScore * 2}/32
+    </div>
+
+    <!-- Multi-Aspect Psychological Analysis -->
+    <div style="background: rgba(251,191,36,0.02); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
+      <h4 style="font-size:0.85rem; margin-bottom:0.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em;">Analisis Aspek Psikologi Pengawasan:</h4>
+      
+      <!-- Aspek 1 -->
+      <div style="margin-bottom:0.75rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:2px;">
+          <span>🧠 <strong>Penalaran Taktis & Logika Lapangan</strong></span>
+          <span style="color:${aspectAnalysis.logic.color}; font-weight:bold;">${aspectAnalysis.logic.level} (${aspectAnalysis.logic.pct}%)</span>
+        </div>
+        <div style="height:6px; background:#334155; border-radius:3px; overflow:hidden; margin-bottom:4px;">
+          <div style="width:${aspectAnalysis.logic.pct}%; height:100%; background:${aspectAnalysis.logic.color}; border-radius:3px;"></div>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.5rem;">${aspectAnalysis.logic.desc}</p>
+      </div>
+
+      <!-- Aspek 2 -->
+      <div style="margin-bottom:0.75rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:2px;">
+          <span>📊 <strong>Akurasi & Pengambilan Keputusan Numerik</strong></span>
+          <span style="color:${aspectAnalysis.math.color}; font-weight:bold;">${aspectAnalysis.math.level} (${aspectAnalysis.math.pct}%)</span>
+        </div>
+        <div style="height:6px; background:#334155; border-radius:3px; overflow:hidden; margin-bottom:4px;">
+          <div style="width:${aspectAnalysis.math.pct}%; height:100%; background:${aspectAnalysis.math.color}; border-radius:3px;"></div>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.5rem;">${aspectAnalysis.math.desc}</p>
+      </div>
+
+      <!-- Aspek 3 -->
+      <div style="margin-bottom:0.25rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:2px;">
+          <span>🗺️ <strong>Kesadaran Spasial & Orientasi K3</strong></span>
+          <span style="color:${aspectAnalysis.spatial.color}; font-weight:bold;">${aspectAnalysis.spatial.level} (${aspectAnalysis.spatial.pct}%)</span>
+        </div>
+        <div style="height:6px; background:#334155; border-radius:3px; overflow:hidden; margin-bottom:4px;">
+          <div style="width:${aspectAnalysis.spatial.pct}%; height:100%; background:${aspectAnalysis.spatial.color}; border-radius:3px;"></div>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">${aspectAnalysis.spatial.desc}</p>
+      </div>
     </div>
     
-    <div style="background: rgba(251,191,36,0.05); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
-      <strong>Analisa Psikologi Individu:</strong><br>
+    <div style="background: rgba(16,185,129,0.05); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(16,185,129,0.25); margin-bottom:1rem;">
+      <strong>Kesimpulan Kompetensi & Profil:</strong><br>
       <span class="score-badge ${badgeColor}" style="margin: 0.5rem 0; display:inline-block;">${competenceClass}</span>
-      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem; margin-bottom:0.5rem;"><strong>Karakter Pengawasan:</strong> ${traits}</p>
-      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem;"><strong>Rencana Pendampingan:</strong> ${coachingPlan}</p>
+      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem; margin-bottom:0.5rem;"><strong>Karakter Pengawasan Lapangan:</strong> ${traits}</p>
+      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem;"><strong>Rencana Pendampingan (Coaching Plan):</strong> ${coachingPlan}</p>
     </div>
     
     <div>
