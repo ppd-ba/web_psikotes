@@ -19,7 +19,7 @@ let state = {
   isAdminAuthenticated: false,
   
   // GAS integration url (Google Apps Script Web App URL)
-  gasUrl: localStorage.getItem('ppd_gas_url') || ''
+  gasUrl: localStorage.getItem('ppd_gas_url') || 'https://script.google.com/macros/s/AKfycbys_315Pn64jHPxbgWpZIWBNxuK_Xkk53JhMX6nG_rigPoSyHgbxxbLUacitHcJBXhc/exec'
 };
 
 // Default Admin Password
