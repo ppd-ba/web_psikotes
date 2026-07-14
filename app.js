@@ -128,8 +128,13 @@ function setupEventListeners() {
     const nrpInput = document.getElementById('nrp-input').value.trim().toUpperCase();
     if (nrpInput) {
       state.nrp = nrpInput;
-      startTest();
+      showModal('instructions-modal');
     }
+  });
+
+  document.getElementById('btn-start-confirm').addEventListener('click', () => {
+    hideModal('instructions-modal');
+    startTest();
   });
 
   document.getElementById('admin-login-form').addEventListener('submit', (e) => {
@@ -191,6 +196,28 @@ function setupEventListeners() {
   document.getElementById('search-input').addEventListener('input', (e) => {
     filterParticipantsTable(e.target.value.trim().toUpperCase());
   });
+
+  document.getElementById('btn-back-exit').addEventListener('click', () => {
+    hideModal('back-confirm-modal');
+    submitTest();
+  });
+
+  // Intercept browser popstate (mobile physical back button / swipe back gesture)
+  window.addEventListener('popstate', (e) => {
+    if (state.currentView === 'test') {
+      // Re-push page state to trap history navigation
+      history.pushState({ page: 'test' }, '');
+      showModal('back-confirm-modal');
+    }
+  });
+
+  // Warn user on tab closing or refreshing page
+  window.addEventListener('beforeunload', (e) => {
+    if (state.currentView === 'test') {
+      e.preventDefault();
+      e.returnValue = 'Tes sedang berlangsung. Jika Anda keluar/reload, tes akan berakhir.';
+    }
+  });
 }
 
 // TEST ENGINE
@@ -211,6 +238,9 @@ function startTest() {
   startTimer();
   
   showView('test');
+  
+  // Push state to browser history to trap back button
+  history.pushState({ page: 'test' }, '');
 }
 
 function startTimer() {

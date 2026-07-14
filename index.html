@@ -351,6 +351,43 @@
       </div>
     </div>
 
+    <!-- Instructions Modal -->
+    <div class="modal-overlay" id="instructions-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Petunjuk Pengerjaan</h3>
+          <button class="modal-close btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" style="line-height: 1.6; font-size: 0.95rem;">
+          <p style="margin-bottom: 0.75rem; font-weight: bold; color: var(--accent);">Petunjuk:</p>
+          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Persiapkan kertas kosong dan alat tulis terlebih dahulu untuk coret-coret/menghitung sebelum memulai tes.</p>
+          <p style="font-weight: bold; color: var(--success); margin-top: 1rem; font-size: 1.05rem;">Selamat mengerjakan!</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-close-modal">Batal</button>
+          <button class="btn btn-primary" id="btn-start-confirm" style="font-weight: bold; padding: 0.75rem 2rem;">MULAI</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button Confirmation Modal -->
+    <div class="modal-overlay" id="back-confirm-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title" style="color: var(--error);">Peringatan: Tes Sedang Berlangsung</h3>
+          <button class="modal-close btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" style="line-height: 1.6;">
+          <p>Anda menekan tombol kembali. Jika Anda keluar sekarang, seluruh jawaban Anda saat ini akan langsung terkirim dan tes akan diakhiri.</p>
+          <p style="margin-top: 0.75rem; font-weight: bold; color: var(--warning);">Apakah Anda ingin melanjutkan tes atau keluar?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success btn-close-modal" style="font-weight: bold;">Lanjutkan Tes</button>
+          <button class="btn btn-danger" id="btn-back-exit" style="font-weight: bold;">Keluar & Selesai</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Loading scripts -->
