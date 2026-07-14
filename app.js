@@ -9,7 +9,7 @@ let state = {
   currentIndex: 0,
   answers: {}, // questionId: selectedOption
   flagged: {},  // questionId: boolean (ragu-ragu)
-  timeLeft: 2700, // 45 minutes in seconds
+  timeLeft: 3600, // 60 minutes in seconds
   timerInterval: null,
   testStartTime: null,
   testDurationUsed: 0,
@@ -70,12 +70,12 @@ function loadLocalDatabase() {
   if (savedDb) {
     state.resultsDb = JSON.parse(savedDb);
   } else {
-    // Populate with dummy data for initial admin view
+    // Populate with dummy data for initial admin view (scaled to 50 questions)
     state.resultsDb = [
-      { nrp: 'PPA0921', date: '2026-07-10 10:14', score: 24, total: 30, duration: '28:12', categoryScores: { logic: 7, math: 10, spatial: 7 }, insight: 'Kemampuan aritmatika sangat kuat. Analisis spasial baik. Pola kerja cepat dan terstruktur.' },
-      { nrp: 'PPA1124', date: '2026-07-11 14:22', score: 18, total: 30, duration: '34:45', categoryScores: { logic: 5, math: 8, spatial: 5 }, insight: 'Pemahaman logika memadai. Perlu melatih ketelitian pada perhitungan cerita tambang. Cenderung hati-hati.' },
-      { nrp: 'PPA0842', date: '2026-07-12 09:05', score: 27, total: 30, duration: '21:05', categoryScores: { logic: 8, math: 11, spatial: 8 }, insight: 'Sangat Kompeten. Berpikir logis dan visualisasi spasial sangat tajam. Pengambilan keputusan sangat cepat.' },
-      { nrp: 'PPA1309', date: '2026-07-12 11:40', score: 12, total: 30, duration: '44:12', categoryScores: { logic: 3, math: 5, spatial: 4 }, insight: 'Perlu peningkatan di semua sektor. Pengerjaan lambat dan kurang teliti. Disarankan training ulang dasar.' }
+      { nrp: 'PPA0921', date: '2026-07-10 10:14', score: 40, total: 50, duration: '41:12', categoryScores: { logic: 14, math: 13, spatial: 13 }, insight: 'Kemampuan aritmatika sangat kuat. Analisis spasial baik. Pola kerja cepat dan terstruktur.' },
+      { nrp: 'PPA1124', date: '2026-07-11 14:22', score: 30, total: 50, duration: '48:45', categoryScores: { logic: 10, math: 10, spatial: 10 }, insight: 'Pemahaman logika memadai. Perlu melatih ketelitian pada perhitungan cerita tambang. Cenderung hati-hati.' },
+      { nrp: 'PPA0842', date: '2026-07-12 09:05', score: 45, total: 50, duration: '31:05', categoryScores: { logic: 16, math: 15, spatial: 14 }, insight: 'Sangat Kompeten. Berpikir logis dan visualisasi spasial sangat tajam. Pengambilan keputusan sangat cepat.' },
+      { nrp: 'PPA1309', date: '2026-07-12 11:40', score: 20, total: 50, duration: '58:12', categoryScores: { logic: 6, math: 7, spatial: 7 }, insight: 'Perlu peningkatan di semua sektor. Pengerjaan lambat dan kurang teliti. Disarankan training ulang dasar.' }
     ];
     saveLocalDatabase();
   }
@@ -198,7 +198,7 @@ function startTest() {
   state.answers = {};
   state.flagged = {};
   state.currentIndex = 0;
-  state.timeLeft = 2700; // 45 minutes
+  state.timeLeft = 3600; // 60 minutes
   state.testStartTime = new Date();
   
   // Render navigator grid
@@ -228,7 +228,7 @@ function startTimer() {
     timerDisplay.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     
     // Percentage for progress bar
-    const pct = (state.timeLeft / 2700) * 100;
+    const pct = (state.timeLeft / 3600) * 100;
     timerBar.style.width = pct + '%';
     
     // Color thresholds
@@ -263,7 +263,7 @@ function renderQuestion(index) {
   });
 
   // Question details
-  document.getElementById('question-idx').textContent = `Soal No. ${index + 1} dari 30`;
+  document.getElementById('question-idx').textContent = `Soal No. ${index + 1} dari 50`;
   
   // Render question text & category label
   let catLabel = "Logika Deret";
@@ -449,9 +449,9 @@ function submitTest(autoSubmit = false) {
   document.getElementById('res-nrp').textContent = `Seksi: PPD BA | Durasi: ${durationStr}`;
   document.getElementById('res-feedback-text').innerHTML = `
     <strong>Analisis Hasil:</strong><br>
-    • Deret Angka (Kognitif): ${catScores.logic}/8 benar<br>
-    • Perhitungan Aritmatika & Logika: ${catScores.math}/12 benar<br>
-    • Logika Spasial & Bangun Ruang: ${catScores.spatial}/10 benar<br><br>
+    • Deret Angka & Deret Gambar: ${catScores.logic}/18 benar<br>
+    • Perhitungan Aritmatika & Logika: ${catScores.math}/16 benar<br>
+    • Logika Spasial & Bangun Ruang: ${catScores.spatial}/16 benar<br><br>
     <strong>Rekomendasi Evaluasi:</strong><br>
     ${insight}
   `;
@@ -463,21 +463,21 @@ function submitTest(autoSubmit = false) {
 function generatePsychologyInsight(score, catScores, durationSeconds) {
   let feedback = '';
   
-  if (score >= 26) {
+  if (score >= 42) {
     feedback += "<strong>Kategori: Sangat Kompeten (A).</strong> Luar biasa! Anda menunjukkan ketajaman penalaran logis, aritmatika taktis, dan spasial 3D tingkat tinggi yang sangat matang untuk level pengawas (Group Leader).";
-  } else if (score >= 20) {
+  } else if (score >= 32) {
     feedback += "<strong>Kategori: Kompeten (B).</strong> Kemampuan kognitif Anda sudah memenuhi standar kepemimpinan lapangan. Anda sudah memahami logika kerja terintegrasi dengan baik.";
-  } else if (score >= 15) {
+  } else if (score >= 25) {
     feedback += "<strong>Kategori: Cukup Kompeten (C).</strong> Anda berada di batas ambang minimal. Anda memiliki fondasi logika dasar, namun masih rentan mengalami kesalahan saat menghadapi beban kerja lapangan yang rumit.";
   } else {
-    feedback += "<strong>Kategori: Perlu Pembinaan Intesif (D).</strong> Anda masih mengalami kendala besar dalam pemecahan logika matematis dan spasial 3D. Sangat disarankan untuk mempelajari modul kembali.";
+    feedback += "<strong>Kategori: Perlu Pembinaan Intensif (D).</strong> Anda masih mengalami kendala besar dalam pemecahan logika matematis dan spasial 3D. Sangat disarankan untuk mempelajari modul kembali.";
   }
   
   // Category specific notes
   let weakAreas = [];
-  if (catScores.logic < 5) weakAreas.push("Deret Angka (Kognitif Dasar)");
-  if (catScores.math < 8) weakAreas.push("Perhitungan Cerita Tambang (Aritmatika)");
-  if (catScores.spatial < 6) weakAreas.push("Logika Spasial/3D (Bangun Ruang)");
+  if (catScores.logic < 11) weakAreas.push("Deret Angka & Deret Gambar (Logika Gambar)");
+  if (catScores.math < 10) weakAreas.push("Perhitungan Cerita Tambang (Aritmatika)");
+  if (catScores.spatial < 10) weakAreas.push("Logika Spasial/3D (Bangun Ruang)");
   
   if (weakAreas.length > 0) {
     feedback += `<br><br><span style="color: #fbbf24;">⚠️ Area Pengembangan:</span> Anda perlu memfokuskan latihan tambahan pada materi <strong>${weakAreas.join(', ')}</strong>.`;
@@ -488,9 +488,9 @@ function generatePsychologyInsight(score, catScores, durationSeconds) {
   
   // Speed analysis
   const mins = durationSeconds / 60;
-  if (mins < 20) {
+  if (mins < 30) {
     feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Gaya pengerjaan Anda tergolong **Sangat Cepat**. Namun, pastikan ketelitian tetap terjaga.";
-  } else if (mins > 40) {
+  } else if (mins > 55) {
     feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Anda cenderung menghabiskan waktu terlalu lama untuk menganalisis soal. Latihlah kecepatan respon agar tidak mengalami *delay* pengerjaan di lapangan.";
   } else {
     feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Manajemen waktu Anda seimbang dan efisien.";
@@ -550,7 +550,7 @@ function renderAdminDashboard() {
   
   if (totalParticipants === 0) {
     document.getElementById('admin-avg-score').textContent = '0%';
-    document.getElementById('admin-max-score').textContent = '0/30';
+    document.getElementById('admin-max-score').textContent = '0/50';
     document.getElementById('admin-pass-rate').textContent = '0%';
     document.getElementById('participants-table-body').innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada riwayat hasil ujian.</td></tr>`;
     return;
@@ -558,20 +558,20 @@ function renderAdminDashboard() {
   
   let totalScore = 0;
   let maxScore = 0;
-  let passedCount = 0; // Passing grade threshold is score >= 18 (60%)
+  let passedCount = 0; // Passing grade threshold is score >= 30 (60%)
   
   db.forEach(r => {
     totalScore += r.score;
     if (r.score > maxScore) maxScore = r.score;
-    if (r.score >= 18) passedCount++;
+    if (r.score >= 30) passedCount++;
   });
   
   const avgScore = (totalScore / totalParticipants).toFixed(1);
-  const avgPct = ((avgScore / 30) * 100).toFixed(0);
+  const avgPct = ((avgScore / 50) * 100).toFixed(0);
   const passRate = ((passedCount / totalParticipants) * 100).toFixed(0);
   
-  document.getElementById('admin-avg-score').textContent = `${avgPct}% (${avgScore}/30)`;
-  document.getElementById('admin-max-score').textContent = `${maxScore}/30`;
+  document.getElementById('admin-avg-score').textContent = `${avgPct}% (${avgScore}/50)`;
+  document.getElementById('admin-max-score').textContent = `${maxScore}/50`;
   document.getElementById('admin-pass-rate').textContent = `${passRate}%`;
   
   // 3. Render SVG Histogram (Score Distribution Chart)
@@ -588,13 +588,13 @@ function renderAdminDashboard() {
 }
 
 function renderScoreDistributionChart(db) {
-  // We divide scores into 4 intervals: 0-11 (Failed), 12-17 (Low), 18-23 (Average), 24-30 (Excellent)
+  // We divide scores into 4 intervals: 0-19 (Failed), 20-29 (Low), 30-39 (Average), 40-50 (Excellent)
   let intervals = { failed: 0, low: 0, average: 0, excellent: 0 };
   
   db.forEach(r => {
-    if (r.score >= 24) intervals.excellent++;
-    else if (r.score >= 18) intervals.average++;
-    else if (r.score >= 12) intervals.low++;
+    if (r.score >= 40) intervals.excellent++;
+    else if (r.score >= 30) intervals.average++;
+    else if (r.score >= 20) intervals.low++;
     else intervals.failed++;
   });
   
@@ -639,10 +639,10 @@ function renderCategoryPerformance(db) {
   
   const count = db.length;
   // Calculate average percentages
-  // Logic: max is 8. Math: max is 12. Spatial: max is 10.
-  const avgLogicPct = (((totalLogic / count) / 8) * 100).toFixed(0);
-  const avgMathPct = (((totalMath / count) / 12) * 100).toFixed(0);
-  const avgSpatialPct = (((totalSpatial / count) / 10) * 100).toFixed(0);
+  // Logic: max is 18. Math: max is 16. Spatial: max is 16.
+  const avgLogicPct = (((totalLogic / count) / 18) * 100).toFixed(0);
+  const avgMathPct = (((totalMath / count) / 16) * 100).toFixed(0);
+  const avgSpatialPct = (((totalSpatial / count) / 16) * 100).toFixed(0);
   
   // Update progress bars
   const logicBar = document.getElementById('progress-logic');
@@ -672,9 +672,9 @@ function renderOverallRecommendations(db) {
   });
   
   const count = db.length;
-  const avgLogicPct = ((totalLogic / count) / 8) * 100;
-  const avgMathPct = ((totalMath / count) / 12) * 100;
-  const avgSpatialPct = ((totalSpatial / count) / 10) * 100;
+  const avgLogicPct = ((totalLogic / count) / 18) * 100;
+  const avgMathPct = ((totalMath / count) / 16) * 100;
+  const avgSpatialPct = ((totalSpatial / count) / 16) * 100;
   
   const recList = document.getElementById('recommendations-list');
   recList.innerHTML = '';
@@ -710,8 +710,8 @@ function renderParticipantsTable(db) {
     
     // Determine score class badge
     let badgeClass = 'score-mid';
-    if (r.score >= 24) badgeClass = 'score-high';
-    else if (r.score < 18) badgeClass = 'score-low';
+    if (r.score >= 40) badgeClass = 'score-high';
+    else if (r.score < 30) badgeClass = 'score-low';
     
     tr.innerHTML = `
       <td><strong>${r.nrp}</strong></td>
@@ -754,14 +754,14 @@ window.viewParticipantDetails = function(index) {
     </div>
     <p><strong>NRP Pegawai:</strong> ${r.nrp}</p>
     <p><strong>Waktu Selesai:</strong> ${r.date}</p>
-    <p><strong>Skor Total:</strong> <span class="score-badge ${r.score >= 24 ? 'score-high' : r.score >= 18 ? 'score-mid' : 'score-low'}">${r.score} dari ${r.total} benar</span></p>
+    <p><strong>Skor Total:</strong> <span class="score-badge ${r.score >= 40 ? 'score-high' : r.score >= 30 ? 'score-mid' : 'score-low'}">${r.score} dari ${r.total} benar</span></p>
     <p><strong>Durasi Pengisian:</strong> ${r.duration} menit</p>
     <br>
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color);">
       <strong>Rincian Kategori:</strong><br>
-      • Deret Angka (Kognitif): ${r.categoryScores ? r.categoryScores.logic : 'N/A'}/8 benar<br>
-      • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math : 'N/A'}/12 benar<br>
-      • Spasial 3D (Bangun Ruang): ${r.categoryScores ? r.categoryScores.spatial : 'N/A'}/10 benar
+      • Deret Angka & Deret Gambar: ${r.categoryScores ? r.categoryScores.logic : 'N/A'}/18 benar<br>
+      • Aritmatika Logika (Soal Cerita): ${r.categoryScores ? r.categoryScores.math : 'N/A'}/16 benar<br>
+      • Spasial 3D (Bangun Ruang): ${r.categoryScores ? r.categoryScores.spatial : 'N/A'}/16 benar
     </div>
     <br>
     <div>
