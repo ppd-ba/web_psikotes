@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materi & Panduan Belajar Psikotes Online - PPD BA</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #fbbf24;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--primary);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: var(--secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-top: 1rem;
+      color: var(--accent);
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.75rem;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+    }
+
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent);
+      color: #000;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-print:hover {
+      background-color: #f59e0b;
+    }
+
+    .tips-box {
+      background-color: rgba(251, 191, 36, 0.05);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tips-title {
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .example-box {
+      background-color: var(--primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .example-title {
+      font-weight: bold;
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+
+    .explanation {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .explanation strong {
+      color: var(--text);
+    }
+
+    ul, ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      color: #e2e8f0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .svg-container {
+      display: flex;
+      justify-content: center;
+      background-color: #0f172a;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background-color: #fff;
+        color: #000;
+        padding: 0;
+      }
+
+      .container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        background-color: #fff;
+        max-width: 100%;
+      }
+
+      .btn-print {
+        display: none;
+      }
+
+      h1, h2 {
+        color: #000;
+        page-break-after: avoid;
+      }
+
+      p, li {
+        color: #333;
+      }
+
+      .tips-box {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+      }
+
+      .example-box {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        page-break-inside: avoid;
+      }
+
+      .explanation {
+        color: #495057;
+        border-top: 1px dashed #dee2e6;
+      }
+
+      .explanation strong {
+        color: #000;
+      }
+
+      .svg-container {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo-text">PPD <span>BA</span></div>
+      <div class="subtitle">Plant People Development Bukit Asam</div>
+      <h1>Materi & Panduan Belajar Psikotes Calon Group Leader</h1>
+    </div>
+
+    <div style="text-align: center;" class="no-print">
+      <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan Sebagai PDF</button>
+    </div>
+
+    <p>Selamat datang di panduan belajar PPD BA. Materi ini disusun untuk membantu Anda memahami pola-pola soal psikotes logika kognitif yang akan diujikan, yang meliputi: **Deret Angka & Gambar**, **Aritmatika Logika (Soal Cerita)**, serta **Logika Spasial (Visual Dimensi)**.</p>
+
+    <!-- SECTION 1 -->
+    <h2>1. Deret Angka & Deret Gambar (Logika Pola)</h2>
+    <p>Soal deret menguji ketajaman Anda dalam melihat keteraturan/pola dari barisan angka atau gambar yang disajikan secara berurutan.</p>
+    
+    <div class="tips-box">
+      <div class="tips-title">💡 Tips Mengerjakan:</div>
+      <ul>
+        <li><strong>Cek Pola Sederhana</strong>: Periksa operasi penambahan (+), pengurangan (-), perkalian (x), atau pembagian (:) antara dua angka berurutan terlebih dahulu.</li>
+        <li><strong>Pola Loncat</strong>: Jika angka berurutan tampak naik-turun secara acak, coba lihat pola dengan melompati satu angka (loncat 1) atau dua angka (loncat 2).</li>
+        <li><strong>Perubahan Bertingkat</strong>: Kadang selisih antar angka tidak tetap, tetapi selisihnya membentuk pola baru (selisih bertingkat, misal: +2, +3, +4, +5).</li>
+      </ul>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">Contoh Soal 1 (Deret Angka Loncat 1):</div>
+      <p>Tentukan angka selanjutnya dari deret berikut: <strong>4, 7, 5, 8, 6, 9, ...</strong></p>
+      <div class="explanation">
+        <strong>Pembahasan:</strong><br>
+        • Dari 4 ke 7: <strong>+3</strong><br>
+        • Dari 7 ke 5: <strong>-2</strong><br>
+        • Dari 5 ke 8: <strong>+3</strong><br>
+        • Dari 8 ke 6: <strong>-2</strong><br>
+        • Dari 6 ke 9: <strong>+3</strong><br>
+        Pola operasi adalah berulang secara bergantian: <strong>(+3, -2, +3, -2, +3, ...)</strong>.<br>
+        Maka langkah berikutnya setelah 9 adalah <strong>9 - 2 = 7</strong>.
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">Contoh Soal 2 (Deret Angka Bertingkat):</div>
+      <p>Tentukan angka selanjutnya dari deret berikut: <strong>2, 3, 5, 8, 12, ...</strong></p>
+      <div class="explanation">
+        <strong>Pembahasan:</strong><br>
+        • Selisih 2 ke 3: <strong>+1</strong><br>
+        • Selisih 3 ke 5: <strong>+2</strong><br>
+        • Selisih 5 ke 8: <strong>+3</strong><br>
+        • Selisih 8 ke 12: <strong>+4</strong><br>
+        Selisih selalu bertambah 1 dari selisih sebelumnya (+1, +2, +3, +4, ...).<br>
+        Maka langkah berikutnya adalah penambahan sebesar <strong>+5</strong>. Angka selanjutnya: <strong>12 + 5 = 17</strong>.
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <h2>2. Aritmatika Logika (Soal Cerita Matematika)</h2>
+    <p>Menguji kemampuan analisis matematis praktis dalam menyelesaikan kasus sehari-hari.</p>
+
+    <div class="tips-box">
+      <div class="tips-title">💡 Tips Mengerjakan:</div>
+      <ul>
+        <li><strong>Fokus pada Pertanyaan</strong>: Tuliskan terlebih dahulu apa yang diketahui secara ringkas, dan apa yang ditanyakan.</li>
+        <li><strong>Konsep Kecepatan Kerja Kerja Bersama</strong>: Jika A menyelesaikan tugas dalam X jam dan B dalam Y jam, waktu kerja bersama adalah: <strong>(X * Y) / (X + Y)</strong>.</li>
+        <li><strong>Rasio & Persentase</strong>: Pelajari cara mencari nilai perbandingan senilai (misal: jumlah bensin dan jarak tempuh) dan perbandingan berbalik nilai (misal: jumlah pekerja dan waktu penyelesaian).</li>
+      </ul>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">Contoh Soal 3 (Perbandingan Berbalik Nilai):</div>
+      <p>Suatu pekerjaan renovasi rumah dapat diselesaikan oleh 6 pekerja dalam waktu 10 hari. Jika pekerjaan tersebut ingin diselesaikan dalam waktu 5 hari saja, berapa total pekerja yang dibutuhkan?</p>
+      <div class="explanation">
+        <strong>Pembahasan:</strong><br>
+        Ini adalah perbandingan berbalik nilai, karena semakin cepat waktu pengerjaan yang diinginkan, semakin banyak pekerja yang harus ditambahkan.<br>
+        • Total beban pekerjaan = <strong>6 pekerja x 10 hari = 60 pekerja-hari</strong>.<br>
+        • Jika ingin selesai dalam 5 hari: <strong>Jumlah Pekerja = 60 pekerja-hari / 5 hari = 12 pekerja</strong>.<br>
+        Maka total pekerja yang dibutuhkan adalah <strong>12 orang</strong>.
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">Contoh Soal 4 (Rata-rata Gabungan):</div>
+      <p>Rata-rata tinggi badan 5 orang siswa adalah 160 cm. Jika 1 siswa baru bergabung, rata-rata tinggi badannya menjadi 161 cm. Berapakah tinggi badan siswa baru tersebut?</p>
+      <div class="explanation">
+        <strong>Pembahasan:</strong><br>
+        • Total tinggi 5 orang pertama = 5 x 160 cm = <strong>800 cm</strong>.<br>
+        • Total tinggi setelah ditambah 1 orang (menjadi 6 orang) = 6 x 161 cm = <strong>966 cm</strong>.<br>
+        • Tinggi badan siswa baru = Total baru - Total lama = 966 cm - 800 cm = <strong>166 cm</strong>.
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <h2>3. Logika Spasial & Bangun Ruang (Analisis Visual)</h2>
+    <p>Menguji visualisasi mental Anda dalam memutar bangun datar, melipat jaring-jaring menjadi bangun ruang 3D, atau menentukan kelanjutan gambar pola.</p>
+
+    <div class="tips-box">
+      <div class="tips-title">💡 Tips Mengerjakan:</div>
+      <ul>
+        <li><strong>Ikuti Satu Komponen Saja</strong>: Di dalam gambar yang rumit, pilih satu bagian kecil (misal: bulatan hitam, garis panah, atau arsiran) lalu ikuti gerakannya di setiap langkah (apakah berputar 90°, bergeser, atau bertambah besar).</li>
+        <li><strong>Gunakan Eliminasi</strong>: Coret pilihan jawaban yang langsung terlihat salah agar Anda fokus pada pilihan yang tersisa saja.</li>
+        <li><strong>Metode Jaring-jaring 3D</strong>: Perhatikan sisi mana saja yang saling menempel/bersebelahan dan sisi mana yang saling berhadapan (sisi berhadapan tidak mungkin terlihat bersamaan dari satu sudut pandang).</li>
+      </ul>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">Contoh Soal 5 (Pola Rotasi Gambar):</div>
+      <p>Pola gambar di bawah ini berputar secara bertahap. Tentukan kelanjutan pola berikutnya:</p>
+      <div class="svg-container">
+        <!-- SVG Pola Spasial Rantai Contoh -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 100" width="100%" height="80">
+          <!-- Step 1 -->
+          <g transform="translate(10, 10)">
+            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+            <line x1="40" y1="10" x2="40" y2="70" stroke="#fbbf24" stroke-width="3"/>
+            <polygon points="40,5 35,15 45,15" fill="#fbbf24"/>
+            <circle cx="40" cy="70" r="6" fill="#ef4444"/>
+            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 1</text>
+          </g>
+          <!-- Panah -->
+          <text x="100" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
+          <!-- Step 2 (Rotated 90 deg clockwise) -->
+          <g transform="translate(130, 10)">
+            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+            <line x1="70" y1="40" x2="10" y2="40" stroke="#fbbf24" stroke-width="3"/>
+            <polygon points="75,40 65,35 65,45" fill="#fbbf24"/>
+            <circle cx="10" cy="40" r="6" fill="#ef4444"/>
+            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 2</text>
+          </g>
+          <!-- Panah -->
+          <text x="220" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
+          <!-- Step 3 (Rotated 180 deg) -->
+          <g transform="translate(250, 10)">
+            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+            <line x1="40" y1="70" x2="40" y2="10" stroke="#fbbf24" stroke-width="3"/>
+            <polygon points="40,75 35,65 45,65" fill="#fbbf24"/>
+            <circle cx="40" cy="10" r="6" fill="#ef4444"/>
+            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 3</text>
+          </g>
+          <!-- Panah -->
+          <text x="340" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
+          <!-- Target (?) -->
+          <g transform="translate(360, 10)">
+            <rect width="80" height="80" fill="none" stroke="#fbbf24" stroke-width="2" rx="6" stroke-dasharray="4"/>
+            <text x="35" y="48" fill="#fbbf24" font-size="24" font-weight="bold">?</text>
+          </g>
+        </svg>
+      </div>
+      <div class="explanation">
+        <strong>Pembahasan:</strong><br>
+        Perhatikan arah anak panah berwarna kuning dan posisi lingkaran merah:<br>
+        • Langkah 1: Anak panah menghadap ke <strong>atas</strong>, lingkaran merah di <strong>bawah</strong>.<br>
+        • Langkah 2: Gambar berputar 90° searah jarum jam. Anak panah menghadap ke <strong>kanan</strong>, lingkaran merah di <strong>kiri</strong>.<br>
+        • Langkah 3: Gambar berputar kembali 90° searah jarum jam. Anak panah menghadap ke <strong>bawah</strong>, lingkaran merah di <strong>atas</strong>.<br>
+        Maka langkah berikutnya (pada tanda "?") gambar harus berputar 90° lagi, sehingga anak panah menghadap ke <strong>kiri</strong> dan lingkaran merah berada di sisi **kanan**.
+      </div>
+    </div>
+
+    <!-- CLOSING NOTE -->
+    <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+      © 2026 Plant People Development Bukit Asam. Hak Cipta Dilindungi Undang-Undang.
+    </div>
+  </div>
+
+</body>
+</html>
