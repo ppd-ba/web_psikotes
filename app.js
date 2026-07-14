@@ -832,9 +832,9 @@ function renderParticipantsTable(db) {
     
     tr.innerHTML = `
       <td><strong>${r.nrp}</strong></td>
-      <td>${r.date}</td>
+      <td>${formatDisplayDate(r.date)}</td>
       <td><span class="score-badge ${badgeClass}">${r.score} / ${r.total}</span></td>
-      <td>${r.duration}</td>
+      <td>${formatDisplayDuration(r.duration)}</td>
       <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.insight.replace(/<\/?[^>]+(>|$)/g, "")}</td>
       <td>
         <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewParticipantDetails(${idx})">Detail</button>
@@ -897,9 +897,9 @@ window.viewParticipantDetails = function(index) {
       Hasil Tes Online Calon GL
     </div>
     <p><strong>NRP Pegawai:</strong> ${r.nrp}</p>
-    <p><strong>Waktu Selesai:</strong> ${r.date}</p>
+    <p><strong>Waktu Selesai:</strong> ${formatDisplayDate(r.date)}</p>
     <p><strong>Skor Total:</strong> <span class="score-badge ${r.score >= 40 ? 'score-high' : r.score >= 30 ? 'score-mid' : 'score-low'}">${r.score} dari ${r.total} benar</span></p>
-    <p><strong>Durasi Pengisian:</strong> ${r.duration} menit</p>
+    <p><strong>Durasi Pengisian:</strong> ${formatDisplayDuration(r.duration)}</p>
     <br>
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
@@ -1003,4 +1003,66 @@ function formatCurrentDate() {
   const hr = String(d.getHours()).padStart(2, '0');
   const min = String(d.getMinutes()).padStart(2, '0');
   return `${yr}-${mo}-${dy} ${hr}:${min}`;
+}
+
+// Format date to: DD MMM YYYY hh:mm:ss
+function formatDisplayDate(dateStr) {
+  if (!dateStr) return '-';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return String(dateStr);
+    
+    const day = String(d.getDate()).padStart(2, '0');
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const month = months[d.getMonth()];
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const seconds = String(d.getSeconds()).padStart(2, '0');
+    
+    return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+  } catch (e) {
+    return String(dateStr);
+  }
+}
+
+// Format duration to: hh:mm:ss
+function formatDisplayDuration(durStr) {
+  if (!durStr) return '00:00:00';
+  
+  const str = String(durStr).trim();
+  
+  // If already in hh:mm:ss or mm:ss format (not from 1899- gSheet date serialization)
+  if (!str.includes('1899-')) {
+    const parts = str.split(':');
+    if (parts.length === 2) {
+      return `00:${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}`;
+    }
+    if (parts.length === 3) {
+      return `${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}:${parts[2].padStart(2, '0')}`;
+    }
+    return str;
+  }
+  
+  // Parse Google Sheets 1899 datetime duration serialization
+  try {
+    const d = new Date(str);
+    if (isNaN(d.getTime())) return str;
+    
+    // Base reference date set by Google Sheets timezone serialization: 1899-12-29 17:17:56 UTC
+    const baseDate = new Date(Date.UTC(1899, 11, 29, 17, 17, 56));
+    const diffMs = d.getTime() - baseDate.getTime();
+    const totalSeconds = Math.round(diffMs / 1000);
+    
+    if (totalSeconds < 0) return '00:00:00';
+    
+    // totalSeconds represents the actual duration in seconds
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    
+    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  } catch (e) {
+    return str;
+  }
 }
