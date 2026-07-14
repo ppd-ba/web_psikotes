@@ -455,7 +455,7 @@ function submitTest(autoSubmit = false) {
   
   const minUsed = Math.floor(totalSecUsed / 60);
   const secUsed = totalSecUsed % 60;
-  const durationStr = `${String(minUsed).padStart(2, '0')}:${String(secUsed).padStart(2, '0')}`;
+  const durationStr = `00:${String(minUsed).padStart(2, '0')}:${String(secUsed).padStart(2, '0')}`;
   
   // 2. Score calculations & category breakdown
   let correctAnswers = 0;
@@ -1257,38 +1257,38 @@ function formatDisplayDuration(durStr) {
   if (!durStr) return '00:00:00';
   
   const str = String(durStr).trim();
+  let hh = 0, mm = 0, ss = 0;
   
-  // If already in hh:mm:ss or mm:ss format (not from 1899- gSheet date serialization)
-  if (!str.includes('1899-')) {
+  if (str.includes('T')) {
+    // Parse ISO date string like "1900-01-01T05:09:56.000Z"
+    const timePart = str.split('T')[1] || '';
+    const parts = timePart.split(':');
+    if (parts.length >= 3) {
+      hh = parseInt(parts[0], 10) || 0;
+      mm = parseInt(parts[1], 10) || 0;
+      ss = parseInt(parts[2].substring(0, 2), 10) || 0;
+    }
+  } else {
+    // Parse duration string like "48:09:00", "48:09", or "00:48:09"
     const parts = str.split(':');
     if (parts.length === 2) {
-      return `00:${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}`;
+      mm = parseInt(parts[0], 10) || 0;
+      ss = parseInt(parts[1], 10) || 0;
+    } else if (parts.length === 3) {
+      hh = parseInt(parts[0], 10) || 0;
+      mm = parseInt(parts[1], 10) || 0;
+      ss = parseInt(parts[2], 10) || 0;
     }
-    if (parts.length === 3) {
-      return `${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}:${parts[2].padStart(2, '0')}`;
-    }
-    return str;
   }
   
-  // Parse Google Sheets 1899 datetime duration serialization
-  try {
-    const d = new Date(str);
-    if (isNaN(d.getTime())) return str;
-    
-    // Base reference date set by Google Sheets timezone serialization: 1899-12-29 17:17:56 UTC
-    const baseDate = new Date(Date.UTC(1899, 11, 29, 17, 17, 56));
-    const diffMs = d.getTime() - baseDate.getTime();
-    const totalSeconds = Math.round(diffMs / 1000);
-    
-    if (totalSeconds < 0) return '00:00:00';
-    
-    // totalSeconds represents the actual duration in seconds
-    const hrs = Math.floor(totalSeconds / 3600);
-    const mins = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
-    
-    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  } catch (e) {
-    return str;
+  // Shifting logic for Google Sheets HH:MM translation error.
+  // Since the exam is strictly capped at 60 minutes, any duration with hh > 0 
+  // represents a shifted value where hh is actually the minutes and mm is the seconds.
+  if (hh > 0) {
+    ss = mm;
+    mm = hh;
+    hh = 0;
   }
+  
+  return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
 }
