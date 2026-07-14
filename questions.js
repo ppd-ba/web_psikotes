@@ -81,7 +81,7 @@ const questionBank = [
   {
     id: 9,
     category: "math",
-    question: "Sebuah dump truck mengangkut overburden dari front tambang ke disposal area dengan jarak 6 km. Kecepatan rata-rata truck saat bermuatan adalah 30 km/jam, dan saat kembali kosong adalah 45 km/jam. Berapa total waktu perjalanan pulang-pergi (dalam menit)?",
+    question: "Sebuah mobil kurir mengantar barang ke gudang cabang dengan jarak 6 km. Kecepatan rata-rata mobil saat bermuatan adalah 30 km/jam, dan saat kembali kosong adalah 45 km/jam. Berapa total waktu perjalanan pulang-pergi (dalam menit)?",
     options: ["15 menit", "18 menit", "20 menit", "22 menit", "25 menit"],
     answer: "20 menit",
     explanation: "Waktu pergi = 6 km / 30 km/jam = 0.2 jam = 12 menit. Waktu kembali = 6 km / 45 km/jam = 0.133 jam = 8 menit. Total waktu = 12 + 8 = 20 menit."
@@ -89,7 +89,7 @@ const questionBank = [
   {
     id: 10,
     category: "math",
-    question: "Mekanik A dapat melakukan bongkar pasang (rebuild) alternator alat berat dalam waktu 6 jam. Mekanik B dapat melakukan pekerjaan yang sama dalam waktu 3 jam. Jika Mekanik A dan B ditugaskan menyelesaikan pekerjaan tersebut bersama-sama, berapa lama waktu yang dibutuhkan?",
+    question: "Pekerja A dapat mengemas sejumlah paket ke dalam kardus dalam waktu 6 jam. Pekerja B dapat menyelesaikan tugas yang sama dalam waktu 3 jam. Jika Pekerja A dan B ditugaskan menyelesaikan pekerjaan tersebut bersama-sama, berapa lama waktu yang dibutuhkan?",
     options: ["1.5 jam", "2.0 jam", "2.5 jam", "3.0 jam", "4.0 jam"],
     answer: "2.0 jam",
     explanation: "Rumus waktu gabungan: t = (ta * tb) / (ta + tb) = (6 * 3) / (6 + 3) = 18 / 9 = 2 jam."
@@ -97,120 +97,120 @@ const questionBank = [
   {
     id: 11,
     category: "math",
-    question: "Tangki bahan bakar sebuah Excavator PC3000 berisi penuh 400 liter. Setelah digunakan bekerja selama 8 jam, solar yang tersisa adalah 120 liter. Berapa persentase rata-rata konsumsi solar per jam dari kapasitas total tangki?",
+    question: "Tangki bahan bakar mesin generator darurat berisi penuh 400 liter. Setelah digunakan menyala selama 8 jam, bahan bakar yang tersisa adalah 120 liter. Berapa persentase rata-rata konsumsi bahan bakar per jam dari kapasitas total tangki?",
     options: ["7.50%", "8.25%", "8.75%", "9.00%", "9.50%"],
     answer: "8.75%",
-    explanation: "Konsumsi total solar = 400 - 120 = 280 liter. Konsumsi per jam = 280 / 8 = 35 liter/jam. Persentase per jam = (35 / 400) * 100% = 8.75% per jam."
+    explanation: "Konsumsi total = 400 - 120 = 280 liter. Konsumsi per jam = 280 / 8 = 35 liter/jam. Persentase per jam = (35 / 400) * 100% = 8.75% per jam."
   },
   {
     id: 12,
     category: "math",
-    question: "Di site PPA, kru Shift A bekerja dengan pola: 4 hari masuk kerja, lalu 2 hari libur secara berputar. Jika hari pertama siklus dimulai pada hari Senin (hari ke-1), maka pada hari ke-15 (terhitung sejak hari pertama), status kerja Shift A adalah...",
+    question: "Petugas keamanan bekerja dengan pola jadwal: 4 hari masuk kerja berturut-turut, lalu 2 hari libur secara berputar. Jika hari pertama siklus dimulai pada hari Senin (hari ke-1), maka pada hari ke-15 (terhitung sejak hari pertama), status tugasnya adalah...",
     options: ["Masuk Shift Pagi", "Masuk Shift Malam", "Libur Hari Pertama", "Libur Hari Kedua", "Masuk Shift Siang"],
     answer: "Masuk Shift Pagi",
-    explanation: "Satu siklus penuh = 4 hari kerja + 2 hari libur = 6 hari. Hari ke-15: 15 dibagi 6 sisa 3. Urutan hari ke-3 di dalam siklus adalah 'Hari Kerja'. Jadi, kru tersebut masuk kerja."
+    explanation: "Satu siklus penuh = 4 hari kerja + 2 hari libur = 6 hari. Hari ke-15: 15 dibagi 6 sisa 3. Urutan hari ke-3 di dalam siklus adalah 'Hari Kerja'. Jadi, petugas tersebut masuk tugas."
   },
   {
     id: 13,
     category: "math",
-    question: "Kapasitas muatan bucket Excavator PC1250 adalah 7 ton sekali swing. Kapasitas vessel Dump Truck Komatsu HD785 adalah 35 ton. Berapa kali swing bucket excavator yang dibutuhkan untuk memuat penuh 4 unit Dump Truck HD785?",
+    question: "Kapasitas muatan ember sebuah derek konstruksi adalah 7 kg sekali angkut. Kapasitas sebuah gerobak dorong adalah 35 kg. Berapa kali angkutan ember derek yang dibutuhkan untuk memuat penuh 4 unit gerobak dorong?",
     options: ["15 kali", "18 kali", "20 kali", "22 kali", "25 kali"],
     answer: "20 kali",
-    explanation: "Total kapasitas 4 truck = 4 * 35 ton = 140 ton. Jumlah swing bucket = 140 ton / 7 ton = 20 kali."
+    explanation: "Total kapasitas 4 gerobak = 4 * 35 kg = 140 kg. Jumlah angkutan = 140 kg / 7 kg = 20 kali."
   },
   {
     id: 14,
     category: "math",
-    question: "Logika Urutan Performa: Operator A memindahkan material lebih banyak daripada Operator B. Operator C memindahkan material lebih sedikit daripada Operator D, tetapi lebih banyak daripada Operator A. Siapakah operator dengan performa pemindahan material paling rendah?",
-    options: ["Operator A", "Operator B", "Operator C", "Operator D", "Tidak dapat disimpulkan"],
-    answer: "Operator B",
-    explanation: "Dari syarat 1: A > B. Dari syarat 2: D > C > A. Jika digabungkan: D > C > A > B. Operator dengan performa paling rendah adalah B."
+    question: "Logika Urutan Kinerja: Karyawan A mengemas barang lebih banyak daripada Karyawan B. Karyawan C mengemas barang lebih sedikit daripada Karyawan D, tetapi lebih banyak daripada Karyawan A. Siapakah karyawan dengan kinerja pengemasan paling rendah?",
+    options: ["Karyawan A", "Karyawan B", "Karyawan C", "Karyawan D", "Tidak dapat disimpulkan"],
+    answer: "Karyawan B",
+    explanation: "Dari syarat 1: A > B. Dari syarat 2: D > C > A. Jika digabungkan: D > C > A > B. Karyawan dengan kinerja paling rendah adalah B."
   },
   {
     id: 15,
     category: "math",
-    question: "Rata-rata jam training bulanan dari 4 orang mekanik di tim Plant People Development (PPD) adalah 38 jam. Ketika ditambah satu orang mekanik baru, nilai rata-rata jam training tim tersebut naik menjadi 40 jam. Berapa jam training yang telah ditempuh oleh mekanik baru tersebut?",
-    options: ["42 jam", "44 jam", "46 jam", "48 jam", "50 jam"],
-    answer: "48 jam",
-    explanation: "Total jam awal = 4 * 38 = 152 jam. Total jam setelah ditambah mekanik baru = 5 * 40 = 200 jam. Jam training mekanik baru = 200 - 152 = 48 jam."
+    question: "Rata-rata nilai ujian matematika dari 4 orang siswa adalah 38. Ketika ditambah satu orang siswa baru, nilai rata-rata kelas mereka naik menjadi 40. Berapa nilai ujian yang diperoleh siswa baru tersebut?",
+    options: ["42", "44", "46", "48", "50"],
+    answer: "48",
+    explanation: "Total nilai awal = 4 * 38 = 152. Total nilai setelah ditambah siswa baru = 5 * 40 = 200. Nilai siswa baru = 200 - 152 = 48."
   },
   {
     id: 16,
     category: "math",
-    question: "Helper A mengendarai mobil sarana dari Mess menuju Office Tambang dengan kecepatan 40 km/jam pukul 07.00. Helper B menyusul dari tempat yang sama pukul 07.15 dengan kecepatan 60 km/jam. Pada pukul berapa Helper B dapat menyusul Helper A?",
+    question: "Kendaraan A melaju dari kota Mess menuju kota Office dengan kecepatan 40 km/jam mulai pukul 07.00. Kendaraan B menyusul dari tempat yang sama pukul 07.15 dengan kecepatan 60 km/jam. Pada pukul berapa Kendaraan B dapat menyusul Kendaraan A?",
     options: ["Pukul 07.30", "Pukul 07.45", "Pukul 08.00", "Pukul 08.15", "Pukul 08.30"],
     answer: "Pukul 07.45",
-    explanation: "Selisih waktu berangkat = 15 menit = 0.25 jam. Selisih jarak awal = 40 * 0.25 = 10 km. Waktu menyusul = Selisih Jarak / (V2 - V1) = 10 / (60 - 40) = 10 / 20 = 0.5 jam = 30 menit. Helper B menyusul pukul 07.15 + 30 menit = 07.45."
+    explanation: "Selisih waktu berangkat = 15 menit = 0.25 jam. Selisih jarak awal = 40 * 0.25 = 10 km. Waktu menyusul = Selisih Jarak / (V2 - V1) = 10 / (60 - 40) = 10 / 20 = 0.5 jam = 30 menit. Kendaraan B menyusul pukul 07.15 + 30 menit = 07.45."
   },
   {
     id: 17,
     category: "math",
-    question: "Dari 60 unit alat berat yang dijadwalkan masuk perawatan rutin (Preventive Maintenance - PM) bulan ini, 15% unit terhambat rilis akibat menunggu kedatangan suku cadang (delay part). Berapa unit alat berat yang berhasil diselesaikan perawatannya tepat waktu?",
-    options: ["45 unit", "48 unit", "50 unit", "51 unit", "54 unit"],
-    answer: "51 unit",
-    explanation: "Unit yang delay = 15% * 60 = 9 unit. Unit yang tepat waktu = 60 - 9 = 51 unit."
+    question: "Dari 60 paket kiriman yang dijadwalkan diproses hari ini, 15% paket mengalami keterlambatan pengiriman akibat kendala kurir. Berapa paket yang berhasil dikirim tepat waktu?",
+    options: ["45 paket", "48 paket", "50 paket", "51 paket", "54 paket"],
+    answer: "51 paket",
+    explanation: "Paket yang delay = 15% * 60 = 9 paket. Paket yang tepat waktu = 60 - 9 = 51 paket."
   },
   {
     id: 18,
     category: "math",
-    question: "Logika Deduktif: Semua Group Leader Plant wajib memiliki sertifikat POP (Pengawas Operasional Pertama). Sebagian besar mekanik senior di site PPA menjabat sebagai Group Leader Plant. Manakah kesimpulan yang mutlak benar?",
+    question: "Logika Deduktif: Semua koordinator tim wajib memiliki sertifikasi manajemen dasar. Sebagian karyawan senior di kantor menjabat sebagai koordinator tim. Manakah kesimpulan yang mutlak benar?",
     options: [
-      "Semua mekanik senior wajib memiliki sertifikat POP.",
-      "Sebagian mekanik senior wajib memiliki sertifikat POP.",
-      "Semua pemilik sertifikat POP adalah mekanik senior.",
-      "Mekanik senior yang bukan Group Leader wajib memiliki sertifikat POP.",
-      "Tidak ada mekanik senior yang memiliki sertifikat POP."
+      "Semua karyawan senior wajib memiliki sertifikasi manajemen dasar.",
+      "Sebagian karyawan senior wajib memiliki sertifikasi manajemen dasar.",
+      "Semua pemilik sertifikasi manajemen dasar adalah karyawan senior.",
+      "Karyawan senior yang bukan koordinator tim wajib memiliki sertifikasi manajemen dasar.",
+      "Tidak ada karyawan senior yang memiliki sertifikasi manajemen dasar."
     ],
-    answer: "Sebagian mekanik senior wajib memiliki sertifikat POP.",
-    explanation: "Karena sebagian mekanik senior menjabat sebagai Group Leader, dan semua Group Leader wajib memiliki sertifikat POP, maka sebagian mekanik senior tersebut otomatis wajib memiliki sertifikat POP."
+    answer: "Sebagian karyawan senior wajib memiliki sertifikasi manajemen dasar.",
+    explanation: "Karena sebagian karyawan senior menjabat sebagai koordinator tim, dan semua koordinator tim wajib memiliki sertifikasi manajemen dasar, maka sebagian karyawan senior tersebut otomatis wajib memiliki sertifikasi manajemen dasar."
   },
   {
     id: 19,
     category: "math",
-    question: "Persediaan oli silinder hidrolik di gudang Plant cukup untuk kebutuhan perawatan 12 unit excavator selama 20 hari. Jika excavator yang harus dirawat bertambah menjadi 15 unit, dalam berapa hari persediaan oli tersebut akan habis?",
+    question: "Persediaan bahan makanan di sebuah asrama cukup untuk kebutuhan makan 12 orang selama 20 hari. Jika penghuni asrama bertambah menjadi 15 orang, dalam berapa hari persediaan bahan makanan tersebut akan habis?",
     options: ["14 hari", "15 hari", "16 hari", "17 hari", "18 hari"],
     answer: "16 hari",
-    explanation: "Perbandingan berbalik nilai: (12 unit * 20 hari) = (15 unit * x hari) => 240 = 15x => x = 240 / 15 = 16 hari."
+    explanation: "Perbandingan berbalik nilai: (12 orang * 20 hari) = (15 orang * x hari) => 240 = 15x => x = 240 / 15 = 16 hari."
   },
   {
     id: 20,
     category: "math",
-    question: "Group Leader A melakukan inspeksi unit breakdown setiap 4 hari sekali. Group Leader B melakukan inspeksi unit breakdown setiap 6 hari sekali. Jika mereka melakukan inspeksi bersamaan pada hari Selasa, pada hari apakah mereka akan melakukan inspeksi bersamaan berikutnya?",
+    question: "Orang A berolahraga di gym setiap 4 hari sekali. Orang B berolahraga di gym setiap 6 hari sekali. Jika mereka berolahraga bersamaan pada hari Selasa, pada hari apakah mereka akan bertemu di gym secara bersamaan berikutnya?",
     options: ["Hari Minggu", "Hari Senin", "Hari Selasa", "Hari Rabu", "Hari Kamis"],
     answer: "Hari Minggu",
-    explanation: "KPK dari 4 dan 6 adalah 12. Mereka bertemu 12 hari lagi. Selasa + 12 hari: (12 mod 7 = 5 hari setelah Selasa) = hari Minggu."
+    explanation: "KPK dari 4 and 6 adalah 12. Mereka bertemu 12 hari lagi. Selasa + 12 hari: (12 mod 7 = 5 hari setelah Selasa) = hari Minggu."
   },
   {
     id: 21,
     category: "math",
-    question: "Sebuah target ketersediaan mekanis unit (Mechanical Availability - MA) dump truck ditargetkan minimal 90%. Dari 30 hari dalam satu bulan (720 jam total), sebuah unit mengalami breakdown/downtime selama 48 jam. Berapa Mechanical Availability (MA) dari unit tersebut?",
+    question: "Sebuah server ditargetkan memiliki tingkat keaktifan (uptime) minimal 90%. Dari total 30 hari dalam sebulan (720 jam total), server tersebut sempat mengalami gangguan (downtime) selama 48 jam. Berapa persentase tingkat keaktifan (uptime) server tersebut?",
     options: ["90.50%", "91.33%", "92.00%", "93.33%", "94.67%"],
     answer: "93.33%",
-    explanation: "Jam operasi tersedia = 720 - 48 = 672 jam. MA = (Jam Tersedia / Jam Total) * 100% = (672 / 720) * 100% = 93.33%."
+    explanation: "Jam server aktif = 720 - 48 = 672 jam. Uptime = (Jam Aktif / Jam Total) * 100% = (672 / 720) * 100% = 93.33%."
   },
   {
     id: 22,
     category: "math",
-    question: "Cycle time (waktu edar) sebuah dump truck untuk satu putaran hauling adalah 24 menit. Berapa kapasitas produksi pemindahan material maksimum (ritasi) yang bisa dicapai oleh dump truck tersebut jika ia bekerja efektif selama 8 jam sehari?",
-    options: ["15 rit", "18 rit", "20 rit", "24 rit", "30 rit"],
-    answer: "20 rit",
-    explanation: "Waktu kerja efektif = 8 jam * 60 menit = 480 menit. Ritasi maksimum = 480 menit / 24 menit/rit = 20 rit."
+    question: "Waktu tempuh sebuah bus untuk menyelesaikan satu rute perjalanan adalah 24 menit. Berapa kapasitas perjalanan maksimum (ritasi) yang bisa dicapai oleh bus tersebut jika beroperasi efektif selama 8 jam sehari?",
+    options: ["15 kali", "18 kali", "20 kali", "24 kali", "30 kali"],
+    answer: "20 kali",
+    explanation: "Waktu operasi efektif = 8 jam * 60 menit = 480 menit. Jumlah perjalanan maksimum = 480 menit / 24 menit = 20 kali."
   },
   {
     id: 23,
     category: "math",
-    question: "Di site PPA, penggunaan solar excavator dihitung dengan rasio jam operasi (Fuel Ratio). Jika sebuah excavator beroperasi selama 10 jam dan menghabiskan 350 liter solar, berapa fuel ratio rata-rata excavator tersebut (liter/jam)?",
+    question: "Sebuah mesin pemanas ruangan beroperasi selama 10 jam dan menghabiskan 350 liter minyak pemanas. Berapa rata-rata konsumsi minyak per jam?",
     options: ["25 liter/jam", "30 liter/jam", "32 liter/jam", "35 liter/jam", "40 liter/jam"],
     answer: "35 liter/jam",
-    explanation: "Fuel Ratio = Konsumsi Solar / Jam Operasi = 350 liter / 10 jam = 35 liter/jam."
+    explanation: "Rasio Konsumsi = Konsumsi total / Jam Operasi = 350 liter / 10 jam = 35 liter/jam."
   },
   {
     id: 24,
     category: "math",
-    question: "Sebuah unit Dozer D375 memiliki efisiensi waktu kerja (Physical Availability - PA) sebesar 85% dari total 24 jam sehari. Berapa jam unit tersebut siap dioperasikan dalam sehari?",
+    question: "Sebuah mesin pembuat roti bekerja secara efektif selama 85% dari total 24 jam sehari. Berapa jam mesin tersebut beroperasi dalam sehari?",
     options: ["19.2 jam", "20.0 jam", "20.4 jam", "21.6 jam", "22.0 jam"],
     answer: "20.4 jam",
-    explanation: "Jam siap pakai = 24 jam * 85% = 24 * 0.85 = 20.4 jam."
+    explanation: "Jam operasi mesin = 24 jam * 85% = 24 * 0.85 = 20.4 jam."
   },
 
   // ==========================================
