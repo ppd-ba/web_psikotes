@@ -483,7 +483,7 @@ function generatePsychologyInsight(score, catScores, durationSeconds) {
     feedback += `<br><br><span style="color: #fbbf24;">⚠️ Area Pengembangan:</span> Anda perlu memfokuskan latihan tambahan pada materi <strong>${weakAreas.join(', ')}</strong>.`;
     feedback += "<br>💡 <em>Saran: Klik tombol <strong>'Kerjakan Ulang Ujian'</strong> di bawah untuk berlatih melatih respon visual dan perhitungan Anda secara berulang.";
   } else {
-    feedback += "<br><br><span style="color: #10b981;">✔️ Kekuatan Kompetensi:</span> Profil kognitif Anda seimbang dan konsisten di seluruh aspek penalaran logika, hitungan, maupun visualisasi ruang.";
+    feedback += "<br><br><span style='color: #10b981;'>✔️ Kekuatan Kompetensi:</span> Profil kognitif Anda seimbang dan konsisten di seluruh aspek penalaran logika, hitungan, maupun visualisasi ruang.";
   }
   
   // Speed analysis
