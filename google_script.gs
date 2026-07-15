@@ -3,18 +3,20 @@
 
 function doGet(e) {
   var sheet = getOrCreateSheet();
-  var data = sheet.getDataRange().getValues();
+  var range = sheet.getDataRange();
+  var data = range.getValues();
+  var displayData = range.getDisplayValues();
   var records = [];
   
   // Baca data baris demi baris (abaikan baris header)
   for (var i = 1; i < data.length; i++) {
     records.push({
-      nrp: data[i][0],
+      nrp: displayData[i][0],
       date: formatDate(data[i][1]),
       score: parseInt(data[i][2]),
       total: parseInt(data[i][3]),
-      duration: data[i][4],
-      insight: data[i][5]
+      duration: displayData[i][4], // Ambil teks tampilan langsung dari kolom E (misal: "0:39:27" atau "46:58:00")
+      insight: displayData[i][5]
     });
   }
   
