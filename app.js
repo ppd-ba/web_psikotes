@@ -550,9 +550,9 @@ function generatePsychologyInsight(score, catScores, durationSeconds, unanswered
   
   // Unanswered questions note
   if (unansweredCount !== undefined && unansweredCount > 0) {
-    feedback += `<br>⚠️ <em>Soal Tidak Dijawab:</em> Terdapat <strong>${unansweredCount}</strong> soal yang tidak dijawab / tidak sempat diisi (kehabisan waktu).`;
+    feedback += `<br>⚠️ <em>Soal Tidak Dijawab:</em> Terdapat <strong>${unansweredCount}</strong> soal yang tidak dijawab/dilewati. Hal ini mengindikasikan kecenderungan perfeksionis berlebih atau kerawanan mengalami *analysis paralysis* di mana pengawas terlalu lama terpaku pada satu kendala kerja dan mengabaikan prioritas unit lainnya.`;
   } else {
-    feedback += `<br>✔️ <em>Soal Tidak Dijawab:</em> Seluruh soal (50 soal) berhasil diselesaikan dan dijawab.`;
+    feedback += `<br>✔️ <em>Soal Tidak Dijawab:</em> Seluruh soal (50 soal) berhasil diselesaikan. Hal ini menunjukkan efisiensi kerja yang taktis dan kelincahan penentuan skala prioritas pengawasan yang matang.`;
   }
   
   return feedback;
@@ -1081,6 +1081,16 @@ window.viewParticipantDetails = function(index) {
   
   const aspectAnalysis = getAspectAnalysis(logicScore, mathScore, spatialScore);
   
+  const unansweredVal = r.unanswered !== undefined ? r.unanswered : 0;
+  let unansweredAnalysisText = '';
+  if (unansweredVal === 0) {
+    unansweredAnalysisText = "Menunjukkan efisiensi kerja yang taktis, kepatuhan ritme kerja yang tinggi, serta kemampuan manajemen waktu yang terencana secara penuh tanpa ada pekerjaan yang terbengkalai.";
+  } else if (unansweredVal <= 5) {
+    unansweredAnalysisText = `Menunjukkan kecenderungan perfeksionis minor atau sedikit hambatan konsentrasi. Terdapat ${unansweredVal} soal terlewati, memerlukan bimbingan ringan untuk meningkatkan kelincahan keputusan harian.`;
+  } else {
+    unansweredAnalysisText = `Mengindikasikan kerawanan mengalami <em>analysis paralysis</em> (terlalu lama terpaku pada satu masalah teknis sehingga mengabaikan antrean backlog lainnya). Terdapat ${unansweredVal} soal kosong, disarankan latihan skala prioritas.`;
+  }
+
   document.getElementById('modal-details-title').textContent = `Analisis Hasil: ${r.nrp}`;
   document.getElementById('modal-details-body').innerHTML = `
     <div style="font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
@@ -1090,7 +1100,7 @@ window.viewParticipantDetails = function(index) {
     <p><strong>Waktu Selesai:</strong> ${formatDisplayDate(r.date)}</p>
     <p><strong>Skor Total:</strong> <span class="score-badge ${scaledScore >= 80 ? 'score-high' : scaledScore >= 60 ? 'score-mid' : 'score-low'}">${scaledScore} dari 100 poin</span></p>
     <p><strong>Durasi Pengisian:</strong> ${formatDisplayDuration(r.duration)}</p>
-    <p><strong>Soal Tidak Dijawab:</strong> <span style="color: ${r.unanswered > 0 ? '#fbbf24' : 'var(--text-muted)'}; font-weight: bold;">${r.unanswered !== undefined ? r.unanswered : '0'} soal</span></p>
+    <p><strong>Soal Tidak Dijawab:</strong> <span style="color: ${unansweredVal > 0 ? '#fbbf24' : 'var(--text-muted)'}; font-weight: bold;">${unansweredVal} soal</span></p>
     <br>
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
@@ -1145,6 +1155,7 @@ window.viewParticipantDetails = function(index) {
       <strong>Kesimpulan Kompetensi & Profil:</strong><br>
       <span class="score-badge ${badgeColor}" style="margin: 0.5rem 0; display:inline-block;">${competenceClass}</span>
       <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem; margin-bottom:0.5rem;"><strong>Karakter Pengawasan Lapangan:</strong> ${traits}</p>
+      <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem; margin-bottom:0.5rem;"><strong>Manajemen Waktu & Skala Prioritas:</strong> ${unansweredAnalysisText}</p>
       <p style="color: var(--text-secondary); line-height: 1.5; font-size:0.85rem;"><strong>Rencana Pendampingan (Coaching Plan):</strong> ${coachingPlan}</p>
     </div>
     
