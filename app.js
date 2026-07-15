@@ -459,18 +459,21 @@ function submitTest(autoSubmit = false) {
   
   // 2. Score calculations & category breakdown
   let correctAnswers = 0;
+  let unansweredCount = 0;
   let catScores = { logic: 0, math: 0, spatial: 0 };
   
   state.questions.forEach(q => {
     const userAnswer = state.answers[q.id];
-    if (userAnswer === q.answer) {
+    if (userAnswer === undefined || userAnswer === null || userAnswer === '') {
+      unansweredCount++;
+    } else if (userAnswer === q.answer) {
       correctAnswers++;
       catScores[q.category]++;
     }
   });
   
   // 3. Generate psychological insight
-  const insight = generatePsychologyInsight(correctAnswers, catScores, totalSecUsed);
+  const insight = generatePsychologyInsight(correctAnswers, catScores, totalSecUsed, unansweredCount);
   
   // 4. Save result record
   const resultRecord = {
@@ -479,6 +482,7 @@ function submitTest(autoSubmit = false) {
     score: correctAnswers,
     total: state.questions.length,
     duration: durationStr,
+    unanswered: unansweredCount,
     categoryScores: catScores,
     insight: insight
   };
@@ -494,7 +498,7 @@ function submitTest(autoSubmit = false) {
   // 6. Populate results screen UI
   document.getElementById('res-score-num').textContent = correctAnswers * 2;
   document.getElementById('res-name').textContent = `Peserta: ${state.nrp}`;
-  document.getElementById('res-nrp').textContent = `Seksi: PPD BA | Durasi: ${durationStr}`;
+  document.getElementById('res-nrp').innerHTML = `Seksi: PPD Site Bukit Asam | Durasi: ${durationStr}<br>Soal Tidak Dijawab: <strong style="color: #f59e0b;">${unansweredCount}</strong> / 50 soal`;
   document.getElementById('res-feedback-text').innerHTML = `
     <strong>Analisis Hasil:</strong><br>
     • Deret Angka & Deret Gambar: ${catScores.logic * 2}/36<br>
@@ -508,7 +512,7 @@ function submitTest(autoSubmit = false) {
 }
 
 // AUTOMATIC PSYCHOLOGY INSIGHT GENERATOR
-function generatePsychologyInsight(score, catScores, durationSeconds) {
+function generatePsychologyInsight(score, catScores, durationSeconds, unansweredCount) {
   let feedback = '';
   
   if (score >= 42) {
@@ -542,6 +546,13 @@ function generatePsychologyInsight(score, catScores, durationSeconds) {
     feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Anda cenderung menghabiskan waktu terlalu lama untuk menganalisis soal. Latihlah kecepatan respon agar tidak mengalami *delay* pengerjaan di lapangan.";
   } else {
     feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Manajemen waktu Anda seimbang dan efisien.";
+  }
+  
+  // Unanswered questions note
+  if (unansweredCount !== undefined && unansweredCount > 0) {
+    feedback += `<br>⚠️ <em>Soal Tidak Dijawab:</em> Terdapat <strong>${unansweredCount}</strong> soal yang tidak dijawab / tidak sempat diisi (kehabisan waktu).`;
+  } else {
+    feedback += `<br>✔️ <em>Soal Tidak Dijawab:</em> Seluruh soal (50 soal) berhasil diselesaikan dan dijawab.`;
   }
   
   return feedback;
@@ -1079,6 +1090,7 @@ window.viewParticipantDetails = function(index) {
     <p><strong>Waktu Selesai:</strong> ${formatDisplayDate(r.date)}</p>
     <p><strong>Skor Total:</strong> <span class="score-badge ${scaledScore >= 80 ? 'score-high' : scaledScore >= 60 ? 'score-mid' : 'score-low'}">${scaledScore} dari 100 poin</span></p>
     <p><strong>Durasi Pengisian:</strong> ${formatDisplayDuration(r.duration)}</p>
+    <p><strong>Soal Tidak Dijawab:</strong> <span style="color: ${r.unanswered > 0 ? '#fbbf24' : 'var(--text-muted)'}; font-weight: bold;">${r.unanswered !== undefined ? r.unanswered : '0'} soal</span></p>
     <br>
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
