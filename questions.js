@@ -1868,42 +1868,54 @@ const questionBankLevel1 = [
   {
     id: 101,
     category: "general",
-    question: "Danau terluas di Indonesia yang terbentuk akibat letusan gunung api supervolcano purba adalah...",
-    options: ["Danau Singkarak", "Danau Toba", "Danau Poso", "Danau Sentani", "Danau Maninjau"],
-    answer: "Danau Toba",
-    explanation: "Danau Toba di Sumatera Utara merupakan danau vulkanik terbesar di Indonesia dan Asia Tenggara yang terbentuk akibat letusan dahsyat gunung api Toba purba sekitar 74.000 tahun yang lalu."
+    question: "Di era digital saat ini, layanan penyimpanan awan (cloud storage) yang dikembangkan oleh Google untuk menyimpan dokumen kerja secara online adalah...",
+    options: ["Dropbox", "OneDrive", "Google Drive", "iCloud", "Amazon S3"],
+    answer: "Google Drive",
+    explanation: "Google Drive adalah layanan penyimpanan awan (cloud storage) gratis milik Google yang memungkinkan pengguna menyimpan file secara online, berbagi file, dan mengedit dokumen bersama secara real-time."
   },
   {
     id: 102,
     category: "general",
-    question: "Mata uang resmi yang digunakan oleh negara Thailand adalah...",
-    options: ["Ringgit", "Peso", "Baht", "Rupiah", "Dong"],
-    answer: "Baht",
-    explanation: "Baht adalah mata uang resmi negara Thailand. Ringgit untuk Malaysia, Peso untuk Filipina, Dong untuk Vietnam, dan Rupiah untuk Indonesia."
+    question: "Dalam dunia bisnis dan pemasaran, konsep 'Brand Awareness' merujuk pada...",
+    options: [
+      "Tingkat kemampuan konsumen dalam mengenali atau mengingat suatu merek",
+      "Jumlah keuntungan bersih yang didapatkan dari penjualan suatu produk",
+      "Strategi memangkas biaya operasional produksi barang",
+      "Proses pengiriman barang dari pabrik langsung ke konsumen akhir",
+      "Jumlah varian warna dan ukuran yang dimiliki suatu produk"
+    ],
+    answer: "Tingkat kemampuan konsumen dalam mengenali atau mengingat suatu merek",
+    explanation: "Brand Awareness (kesadaran merek) adalah kemampuan konsumen untuk langsung mengenali dan mengingat suatu produk atau merek di antara kompetitor lainnya."
   },
   {
     id: 103,
     category: "general",
-    question: "Lambang dari Sila Ke-4 dalam perisai Garuda Pancasila adalah...",
-    options: ["Pohon Beringin", "Rantai Baja", "Kepala Banteng", "Padi dan Kapas", "Bintang Emas"],
-    answer: "Kepala Banteng",
-    explanation: "Sila ke-4 Pancasila dilambangkan dengan Kepala Banteng. Bintang adalah sila ke-1, Rantai adalah sila ke-2, Pohon Beringin sila ke-3, dan Padi & Kapas sila ke-5."
+    question: "Kanal komunikasi formal yang paling standar dan sah digunakan untuk mengirimkan laporan resmi, undangan rapat formal, atau berkas administrasi dalam lingkup kerja perusahaan profesional adalah...",
+    options: ["Media Sosial Pribadi", "Short Message Service (SMS)", "Surat Elektronik (E-mail)", "Aplikasi Pesan Instan Kasual", "Panggilan Suara Langsung"],
+    answer: "Surat Elektronik (E-mail)",
+    explanation: "Surat Elektronik atau E-mail merupakan sarana komunikasi tertulis formal standar industri yang digunakan untuk bertukar pesan bisnis resmi karena memiliki validitas arsip dokumen yang baik."
   },
   {
     id: 104,
     category: "general",
-    question: "Benua terkecil di dunia berdasarkan luas wilayah daratannya adalah benua...",
-    options: ["Eropa", "Australia", "Asia", "Afrika", "Antartika"],
-    answer: "Australia",
-    explanation: "Benua Australia memiliki luas wilayah daratan terkecil dibandingkan benua-benua lainnya di dunia."
+    question: "Pada program pengolah data spreadsheet seperti Microsoft Excel atau Google Sheets, rumus (formula) standar yang digunakan untuk menghitung rata-rata dari sekumpulan data angka adalah...",
+    options: ["SUM", "AVERAGE", "COUNT", "MAX", "IF"],
+    answer: "AVERAGE",
+    explanation: "Rumus AVERAGE digunakan untuk menghitung nilai rata-rata aritmatika dari range sel data tertentu. SUM untuk penjumlahan, COUNT untuk menghitung jumlah sel terisi data, MAX untuk nilai tertinggi, dan IF untuk logika syarat."
   },
   {
     id: 105,
     category: "general",
-    question: "Lagu kebangsaan Indonesia Raya diciptakan oleh tokoh nasional...",
-    options: ["Ismail Marzuki", "Ibu Sud", "Koesbini", "W.R. Soepratman", "C. Simanjuntak"],
-    answer: "W.R. Soepratman",
-    explanation: "Lagu kebangsaan Indonesia Raya diciptakan oleh Wage Rudolf Soepratman (W.R. Soepratman) dan pertama kali diperdengarkan secara resmi pada Kongres Pemuda II tanggal 28 Oktober 1928."
+    question: "Inflasi merupakan suatu kondisi ekonomi makro di mana terjadi...",
+    options: [
+      "Penurunan jumlah pengangguran secara drastis dalam jangka pendek",
+      "Kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu",
+      "Peningkatan nilai tukar mata uang dalam negeri terhadap mata uang asing secara tajam",
+      "Penurunan daya beli masyarakat secara instan akibat suku bunga bank nol persen",
+      "Kondisi surplus anggaran belanja negara karena naiknya hasil ekspor komoditas"
+    ],
+    answer: "Kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu",
+    explanation: "Inflasi adalah kecenderungan naiknya harga barang dan jasa pada umumnya secara terus menerus dalam waktu tertentu akibat berkurangnya nilai mata uang."
   },
 
   // --- Logika Angka (6 - 10) ---
