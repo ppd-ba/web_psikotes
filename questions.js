@@ -1865,58 +1865,45 @@ const questionBankLevel2 = [
 // BANK SOAL KOGNITIF LEVEL 1 (40 Soal)
 // ==========================================
 const questionBankLevel1 = [
-  // --- Pengetahuan Umum (1 - 5) ---
   {
     id: 101,
     category: "general",
-    question: "Alat yang paling tepat digunakan untuk mengukur tegangan listrik pada baterai unit alat berat adalah...",
-    options: ["Tachometer", "Manometer", "Voltmeter", "Ampermeter", "Hydrometer"],
-    answer: "Voltmeter",
-    explanation: "Voltmeter adalah instrumen pengukur yang digunakan untuk mengukur beda potensial atau tegangan listrik antara dua titik dalam sirkuit listrik."
+    question: "Danau terluas di Indonesia yang terbentuk akibat letusan gunung api supervolcano purba adalah...",
+    options: ["Danau Singkarak", "Danau Toba", "Danau Poso", "Danau Sentani", "Danau Maninjau"],
+    answer: "Danau Toba",
+    explanation: "Danau Toba di Sumatera Utara merupakan danau vulkanik terbesar di Indonesia dan Asia Tenggara yang terbentuk akibat letusan dahsyat gunung api Toba purba sekitar 74.000 tahun yang lalu."
   },
   {
     id: 102,
     category: "general",
-    question: "Tujuan utama penggunaan sumbat telinga (earplug) saat bekerja di area workshop yang bising adalah...",
-    options: [
-      "Mencegah debu masuk ke dalam telinga",
-      "Memudahkan komunikasi nirkabel dengan pengawas",
-      "Melindungi pendengaran dari kebisingan di atas batas aman",
-      "Mencegah masuknya percikan las ke lubang telinga",
-      "Menjaga kestabilan suhu tubuh"
-    ],
-    answer: "Melindungi pendengaran dari kebisingan di atas batas aman",
-    explanation: "Sumbat telinga (earplug) berfungsi sebagai Alat Pelindung Diri (APD) untuk meredam tingkat kebisingan ekstrim di tempat kerja guna mencegah kerusakan pendengaran (noise-induced hearing loss)."
+    question: "Mata uang resmi yang digunakan oleh negara Thailand adalah...",
+    options: ["Ringgit", "Peso", "Baht", "Rupiah", "Dong"],
+    answer: "Baht",
+    explanation: "Baht adalah mata uang resmi negara Thailand. Ringgit untuk Malaysia, Peso untuk Filipina, Dong untuk Vietnam, dan Rupiah untuk Indonesia."
   },
   {
     id: 103,
     category: "general",
-    question: "Dalam keselamatan kerja, singkatan dari K3 yang benar adalah...",
-    options: [
-      "Ketertiban, Keindahan, dan Kesehatan Kerja",
-      "Keselamatan, Kesehatan, dan Kesejahteraan Kerja",
-      "Kerapian, Kebersihan, dan Keselamatan Kerja",
-      "Keselamatan dan Kesehatan Kerja",
-      "Kecerdasan, Kepatuhan, dan Keselamatan Kerja"
-    ],
-    answer: "Keselamatan dan Kesehatan Kerja",
-    explanation: "K3 adalah singkatan resmi dari Keselamatan dan Kesehatan Kerja, yang merupakan bidang yang terkait dengan kesehatan, keselamatan, dan kesejahteraan manusia yang bekerja."
+    question: "Lambang dari Sila Ke-4 dalam perisai Garuda Pancasila adalah...",
+    options: ["Pohon Beringin", "Rantai Baja", "Kepala Banteng", "Padi dan Kapas", "Bintang Emas"],
+    answer: "Kepala Banteng",
+    explanation: "Sila ke-4 Pancasila dilambangkan dengan Kepala Banteng. Bintang adalah sila ke-1, Rantai adalah sila ke-2, Pohon Beringin sila ke-3, dan Padi & Kapas sila ke-5."
   },
   {
     id: 104,
     category: "general",
-    question: "Pelumas mesin diesel alat berat yang umum digunakan untuk menunjang viskositas suhu kerja tinggi di area pertambangan memiliki spesifikasi kekentalan...",
-    options: ["SAE 5W-30", "SAE 10W-30", "SAE 15W-40", "SAE 90", "SAE 140"],
-    answer: "SAE 15W-40",
-    explanation: "Oli SAE 15W-40 adalah spesifikasi kekentalan standar yang paling umum direkomendasikan untuk mesin diesel heavy duty (alat berat) yang beroperasi di iklim tropis/tambang."
+    question: "Benua terkecil di dunia berdasarkan luas wilayah daratannya adalah benua...",
+    options: ["Eropa", "Australia", "Asia", "Afrika", "Antartika"],
+    answer: "Australia",
+    explanation: "Benua Australia memiliki luas wilayah daratan terkecil dibandingkan benua-benua lainnya di dunia."
   },
   {
     id: 105,
     category: "general",
-    question: "Warna label tabung Pemadam Api Ringan (APAR) berjenis Karbon Dioksida (CO2) yang tepat untuk memadamkan kebakaran instalasi listrik adalah...",
-    options: ["Merah dengan label Biru", "Merah dengan label Hitam", "Merah dengan label Kuning", "Merah dengan label Putih", "Merah dengan label Hijau"],
-    answer: "Merah dengan label Hitam",
-    explanation: "Berdasarkan standar internasional, APAR jenis Karbon Dioksida (CO2) ditandai dengan pita atau label berwarna hitam pada tabung merah."
+    question: "Lagu kebangsaan Indonesia Raya diciptakan oleh tokoh nasional...",
+    options: ["Ismail Marzuki", "Ibu Sud", "Koesbini", "W.R. Soepratman", "C. Simanjuntak"],
+    answer: "W.R. Soepratman",
+    explanation: "Lagu kebangsaan Indonesia Raya diciptakan oleh Wage Rudolf Soepratman (W.R. Soepratman) dan pertama kali diperdengarkan secara resmi pada Kongres Pemuda II tanggal 28 Oktober 1928."
   },
 
   // --- Logika Angka (6 - 10) ---
