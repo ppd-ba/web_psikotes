@@ -2539,9 +2539,10 @@ const discQuestions = [
 ];
 
 // ==========================================
-// BAB 3: TES KEPRIBADIAN GAYA KEPEMIMPINAN
-// MOST & LEAST (15 Soal, Pilihan 3 Pernyataan)
-// Pilihan dipetakan ke:
+// BAB 3: TES KEPRIBADIAN GAYA KEPEMIMPINAN (2 Pilihan)
+// 15 Soal, berisi 2 pilihan pernyataan (A dan B)
+// Peserta memilih tepat 1 pernyataan yang paling menggambarkan dirinya.
+// Pilihan dipetakan ke dimensi:
 // A: Achievement (Fokus Target & Kinerja)
 // P: People (Fokus Hubungan & Kerja Tim)
 // L: Leadership (Fokus Arahan & Pengambilan Keputusan)
@@ -2550,121 +2551,106 @@ const mostLeastQuestions = [
   {
     id: 301,
     statements: [
-      { text: "Menuntaskan tugas perbaikan unit tepat waktu sesuai target target", dimension: "A" },
-      { text: "Membangun kekompakan kelompok agar tidak ada perpecahan", dimension: "P" },
-      { text: "Mengambil tanggung jawab penuh memimpin kru di lapangan", dimension: "L" }
+      { text: "Menuntaskan tugas perbaikan unit tepat waktu sesuai target.", dimension: "A" },
+      { text: "Membangun kekompakan kelompok agar tidak terjadi perpecahan.", dimension: "P" }
     ]
   },
   {
     id: 302,
     statements: [
-      { text: "Fokus pada peningkatan kualitas hasil repair (zero rework)", dimension: "A" },
-      { text: "Sabar mendengarkan keluhan kru demi menjaga keharmonisan", dimension: "P" },
-      { text: "Berani menegur dan menertibkan kru yang melanggar aturan", dimension: "L" }
+      { text: "Sabar mendengarkan keluhan kru demi menjaga keharmonisan.", dimension: "P" },
+      { text: "Berani menegur dan menertibkan kru yang melanggar aturan.", dimension: "L" }
     ]
   },
   {
     id: 303,
     statements: [
-      { text: "Bekerja mandiri menyelesaikan troubleshooting rumit", dimension: "A" },
-      { text: "Mengutamakan diskusi tim untuk mencapai mufakat", dimension: "P" },
-      { text: "Mengambil keputusan cepat saat terjadi breakdown darurat", dimension: "L" }
+      { text: "Mengambil keputusan cepat saat terjadi breakdown darurat.", dimension: "L" },
+      { text: "Bekerja mandiri menyelesaikan troubleshooting rumit.", dimension: "A" }
     ]
   },
   {
     id: 304,
     statements: [
-      { text: "Mengejar produktivitas kerja kru agar mencapai nilai PA optimal", dimension: "A" },
-      { text: "Senang berbagi ilmu dan membimbing kru junior", dimension: "P" },
-      { text: "Mendelegasikan tugas secara terperinci kepada setiap kru", dimension: "L" }
+      { text: "Mengejar produktivitas kerja kru agar mencapai nilai PA optimal.", dimension: "A" },
+      { text: "Senang berbagi ilmu dan membimbing kru junior.", dimension: "P" }
     ]
   },
   {
     id: 305,
     statements: [
-      { text: "Melakukan improvement (Kaizen) untuk mempercepat kerja workshop", dimension: "A" },
-      { text: "Menjaga hubungan kerja yang hangat dan kekeluargaan", dimension: "P" },
-      { text: "Menetapkan standar kualitas kerja yang wajib dituruti tim", dimension: "L" }
+      { text: "Menjaga hubungan kerja yang hangat dan kekeluargaan.", dimension: "P" },
+      { text: "Menetapkan standar kualitas kerja yang wajib dituruti tim.", dimension: "L" }
     ]
   },
   {
     id: 306,
     statements: [
-      { text: "Menyukai tantangan memecahkan problem mekanis baru", dimension: "A" },
-      { text: "Menghindari konflik personal dengan kru di lingkungan kerja", dimension: "P" },
-      { text: "Mengarahkan regu untuk selalu siap mengikuti instruksi shift", dimension: "L" }
+      { text: "Mengarahkan regu untuk selalu siap mengikuti instruksi shift.", dimension: "L" },
+      { text: "Melakukan improvement (Kaizen) untuk mempercepat kerja workshop.", dimension: "A" }
     ]
   },
   {
     id: 307,
     statements: [
-      { text: "Mengutamakan keakuratan data pengisian form JSA", dimension: "A" },
-      { text: "Mengapresiasi usaha kerja kru secara verbal", dimension: "P" },
-      { text: "Mendorong kru untuk meningkatkan level skill kompetensi mereka", dimension: "L" }
+      { text: "Menyukai tantangan memecahkan problem mekanis baru.", dimension: "A" },
+      { text: "Menghindari konflik personal dengan rekan kerja di lingkungan kerja.", dimension: "P" }
     ]
   },
   {
     id: 308,
     statements: [
-      { text: "Konsisten memenuhi target kerja individu yang ditetapkan", dimension: "A" },
-      { text: "Senang membantu tugas rekan kerja lain yang menumpuk", dimension: "P" },
-      { text: "Mewakili tim dalam bernegosiasi dengan atasan/seksi lain", dimension: "L" }
+      { text: "Mementingkan kesejahteraan dan kenyamanan kru dalam bekerja.", dimension: "P" },
+      { text: "Mengatur pembagian tugas secara adil dan tegas di lapangan.", dimension: "L" }
     ]
   },
   {
     id: 309,
     statements: [
-      { text: "Mempelajari spesifikasi manual book unit dengan tekun", dimension: "A" },
-      { text: "Membangun hubungan komunikasi yang ramah dengan tim produksi", dimension: "P" },
-      { text: "Berani mengambil inisiatif perubahan sistem di workshop", dimension: "L" }
+      { text: "Mendorong tim untuk terus aktif berinovasi tanpa ragu.", dimension: "L" },
+      { text: "Fokus menyelesaikan pekerjaan sesuai dengan SOP yang berlaku.", dimension: "A" }
     ]
   },
   {
     id: 310,
     statements: [
-      { text: "Fokus pada efisiensi penggunaan anggaran sparepart", dimension: "A" },
-      { text: "Menciptakan lingkungan kerja yang menyenangkan dan minim stres", dimension: "P" },
-      { text: "Tegas membagi tugas lembur kru secara adil", dimension: "L" }
+      { text: "Berorientasi pada pencapaian hasil kerja yang sempurna.", dimension: "A" },
+      { text: "Senang membantu rekan kerja yang sedang mengalami kesulitan.", dimension: "P" }
     ]
   },
   {
     id: 311,
     statements: [
-      { text: "Menuntaskan backlog perawatan unit secara sistematis", dimension: "A" },
-      { text: "Menghargai saran dan kritik kru junior dengan terbuka", dimension: "P" },
-      { text: "Memimpin penegakan aturan keselamatan kerja (safety) secara konsisten", dimension: "L" }
+      { text: "Menghargai masukan dan kontribusi dari setiap anggota tim.", dimension: "P" },
+      { text: "Mengambil alih kepemimpinan saat terjadi situasi kritis.", dimension: "L" }
     ]
   },
   {
     id: 312,
     statements: [
-      { text: "Meningkatkan kemampuan keahlian teknis pribadi secara berkala", dimension: "A" },
-      { text: "Menyelenggarakan acara kebersamaan regu untuk mempererat tim", dimension: "P" },
-      { text: "Mengambil alih kendali di lapangan saat situasi menjadi kacau", dimension: "L" }
+      { text: "Menentukan arah dan strategi penyelesaian masalah tim.", dimension: "L" },
+      { text: "Bekerja keras demi melampaui target performa individu.", dimension: "A" }
     ]
   },
   {
     id: 313,
     statements: [
-      { text: "Menghindari rework (perbaikan berulang) dengan inspeksi ketat", dimension: "A" },
-      { text: "Mengutamakan kesejahteraan kru di bawah pengawasan saya", dimension: "P" },
-      { text: "Mengatur rotasi shift kru secara efektif dan terencana", dimension: "L" }
+      { text: "Mengembangkan keterampilan teknis secara berkelanjutan.", dimension: "A" },
+      { text: "Menciptakan suasana kerja yang suportif dan bersahabat.", dimension: "P" }
     ]
   },
   {
     id: 314,
     statements: [
-      { text: "Memeriksa kelayakan alat ukur (kalibrasi) sebelum servis", dimension: "A" },
-      { text: "Memberikan motivasi kepada kru yang sedang jenuh bekerja", dimension: "P" },
-      { text: "Menginstruksikan perbaikan unit dengan panduan yang jelas", dimension: "L" }
+      { text: "Mengutamakan diskusi tim untuk mencapai kesepakatan bersama.", dimension: "P" },
+      { text: "Memberikan instruksi kerja yang jelas dan tegas untuk meminimalisir kesalahan.", dimension: "L" }
     ]
   },
   {
     id: 315,
     statements: [
-      { text: "Berkomitmen pada target KPI pencapaian performa regu", dimension: "A" },
-      { text: "Mengutamakan persahabatan jangka panjang dengan rekan kerja", dimension: "P" },
-      { text: "Mengambil keputusan strategis demi keberlangsungan divisi", dimension: "L" }
+      { text: "Memotivasi kru untuk bekerja disiplin dan bertanggung jawab.", dimension: "L" },
+      { text: "Fokus meminimalkan pemborosan waktu dan biaya operasional.", dimension: "A" }
     ]
   }
 ];

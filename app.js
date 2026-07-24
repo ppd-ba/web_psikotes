@@ -320,7 +320,7 @@ function getUnansweredCountForStage(stage) {
   } else if (stage === 'bab3') {
     mostLeastQuestions.forEach(q => {
       const ans = state.mostLeastAnswers[q.id];
-      if (!ans || ans.most === null || ans.least === null) {
+      if (ans === undefined || ans === null) {
         count++;
       }
     });
@@ -644,9 +644,9 @@ function renderMostLeastQuestion(index) {
     if (idx === index) n.classList.add('current');
   });
 
-  document.getElementById('question-idx').textContent = `Bab 3 (Most & Least): No. ${index + 1} dari 15`;
-  document.getElementById('question-cat-label').textContent = "Gaya Kerja (Most & Least)";
-  document.getElementById('question-text').textContent = "Pilihlah 1 pernyataan yang PALING menggambarkan perilaku kerja Anda (MOST) dan 1 pernyataan yang PALING TIDAK menggambarkan (LEAST) pada setiap baris.";
+  document.getElementById('question-idx').textContent = `Bab 3: No. ${index + 1} dari 15`;
+  document.getElementById('question-cat-label').textContent = "Gaya Kerja (Pilihan Ganda)";
+  document.getElementById('question-text').textContent = "Pilihlah 1 pernyataan di bawah ini yang PALING menggambarkan perilaku atau prinsip kerja Anda di lapangan.";
   
   document.getElementById('question-media-box').style.display = 'none';
   document.getElementById('question-media-box').innerHTML = '';
@@ -660,29 +660,28 @@ function renderMostLeastQuestion(index) {
   table.innerHTML = `
     <thead>
       <tr>
-        <th style="text-align:left;">Pernyataan Situasi Kerja</th>
-        <th style="text-align:center; width:80px;">MOST (P)</th>
-        <th style="text-align:center; width:80px;">LEAST (M)</th>
+        <th style="text-align:center; width:70px;">Pilihan</th>
+        <th style="text-align:left;">Pernyataan Perilaku Kerja</th>
       </tr>
     </thead>
     <tbody></tbody>
   `;
   
   const tbody = table.querySelector('tbody');
-  const ans = state.mostLeastAnswers[q.id] || { most: null, least: null };
+  const selectedIdx = state.mostLeastAnswers[q.id];
   
   q.statements.forEach((stmt, idx) => {
     const tr = document.createElement('tr');
-    const isMostSelected = ans.most === idx;
-    const isLeastSelected = ans.least === idx;
+    tr.style.cursor = 'pointer';
+    tr.onclick = () => selectBab3Option(q.id, idx);
+    const isSelected = selectedIdx === idx;
     
     tr.innerHTML = `
-      <td style="text-align:left; font-size:0.9rem; color:var(--text-secondary); padding: 0.75rem 0.5rem;">${stmt.text}</td>
-      <td style="text-align:center; padding: 0.75rem 0.5rem;">
-        <input type="radio" name="ml-most-${q.id}" ${isMostSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectMostLeastOption(${q.id}, ${idx}, 'most')">
+      <td style="text-align:center; padding: 1.25rem 0.5rem;">
+        <input type="radio" name="bab3-opt-${q.id}" ${isSelected ? 'checked' : ''} style="width:22px; height:22px; cursor:pointer;">
       </td>
-      <td style="text-align:center; padding: 0.75rem 0.5rem;">
-        <input type="radio" name="ml-least-${q.id}" ${isLeastSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectMostLeastOption(${q.id}, ${idx}, 'least')">
+      <td style="text-align:left; font-size:0.95rem; color:var(--text-primary); padding: 1.25rem 0.5rem; line-height: 1.5; font-weight: 500;">
+        ${stmt.text}
       </td>
     `;
     tbody.appendChild(tr);
@@ -708,29 +707,13 @@ function renderMostLeastQuestion(index) {
   }
 }
 
-window.selectMostLeastOption = function(qId, stmtIdx, type) {
-  if (!state.mostLeastAnswers[qId]) {
-    state.mostLeastAnswers[qId] = { most: null, least: null };
-  }
-  
-  const ans = state.mostLeastAnswers[qId];
-  
-  if (type === 'most') {
-    ans.most = stmtIdx;
-    if (ans.least === stmtIdx) ans.least = null;
-  } else {
-    ans.least = stmtIdx;
-    if (ans.most === stmtIdx) ans.most = null;
-  }
+window.selectBab3Option = function(qId, stmtIdx) {
+  state.mostLeastAnswers[qId] = stmtIdx;
   
   // Update navigator item style
   const navItem = document.getElementById(`nav-item-${state.currentIndex}`);
   if (navItem) {
-    if (ans.most !== null && ans.least !== null) {
-      navItem.classList.add('answered');
-    } else {
-      navItem.classList.remove('answered');
-    }
+    navItem.classList.add('answered');
   }
   
   updateAnswerCounter();
@@ -805,7 +788,7 @@ function renderNavigatorGrid() {
       isAnswered = ans && ans.most !== null && ans.least !== null;
     } else if (state.currentStage === 'bab3') {
       const ans = state.mostLeastAnswers[q.id];
-      isAnswered = ans && ans.most !== null && ans.least !== null;
+      isAnswered = ans !== undefined && ans !== null;
     }
     
     if (isAnswered) {
@@ -847,7 +830,7 @@ function updateAnswerCounter() {
     totalCount = 15;
     mostLeastQuestions.forEach(q => {
       const ans = state.mostLeastAnswers[q.id];
-      if (ans && ans.most !== null && ans.least !== null) {
+      if (ans !== undefined && ans !== null) {
         answeredCount++;
       }
     });
@@ -1009,27 +992,21 @@ function calculateScores() {
     C: discMost.C - discLeast.C
   };
   
-  // Most & Least (Bab 3)
+  // Gaya Kerja (Bab 3)
   let mlMost = { A: 0, P: 0, L: 0 };
   let mlLeast = { A: 0, P: 0, L: 0 };
   mostLeastQuestions.forEach(q => {
     const ans = state.mostLeastAnswers[q.id];
-    if (ans) {
-      if (ans.most !== null && q.statements[ans.most]) {
-        const dim = q.statements[ans.most].dimension;
-        mlMost[dim] = (mlMost[dim] || 0) + 1;
-      }
-      if (ans.least !== null && q.statements[ans.least]) {
-        const dim = q.statements[ans.least].dimension;
-        mlLeast[dim] = (mlLeast[dim] || 0) + 1;
-      }
+    if (ans !== undefined && ans !== null && q.statements[ans]) {
+      const dim = q.statements[ans].dimension;
+      mlMost[dim] = (mlMost[dim] || 0) + 1;
     }
   });
   
   let mlDiff = {
-    A: mlMost.A - mlLeast.A,
-    P: mlMost.P - mlLeast.P,
-    L: mlMost.L - mlLeast.L
+    A: mlMost.A,
+    P: mlMost.P,
+    L: mlMost.L
   };
   
   return {
