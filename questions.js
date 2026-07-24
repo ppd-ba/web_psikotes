@@ -1979,30 +1979,30 @@ const questionBankLevel1 = [
   {
     id: 112,
     category: "spatial",
-    question: "Manakah gambar yang menunjukkan hasil refleksi yang benar dari bentuk panah berikut?",
+    question: "Manakah gambar yang menunjukkan hasil pencerminan yang benar dari bentuk bendera di kiri terhadap garis cermin vertikal?",
     svg: `
       <svg viewBox="0 0 200 100" width="100%" height="100">
         <!-- Cermin vertikal -->
         <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
         
         <!-- Objek Asli (Kiri) -->
-        <g transform="translate(30, 30)">
-          <!-- Panah miring kanan atas dengan pangkal bulat -->
-          <line x1="10" y1="35" x2="40" y2="10" stroke="#fbbf24" stroke-width="4"/>
-          <polygon points="40,10 32,8 38,18" fill="#fbbf24"/>
-          <circle cx="10" cy="35" r="6" fill="#10b981"/>
+        <g transform="translate(20, 15)">
+          <!-- Tiang bendera di kiri, bendera ke kanan -->
+          <line x1="20" y1="10" x2="20" y2="70" stroke="#fbbf24" stroke-width="4"/>
+          <polygon points="20,10 60,30 20,50" fill="none" stroke="#fbbf24" stroke-width="3"/>
+          <circle cx="35" cy="30" r="5" fill="#ef4444"/>
         </g>
       </svg>
     `,
     options: [
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 12,25" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`, // Correct A
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="45,45 35,48 48,35" fill="#fbbf24"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 25,48 12,35" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 35,12 48,25" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="30" x2="45" y2="30" stroke="#fbbf24" stroke-width="3"/><polygon points="45,30 37,25 37,35" fill="#fbbf24"/><circle cx="15" cy="30" r="5" fill="#10b981"/></svg>`
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="10" x2="45" y2="50" stroke="#fbbf24" stroke-width="3"/><polygon points="45,10 15,25 45,40" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="35" cy="25" r="4" fill="#ef4444"/></svg>`, // Correct A
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="10" x2="15" y2="50" stroke="#fbbf24" stroke-width="3"/><polygon points="15,10 45,25 15,40" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="10" x2="45" y2="50" stroke="#fbbf24" stroke-width="3"/><polygon points="45,10 15,25 45,40" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="52" cy="25" r="4" fill="#ef4444"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="10" y1="15" x2="50" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="10,15 25,45 40,15" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="10" x2="45" y2="50" stroke="#fbbf24" stroke-width="3"/><polygon points="45,10 15,25 45,40" fill="none" stroke="#fbbf24" stroke-width="2"/></svg>`
     ],
-    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 12,25" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
-    explanation: "Panah miring ke kanan atas dengan pangkal bulat di kiri bawah bila dicerminkan vertikal akan menghadap ke kiri atas, dengan pangkal bulat berada di kanan bawah."
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="10" x2="45" y2="50" stroke="#fbbf24" stroke-width="3"/><polygon points="45,10 15,25 45,40" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="35" cy="25" r="4" fill="#ef4444"/></svg>`,
+    explanation: "Tiang bendera yang awalnya berada di kiri setelah dicerminkan vertikal akan berada di sebelah kanan, dan bendera yang awalnya berkibar ke arah kanan akan berbalik berkibar ke arah kiri. Posisi lingkaran merah di dalam bendera juga ikut tercermin ke arah kanan tiang bendera baru (Pilihan A)."
   },
   {
     id: 113,
