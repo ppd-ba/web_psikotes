@@ -128,10 +128,27 @@ function showView(viewId) {
 // Event Listeners
 function setupEventListeners() {
   // Login Forms
+  // Handle level card selections
+  const cards = document.querySelectorAll('.level-option-card');
+  const levelInput = document.getElementById('level-select');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      cards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      levelInput.value = card.getAttribute('data-value');
+    });
+  });
+
   document.getElementById('login-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const nrpInput = document.getElementById('nrp-input').value.trim().toUpperCase();
-    const levelSelect = document.getElementById('level-select').value;
+    const levelSelect = levelInput.value;
+    
+    if (!levelSelect) {
+      alert('Silakan pilih Level Evaluasi / Jabatan Target terlebih dahulu!');
+      return;
+    }
+    
     if (nrpInput) {
       state.nrp = nrpInput;
       state.selectedLevel = parseInt(levelSelect);

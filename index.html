@@ -42,11 +42,18 @@
               <input type="text" class="input-control" id="nrp-input" placeholder="Contoh: 18105249" required autocomplete="off">
             </div>
             <div class="form-group" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-              <label for="level-select">Level Evaluasi / Jabatan Target</label>
-              <select class="input-control" id="level-select" required>
-                <option value="1">Level 1 (Mekanik Sr., Welder Sr., Tyreman Sr., Calon Group Leader)</option>
-                <option value="2" selected>Level 2 (Group Leader Senior)</option>
-              </select>
+              <label style="margin-bottom: 0.75rem; display: block; font-weight: 600;">Level Evaluasi / Jabatan Target <span style="color:#ef4444;">*</span></label>
+              <div class="level-options-container" id="level-options">
+                <div class="level-option-card" data-value="1">
+                  <div class="level-option-title">Psikotes Level 1</div>
+                  <div class="level-option-desc">Mekanik Sr., Welder Sr., Tyreman Sr., Calon Group Leader</div>
+                </div>
+                <div class="level-option-card" data-value="2">
+                  <div class="level-option-title">Psikotes Level 2</div>
+                  <div class="level-option-desc">Group Leader Senior</div>
+                </div>
+              </div>
+              <input type="hidden" id="level-select" value="">
             </div>
             <button type="submit" class="btn btn-primary login-btn">Mulai Tes</button>
           </form>
