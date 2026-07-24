@@ -1995,13 +1995,13 @@ const questionBankLevel1 = [
       </svg>
     `,
     options: [
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 20,22" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`, // Correct A
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="45,45 35,48 40,38" fill="#fbbf24"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 25,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 35,12 40,22" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 12,25" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`, // Correct A
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="45,45 35,48 48,35" fill="#fbbf24"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 25,48 12,35" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 35,12 48,25" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
       `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="30" x2="45" y2="30" stroke="#fbbf24" stroke-width="3"/><polygon points="45,30 37,25 37,35" fill="#fbbf24"/><circle cx="15" cy="30" r="5" fill="#10b981"/></svg>`
     ],
-    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 20,22" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 12,25" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
     explanation: "Panah miring ke kanan atas dengan pangkal bulat di kiri bawah bila dicerminkan vertikal akan menghadap ke kiri atas, dengan pangkal bulat berada di kanan bawah."
   },
   {
