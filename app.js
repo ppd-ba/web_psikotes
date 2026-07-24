@@ -14,6 +14,11 @@ let state = {
   testStartTime: null,
   testDurationUsed: 0,
   
+  selectedLevel: 2,
+  currentStage: 'bab1', // 'bab1', 'bab2', 'bab3'
+  discAnswers: {}, // qId: { most: idx, least: idx }
+  mostLeastAnswers: {}, // qId: { most: idx, least: idx }
+  
   // Database Mock & Real (LocalStorage as primary local DB)
   resultsDb: [],
   isAdminAuthenticated: false,
@@ -41,7 +46,7 @@ function initApp() {
   setupEventListeners();
   
   // 4. Populate questions
-  state.questions = [...questionBank]; // Loaded from questions.js
+  state.questions = [...questionBankLevel2]; // Loaded from questions.js
   
   // 5. Navigate to login
   showView('login');
@@ -72,10 +77,10 @@ function loadLocalDatabase() {
   } else {
     // Populate with dummy data for initial admin view (scaled to 50 questions)
     state.resultsDb = [
-      { nrp: 'PPA0921', date: '2026-07-10 10:14', score: 40, total: 50, duration: '41:12', categoryScores: { logic: 14, math: 13, spatial: 13 }, insight: 'Kemampuan aritmatika sangat kuat. Analisis spasial baik. Pola kerja cepat dan terstruktur.' },
-      { nrp: 'PPA1124', date: '2026-07-11 14:22', score: 30, total: 50, duration: '48:45', categoryScores: { logic: 10, math: 10, spatial: 10 }, insight: 'Pemahaman logika memadai. Perlu melatih ketelitian pada perhitungan cerita tambang. Cenderung hati-hati.' },
-      { nrp: 'PPA0842', date: '2026-07-12 09:05', score: 45, total: 50, duration: '31:05', categoryScores: { logic: 16, math: 15, spatial: 14 }, insight: 'Sangat Kompeten. Berpikir logis dan visualisasi spasial sangat tajam. Pengambilan keputusan sangat cepat.' },
-      { nrp: 'PPA1309', date: '2026-07-12 11:40', score: 20, total: 50, duration: '58:12', categoryScores: { logic: 6, math: 7, spatial: 7 }, insight: 'Perlu peningkatan di semua sektor. Pengerjaan lambat dan kurang teliti. Disarankan training ulang dasar.' }
+      { nrp: 'PPA0921', date: '2026-07-10 10:14', score: 40, total: 50, level: 2, duration: '41:12', categoryScores: { logic: 14, math: 13, spatial: 13 }, insight: 'Kemampuan aritmatika sangat kuat. Analisis spasial baik. Pola kerja cepat dan terstruktur.' },
+      { nrp: 'PPA1124', date: '2026-07-11 14:22', score: 30, total: 50, level: 2, duration: '48:45', categoryScores: { logic: 10, math: 10, spatial: 10 }, insight: 'Pemahaman logika memadai. Perlu melatih ketelitian pada perhitungan cerita tambang. Cenderung hati-hati.' },
+      { nrp: 'PPA0842', date: '2026-07-12 09:05', score: 45, total: 50, level: 2, duration: '31:05', categoryScores: { logic: 16, math: 15, spatial: 14 }, insight: 'Sangat Kompeten. Berpikir logis dan visualisasi spasial sangat tajam. Pengambilan keputusan sangat cepat.' },
+      { nrp: 'PPA1309', date: '2026-07-12 11:40', score: 20, total: 50, level: 2, duration: '58:12', categoryScores: { logic: 6, math: 7, spatial: 7 }, insight: 'Perlu peningkatan di semua sektor. Pengerjaan lambat dan kurang teliti. Disarankan training ulang dasar.' }
     ];
     saveLocalDatabase();
   }
@@ -126,8 +131,16 @@ function setupEventListeners() {
   document.getElementById('login-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const nrpInput = document.getElementById('nrp-input').value.trim().toUpperCase();
+    const levelSelect = document.getElementById('level-select').value;
     if (nrpInput) {
       state.nrp = nrpInput;
+      state.selectedLevel = parseInt(levelSelect);
+      state.questions = state.selectedLevel === 1 ? [...questionBankLevel1] : [...questionBankLevel2];
+      
+      // Update instructions text dynamically based on level
+      const numQuestions = state.questions.length;
+      document.getElementById('instructions-text-cognitive').textContent = `Tes akan diberi waktu selama 60 menit, terdiri dari ${numQuestions} soal pilihan ganda.`;
+      
       showModal('instructions-modal');
     }
   });
@@ -135,6 +148,16 @@ function setupEventListeners() {
   document.getElementById('btn-start-confirm').addEventListener('click', () => {
     hideModal('instructions-modal');
     startTest();
+  });
+  
+  document.getElementById('btn-start-disc').addEventListener('click', () => {
+    hideModal('instructions-disc-modal');
+    startDiscStage();
+  });
+  
+  document.getElementById('btn-start-mostleast').addEventListener('click', () => {
+    hideModal('instructions-mostleast-modal');
+    startMostLeastStage();
   });
 
   document.getElementById('admin-login-form').addEventListener('submit', (e) => {
@@ -149,10 +172,18 @@ function setupEventListeners() {
   });
 
   // Navigation Buttons
-  document.getElementById('btn-prev').addEventListener('click', () => navigateQuestion(-1));
-  document.getElementById('btn-next').addEventListener('click', () => navigateQuestion(1));
+  document.getElementById('btn-prev').addEventListener('click', () => handlePrevButtonClick());
+  document.getElementById('btn-next').addEventListener('click', () => handleNextButtonClick());
   document.getElementById('btn-flag').addEventListener('click', toggleFlag);
-  document.getElementById('btn-submit').addEventListener('click', () => showModal('submit-modal'));
+  document.getElementById('btn-submit').addEventListener('click', () => {
+    const unanswered = getUnansweredCountForStage('bab3');
+    if (unanswered > 0) {
+      if (!confirm(`Ada ${unanswered} soal kepribadian di Bab 3 yang belum dijawab. Apakah Anda yakin ingin mengakhiri ujian?`)) {
+        return;
+      }
+    }
+    showModal('submit-modal');
+  });
   
   // Modal Buttons
   document.getElementById('btn-confirm-submit').addEventListener('click', () => {
@@ -220,10 +251,99 @@ function setupEventListeners() {
   });
 }
 
+function handlePrevButtonClick() {
+  if (state.currentIndex > 0) {
+    renderQuestion(state.currentIndex - 1);
+  }
+}
+
+function handleNextButtonClick() {
+  let limit = 0;
+  if (state.currentStage === 'bab1') {
+    limit = state.questions.length;
+  } else if (state.currentStage === 'bab2') {
+    limit = 24;
+  } else if (state.currentStage === 'bab3') {
+    limit = 15;
+  }
+  
+  if (state.currentIndex < limit - 1) {
+    renderQuestion(state.currentIndex + 1);
+  } else {
+    // End of stage
+    if (state.currentStage === 'bab1') {
+      showModal('instructions-disc-modal');
+    } else if (state.currentStage === 'bab2') {
+      const unanswered = getUnansweredCountForStage('bab2');
+      if (unanswered > 0) {
+        if (!confirm(`Ada ${unanswered} soal kepribadian di Bab 2 yang belum dijawab. Tetap lanjut ke Bab 3?`)) {
+          return;
+        }
+      }
+      showModal('instructions-mostleast-modal');
+    }
+  }
+}
+
+function getUnansweredCountForStage(stage) {
+  let count = 0;
+  if (stage === 'bab1') {
+    state.questions.forEach(q => {
+      if (state.answers[q.id] === undefined || state.answers[q.id] === null || state.answers[q.id] === '') {
+        count++;
+      }
+    });
+  } else if (stage === 'bab2') {
+    discQuestions.forEach(q => {
+      const ans = state.discAnswers[q.id];
+      if (!ans || ans.most === null || ans.least === null) {
+        count++;
+      }
+    });
+  } else if (stage === 'bab3') {
+    mostLeastQuestions.forEach(q => {
+      const ans = state.mostLeastAnswers[q.id];
+      if (!ans || ans.most === null || ans.least === null) {
+        count++;
+      }
+    });
+  }
+  return count;
+}
+
+function startDiscStage() {
+  state.currentStage = 'bab2';
+  state.currentIndex = 0;
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  
+  document.getElementById('timer-bar').style.width = '100%';
+  document.getElementById('timer-bar').className = 'timer-bar';
+  document.getElementById('timer-display').textContent = 'Bab 2: Kepribadian DISC';
+  
+  renderNavigatorGrid();
+  renderQuestion(0);
+}
+
+function startMostLeastStage() {
+  state.currentStage = 'bab3';
+  state.currentIndex = 0;
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  
+  document.getElementById('timer-bar').style.width = '100%';
+  document.getElementById('timer-bar').className = 'timer-bar';
+  document.getElementById('timer-display').textContent = 'Bab 3: Gaya Kepemimpinan';
+  
+  renderNavigatorGrid();
+  renderQuestion(0);
+}
+
 // TEST ENGINE
 function startTest() {
   state.answers = {};
   state.flagged = {};
+  state.discAnswers = {};
+  state.mostLeastAnswers = {};
+  state.currentStage = 'bab1';
   state.currentIndex = 0;
   state.timeLeft = 3600; // 60 minutes
   state.testStartTime = new Date();
@@ -276,14 +396,24 @@ function startTimer() {
     // Time out check
     if (state.timeLeft <= 0) {
       clearInterval(state.timerInterval);
-      alert('Waktu ujian telah habis! Jawaban Anda akan otomatis terkirim.');
-      submitTest(true);
+      alert('Waktu untuk Bab 1 (Tes Kognitif) telah habis! Mengalihkan ke Bab 2...');
+      showModal('instructions-disc-modal');
     }
   }, 1000);
 }
 
 function renderQuestion(index) {
   state.currentIndex = index;
+  
+  if (state.currentStage === 'bab2') {
+    renderDiscQuestion(index);
+    return;
+  } else if (state.currentStage === 'bab3') {
+    renderMostLeastQuestion(index);
+    return;
+  }
+  
+  // Bab 1
   const q = state.questions[index];
   
   // Active state in navigator grid
@@ -293,14 +423,21 @@ function renderQuestion(index) {
   });
 
   // Question details
-  document.getElementById('question-idx').textContent = `Soal No. ${index + 1} dari 50`;
+  const totalQuestions = state.questions.length;
+  document.getElementById('question-idx').textContent = `Bab 1: No. ${index + 1} dari ${totalQuestions}`;
   
   // Render question text & category label
   let catLabel = "Logika Deret";
   if (q.category === 'math') catLabel = "Aritmatika Logika";
   if (q.category === 'spatial') catLabel = "Logika Spasial";
-  document.getElementById('question-cat-label').textContent = catLabel;
+  if (q.category === 'general') catLabel = "Pengetahuan Umum";
+  if (q.category === 'synonym') catLabel = "Sinonim (Persamaan Kata)";
+  if (q.category === 'antonym') catLabel = "Antonim (Lawan Kata)";
+  if (q.category === 'analogy') catLabel = "Analogi Verbal";
+  if (q.category === 'scramble') catLabel = "Acak Kata";
+  if (q.category === 'classification') catLabel = "Klasifikasi Verbal";
   
+  document.getElementById('question-cat-label').textContent = catLabel;
   document.getElementById('question-text').textContent = q.question;
   
   // Render SVG Media if exists
@@ -354,16 +491,21 @@ function renderQuestion(index) {
   // Update Prev/Next Buttons disabled state
   document.getElementById('btn-prev').disabled = index === 0;
   
-  // Rename 'Next' to 'Finish' on the last question
   const nextBtn = document.getElementById('btn-next');
+  const flagBtn = document.getElementById('btn-flag');
+  const submitBtn = document.getElementById('btn-submit');
+  
+  nextBtn.style.display = 'inline-flex';
+  flagBtn.style.display = 'inline-flex';
+  submitBtn.style.display = 'none';
+  
   if (index === state.questions.length - 1) {
-    nextBtn.style.display = 'none';
+    nextBtn.textContent = 'Lanjut ke Bab 2';
   } else {
-    nextBtn.style.display = 'inline-flex';
+    nextBtn.textContent = 'Selanjutnya';
   }
   
   // Toggle Flag Button text/style based on current state
-  const flagBtn = document.getElementById('btn-flag');
   if (state.flagged[q.id]) {
     flagBtn.textContent = 'Batal Ragu-ragu';
     flagBtn.className = 'btn btn-danger';
@@ -372,6 +514,211 @@ function renderQuestion(index) {
     flagBtn.className = 'btn btn-secondary';
   }
 }
+
+function renderDiscQuestion(index) {
+  state.currentIndex = index;
+  const q = discQuestions[index];
+  
+  // Active state in navigator grid
+  document.querySelectorAll('.nav-item').forEach((n, idx) => {
+    n.classList.remove('current');
+    if (idx === index) n.classList.add('current');
+  });
+
+  document.getElementById('question-idx').textContent = `Bab 2 (DISC): No. ${index + 1} dari 24`;
+  document.getElementById('question-cat-label').textContent = "Tes Kepribadian DISC";
+  document.getElementById('question-text').textContent = "Pilihlah 1 pernyataan yang PALING menggambarkan diri Anda (MOST) dan 1 pernyataan yang PALING TIDAK menggambarkan diri Anda (LEAST) pada setiap baris.";
+  
+  document.getElementById('question-media-box').style.display = 'none';
+  document.getElementById('question-media-box').innerHTML = '';
+  
+  const optionsList = document.getElementById('options-list');
+  optionsList.className = 'options-list';
+  optionsList.innerHTML = '';
+  
+  const table = document.createElement('table');
+  table.className = 'disc-table';
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th style="text-align:left;">Pernyataan Kepribadian</th>
+        <th style="text-align:center; width:80px;">MOST (P)</th>
+        <th style="text-align:center; width:80px;">LEAST (M)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+  
+  const tbody = table.querySelector('tbody');
+  const ans = state.discAnswers[q.id] || { most: null, least: null };
+  
+  q.statements.forEach((stmt, idx) => {
+    const tr = document.createElement('tr');
+    const isMostSelected = ans.most === idx;
+    const isLeastSelected = ans.least === idx;
+    
+    tr.innerHTML = `
+      <td style="text-align:left; font-size:0.9rem; color:var(--text-secondary); padding: 0.75rem 0.5rem;">${stmt.text}</td>
+      <td style="text-align:center; padding: 0.75rem 0.5rem;">
+        <input type="radio" name="disc-most-${q.id}" ${isMostSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectDiscOption(${q.id}, ${idx}, 'most')">
+      </td>
+      <td style="text-align:center; padding: 0.75rem 0.5rem;">
+        <input type="radio" name="disc-least-${q.id}" ${isLeastSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectDiscOption(${q.id}, ${idx}, 'least')">
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+  
+  optionsList.appendChild(table);
+  
+  document.getElementById('btn-prev').disabled = index === 0;
+  
+  const nextBtn = document.getElementById('btn-next');
+  const flagBtn = document.getElementById('btn-flag');
+  const submitBtn = document.getElementById('btn-submit');
+  
+  nextBtn.style.display = 'inline-flex';
+  flagBtn.style.display = 'none'; // No flag for personality test
+  submitBtn.style.display = 'none';
+  
+  if (index === 23) {
+    nextBtn.textContent = 'Lanjut ke Bab 3';
+  } else {
+    nextBtn.textContent = 'Selanjutnya';
+  }
+}
+
+window.selectDiscOption = function(qId, stmtIdx, type) {
+  if (!state.discAnswers[qId]) {
+    state.discAnswers[qId] = { most: null, least: null };
+  }
+  
+  const ans = state.discAnswers[qId];
+  
+  if (type === 'most') {
+    ans.most = stmtIdx;
+    if (ans.least === stmtIdx) ans.least = null;
+  } else {
+    ans.least = stmtIdx;
+    if (ans.most === stmtIdx) ans.most = null;
+  }
+  
+  // Update navigator item style
+  const navItem = document.getElementById(`nav-item-${state.currentIndex}`);
+  if (navItem) {
+    if (ans.most !== null && ans.least !== null) {
+      navItem.classList.add('answered');
+    } else {
+      navItem.classList.remove('answered');
+    }
+  }
+  
+  updateAnswerCounter();
+  renderQuestion(state.currentIndex);
+};
+
+function renderMostLeastQuestion(index) {
+  state.currentIndex = index;
+  const q = mostLeastQuestions[index];
+  
+  // Active state in navigator grid
+  document.querySelectorAll('.nav-item').forEach((n, idx) => {
+    n.classList.remove('current');
+    if (idx === index) n.classList.add('current');
+  });
+
+  document.getElementById('question-idx').textContent = `Bab 3 (Most & Least): No. ${index + 1} dari 15`;
+  document.getElementById('question-cat-label').textContent = "Gaya Kerja (Most & Least)";
+  document.getElementById('question-text').textContent = "Pilihlah 1 pernyataan yang PALING menggambarkan perilaku kerja Anda (MOST) dan 1 pernyataan yang PALING TIDAK menggambarkan (LEAST) pada setiap baris.";
+  
+  document.getElementById('question-media-box').style.display = 'none';
+  document.getElementById('question-media-box').innerHTML = '';
+  
+  const optionsList = document.getElementById('options-list');
+  optionsList.className = 'options-list';
+  optionsList.innerHTML = '';
+  
+  const table = document.createElement('table');
+  table.className = 'disc-table';
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th style="text-align:left;">Pernyataan Situasi Kerja</th>
+        <th style="text-align:center; width:80px;">MOST (P)</th>
+        <th style="text-align:center; width:80px;">LEAST (M)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+  
+  const tbody = table.querySelector('tbody');
+  const ans = state.mostLeastAnswers[q.id] || { most: null, least: null };
+  
+  q.statements.forEach((stmt, idx) => {
+    const tr = document.createElement('tr');
+    const isMostSelected = ans.most === idx;
+    const isLeastSelected = ans.least === idx;
+    
+    tr.innerHTML = `
+      <td style="text-align:left; font-size:0.9rem; color:var(--text-secondary); padding: 0.75rem 0.5rem;">${stmt.text}</td>
+      <td style="text-align:center; padding: 0.75rem 0.5rem;">
+        <input type="radio" name="ml-most-${q.id}" ${isMostSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectMostLeastOption(${q.id}, ${idx}, 'most')">
+      </td>
+      <td style="text-align:center; padding: 0.75rem 0.5rem;">
+        <input type="radio" name="ml-least-${q.id}" ${isLeastSelected ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;" onclick="selectMostLeastOption(${q.id}, ${idx}, 'least')">
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+  
+  optionsList.appendChild(table);
+  
+  document.getElementById('btn-prev').disabled = index === 0;
+  
+  const nextBtn = document.getElementById('btn-next');
+  const flagBtn = document.getElementById('btn-flag');
+  const submitBtn = document.getElementById('btn-submit');
+  
+  flagBtn.style.display = 'none';
+  
+  if (index === 14) {
+    nextBtn.style.display = 'none';
+    submitBtn.style.display = 'inline-flex';
+  } else {
+    nextBtn.style.display = 'inline-flex';
+    nextBtn.textContent = 'Selanjutnya';
+    submitBtn.style.display = 'none';
+  }
+}
+
+window.selectMostLeastOption = function(qId, stmtIdx, type) {
+  if (!state.mostLeastAnswers[qId]) {
+    state.mostLeastAnswers[qId] = { most: null, least: null };
+  }
+  
+  const ans = state.mostLeastAnswers[qId];
+  
+  if (type === 'most') {
+    ans.most = stmtIdx;
+    if (ans.least === stmtIdx) ans.least = null;
+  } else {
+    ans.least = stmtIdx;
+    if (ans.most === stmtIdx) ans.most = null;
+  }
+  
+  // Update navigator item style
+  const navItem = document.getElementById(`nav-item-${state.currentIndex}`);
+  if (navItem) {
+    if (ans.most !== null && ans.least !== null) {
+      navItem.classList.add('answered');
+    } else {
+      navItem.classList.remove('answered');
+    }
+  }
+  
+  updateAnswerCounter();
+  renderQuestion(state.currentIndex);
+};
 
 function selectOption(qId, value) {
   state.answers[qId] = value;
@@ -417,11 +764,42 @@ function renderNavigatorGrid() {
   const grid = document.getElementById('navigator-grid');
   grid.innerHTML = '';
   
-  state.questions.forEach((q, idx) => {
+  let list = [];
+  if (state.currentStage === 'bab1') {
+    list = state.questions;
+  } else if (state.currentStage === 'bab2') {
+    list = discQuestions;
+  } else if (state.currentStage === 'bab3') {
+    list = mostLeastQuestions;
+  }
+  
+  list.forEach((q, idx) => {
     const navItem = document.createElement('div');
     navItem.id = `nav-item-${idx}`;
     navItem.className = 'nav-item';
     navItem.textContent = idx + 1;
+    
+    // Check if answered
+    let isAnswered = false;
+    if (state.currentStage === 'bab1') {
+      isAnswered = state.answers[q.id] !== undefined && state.answers[q.id] !== null && state.answers[q.id] !== '';
+    } else if (state.currentStage === 'bab2') {
+      const ans = state.discAnswers[q.id];
+      isAnswered = ans && ans.most !== null && ans.least !== null;
+    } else if (state.currentStage === 'bab3') {
+      const ans = state.mostLeastAnswers[q.id];
+      isAnswered = ans && ans.most !== null && ans.least !== null;
+    }
+    
+    if (isAnswered) {
+      navItem.className = 'nav-item answered';
+    }
+    
+    // Check if flagged (only applicable for Bab 1)
+    if (state.currentStage === 'bab1' && state.flagged[q.id]) {
+      navItem.className += ' flagged';
+    }
+    
     navItem.addEventListener('click', () => renderQuestion(idx));
     grid.appendChild(navItem);
   });
@@ -430,8 +808,41 @@ function renderNavigatorGrid() {
 }
 
 function updateAnswerCounter() {
-  const answeredCount = Object.keys(state.answers).length;
+  let answeredCount = 0;
+  let totalCount = 0;
+  
+  if (state.currentStage === 'bab1') {
+    totalCount = state.questions.length;
+    state.questions.forEach(q => {
+      if (state.answers[q.id] !== undefined && state.answers[q.id] !== null && state.answers[q.id] !== '') {
+        answeredCount++;
+      }
+    });
+  } else if (state.currentStage === 'bab2') {
+    totalCount = 24;
+    discQuestions.forEach(q => {
+      const ans = state.discAnswers[q.id];
+      if (ans && ans.most !== null && ans.least !== null) {
+        answeredCount++;
+      }
+    });
+  } else if (state.currentStage === 'bab3') {
+    totalCount = 15;
+    mostLeastQuestions.forEach(q => {
+      const ans = state.mostLeastAnswers[q.id];
+      if (ans && ans.most !== null && ans.least !== null) {
+        answeredCount++;
+      }
+    });
+  }
+  
   document.getElementById('answered-count').textContent = answeredCount;
+  
+  // Update the summary text: "Terjawab: X / Y"
+  const summaryText = document.querySelector('.test-summary-meta p:first-child');
+  if (summaryText) {
+    summaryText.innerHTML = `Terjawab: <span id="answered-count">${answeredCount}</span> / ${totalCount}`;
+  }
 }
 
 // MODAL UTILS
@@ -457,33 +868,24 @@ function submitTest(autoSubmit = false) {
   const secUsed = totalSecUsed % 60;
   const durationStr = `00:${String(minUsed).padStart(2, '0')}:${String(secUsed).padStart(2, '0')}`;
   
-  // 2. Score calculations & category breakdown
-  let correctAnswers = 0;
-  let unansweredCount = 0;
-  let catScores = { logic: 0, math: 0, spatial: 0 };
-  
-  state.questions.forEach(q => {
-    const userAnswer = state.answers[q.id];
-    if (userAnswer === undefined || userAnswer === null || userAnswer === '') {
-      unansweredCount++;
-    } else if (userAnswer === q.answer) {
-      correctAnswers++;
-      catScores[q.category]++;
-    }
-  });
+  // 2. Score calculations using new helper
+  const res = calculateScores();
   
   // 3. Generate psychological insight
-  const insight = generatePsychologyInsight(correctAnswers, catScores, totalSecUsed, unansweredCount);
+  const insight = generatePsychologyInsight(res, totalSecUsed, durationStr);
   
   // 4. Save result record
   const resultRecord = {
     nrp: state.nrp,
+    level: state.selectedLevel,
     date: formatCurrentDate(),
-    score: correctAnswers,
+    score: res.correct,
     total: state.questions.length,
     duration: durationStr,
-    unanswered: unansweredCount,
-    categoryScores: catScores,
+    unanswered: res.unanswered,
+    categoryScores: res.catScores,
+    disc: res.disc,
+    mostLeast: res.mostLeast,
     insight: insight
   };
   
@@ -496,64 +898,222 @@ function submitTest(autoSubmit = false) {
   }
   
   // 6. Populate results screen UI
-  document.getElementById('res-score-num').textContent = correctAnswers * 2;
+  const numQuestions = state.questions.length;
+  const multiplier = 100 / numQuestions;
+  const finalScore = Math.round(res.correct * multiplier);
+  
+  document.getElementById('res-score-num').textContent = finalScore;
   document.getElementById('res-name').textContent = `Peserta: ${state.nrp}`;
-  document.getElementById('res-nrp').innerHTML = `Seksi: PPD Site Bukit Asam | Durasi: ${durationStr}<br>Soal Tidak Dijawab: <strong style="color: #f59e0b;">${unansweredCount}</strong> / 50 soal`;
+  document.getElementById('res-nrp').innerHTML = `Seksi: PPD Site Bukit Asam | Durasi: ${durationStr}<br>Level Tes: Level ${state.selectedLevel} | Soal Tidak Dijawab: <strong style="color: #f59e0b;">${res.unanswered}</strong> / ${numQuestions} soal`;
+  
+  let breakdownText = '';
+  if (state.selectedLevel === 1) {
+    breakdownText = `
+      • Pengetahuan Umum: ${res.catScores.general || 0}/5<br>
+      • Logika Angka: ${res.catScores.logic || 0}/5<br>
+      • Cermin Bangun Ruang: ${res.catScores.spatial || 0}/5<br>
+      • Sinonim & Antonim: ${(res.catScores.synonym || 0) + (res.catScores.antonym || 0)}/10<br>
+      • Analogi & Acak Kata: ${(res.catScores.analogy || 0) + (res.catScores.scramble || 0)}/10<br>
+      • Klasifikasi Verbal: ${res.catScores.classification || 0}/5
+    `;
+  } else {
+    breakdownText = `
+      • Deret Angka & Deret Gambar: ${res.catScores.logic || 0}/18<br>
+      • Perhitungan Aritmatika & Logika: ${res.catScores.math || 0}/16<br>
+      • Logika Spasial & Bangun Ruang: ${res.catScores.spatial || 0}/16
+    `;
+  }
+  
+  // Find dominant DISC dimensions
+  const dDiff = res.disc.diff;
+  let sortedDisc = Object.keys(dDiff).sort((a,b) => dDiff[b] - dDiff[a]);
+  
+  // Find dominant Most Least Leadership
+  const mlDiff = res.mostLeast.diff;
+  let sortedMl = Object.keys(mlDiff).sort((a,b) => mlDiff[b] - mlDiff[a]);
+  const mlName = sortedMl[0] === 'A' ? 'Tugas (A)' : sortedMl[0] === 'P' ? 'Hubungan (P)' : 'Arahan (L)';
+  
   document.getElementById('res-feedback-text').innerHTML = `
-    <strong>Analisis Hasil:</strong><br>
-    • Deret Angka & Deret Gambar: ${catScores.logic * 2}/36<br>
-    • Perhitungan Aritmatika & Logika: ${catScores.math * 2}/32<br>
-    • Logika Spasial & Bangun Ruang: ${catScores.spatial * 2}/32<br><br>
-    <strong>Rekomendasi Evaluasi:</strong><br>
-    ${insight}
+    <div style="margin-bottom:1rem;">
+      <strong>Analisis Hasil Kognitif:</strong><br>
+      ${breakdownText}
+    </div>
+    <div style="margin-bottom:1rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:0.5rem;">
+      <strong>Profil Kepribadian DISC:</strong> ${sortedDisc[0]}/${sortedDisc[1]}<br>
+      <strong>Gaya Kepemimpinan:</strong> ${mlName}
+    </div>
+    <div style="border-top:1px dashed rgba(255,255,255,0.1); padding-top:0.5rem;">
+      <strong>Rekomendasi Evaluasi:</strong><br>
+      ${insight}
+    </div>
   `;
   
   showView('result');
 }
 
+function calculateScores() {
+  // Bab 1
+  let correctAnswers = 0;
+  let unansweredCount = 0;
+  let catScores = {};
+  
+  state.questions.forEach(q => {
+    const userAnswer = state.answers[q.id];
+    if (userAnswer === undefined || userAnswer === null || userAnswer === '') {
+      unansweredCount++;
+    } else if (userAnswer === q.answer) {
+      correctAnswers++;
+      if (!catScores[q.category]) catScores[q.category] = 0;
+      catScores[q.category]++;
+    }
+  });
+  
+  // DISC (Bab 2)
+  let discMost = { D: 0, I: 0, S: 0, C: 0 };
+  let discLeast = { D: 0, I: 0, S: 0, C: 0 };
+  discQuestions.forEach(q => {
+    const ans = state.discAnswers[q.id];
+    if (ans) {
+      if (ans.most !== null && q.statements[ans.most]) {
+        const dim = q.statements[ans.most].dimension;
+        discMost[dim] = (discMost[dim] || 0) + 1;
+      }
+      if (ans.least !== null && q.statements[ans.least]) {
+        const dim = q.statements[ans.least].dimension;
+        discLeast[dim] = (discLeast[dim] || 0) + 1;
+      }
+    }
+  });
+  
+  let discDiff = {
+    D: discMost.D - discLeast.D,
+    I: discMost.I - discLeast.I,
+    S: discMost.S - discLeast.S,
+    C: discMost.C - discLeast.C
+  };
+  
+  // Most & Least (Bab 3)
+  let mlMost = { A: 0, P: 0, L: 0 };
+  let mlLeast = { A: 0, P: 0, L: 0 };
+  mostLeastQuestions.forEach(q => {
+    const ans = state.mostLeastAnswers[q.id];
+    if (ans) {
+      if (ans.most !== null && q.statements[ans.most]) {
+        const dim = q.statements[ans.most].dimension;
+        mlMost[dim] = (mlMost[dim] || 0) + 1;
+      }
+      if (ans.least !== null && q.statements[ans.least]) {
+        const dim = q.statements[ans.least].dimension;
+        mlLeast[dim] = (mlLeast[dim] || 0) + 1;
+      }
+    }
+  });
+  
+  let mlDiff = {
+    A: mlMost.A - mlLeast.A,
+    P: mlMost.P - mlLeast.P,
+    L: mlMost.L - mlLeast.L
+  };
+  
+  return {
+    correct: correctAnswers,
+    unanswered: unansweredCount,
+    catScores: catScores,
+    disc: { most: discMost, least: discLeast, diff: discDiff },
+    mostLeast: { most: mlMost, least: mlLeast, diff: mlDiff }
+  };
+}
+
 // AUTOMATIC PSYCHOLOGY INSIGHT GENERATOR
-function generatePsychologyInsight(score, catScores, durationSeconds, unansweredCount) {
+function generatePsychologyInsight(res, durationSeconds, durationStr) {
+  const numQuestions = state.questions.length;
+  const multiplier = 100 / numQuestions;
+  const scaledScore = Math.round(res.correct * multiplier);
+  
   let feedback = '';
   
-  if (score >= 42) {
-    feedback += "<strong>Kategori: Sangat Kompeten (A).</strong> Luar biasa! Anda menunjukkan ketajaman penalaran logis, aritmatika taktis, dan spasial 3D tingkat tinggi yang sangat matang untuk level pengawas (Group Leader).";
-  } else if (score >= 32) {
-    feedback += "<strong>Kategori: Kompeten (B).</strong> Kemampuan kognitif Anda sudah memenuhi standar kepemimpinan lapangan. Anda sudah memahami logika kerja terintegrasi dengan baik.";
-  } else if (score >= 25) {
-    feedback += "<strong>Kategori: Cukup Kompeten (C).</strong> Anda berada di batas ambang minimal. Anda memiliki fondasi logika dasar, namun masih rentan mengalami kesalahan saat menghadapi beban kerja lapangan yang rumit.";
+  // 1. Cognitive feedback
+  if (state.selectedLevel === 1) {
+    feedback += `<strong>Kategori Evaluasi Kognitif (Level 1): `;
+    if (scaledScore >= 80) {
+      feedback += "Sangat Kompeten (A).</strong> Luar biasa! Anda menunjukkan ketajaman logika praktis, pemahaman keselamatan kerja dasar, dan visualisasi ruang yang matang untuk jabatan senior/GL.";
+    } else if (scaledScore >= 60) {
+      feedback += "Kompeten (B).</strong> Logika kerja dan pemahaman numerik Anda memenuhi standar kompetensi yang dipersyaratkan.";
+    } else if (scaledScore >= 50) {
+      feedback += "Cukup Kompeten (C).</strong> Anda berada di batas ambang minimal, masih rentan melakukan kesalahan pengawasan kecil di bawah tekanan.";
+    } else {
+      feedback += "Perlu Pembinaan (D).</strong> Menunjukkan kendala dalam penalaran logis dan K3 dasar. Disarankan mengikuti training ulang.";
+    }
   } else {
-    feedback += "<strong>Kategori: Perlu Pembinaan Intensif (D).</strong> Anda masih mengalami kendala besar dalam pemecahan logika matematis dan spasial 3D. Sangat disarankan untuk mempelajari modul kembali.";
+    feedback += `<strong>Kategori Evaluasi Kognitif (Level 2): `;
+    if (scaledScore >= 80) {
+      feedback += "Sangat Kompeten (A).</strong> Luar biasa! Anda memiliki kemampuan analisa taktis harian, aritmatika cerita, dan visualisasi spasial 3D tingkat tinggi.";
+    } else if (scaledScore >= 64) {
+      feedback += "Kompeten (B).</strong> Kemampuan kognitif Anda stabil dan sangat memadai untuk memimpin shift secara mandiri.";
+    } else if (scaledScore >= 50) {
+      feedback += "Cukup Kompeten (C).</strong> Anda memiliki dasar penalaran namun rentan mengalami kelambatan keputusan di lapangan.";
+    } else {
+      feedback += "Perlu Pembinaan Intensif (D).</strong> Mengalami kendala signifikan dalam kalkulasi taktis dan visualisasi ruang. Disarankan belajar intensif.";
+    }
   }
   
-  // Category specific notes
-  let weakAreas = [];
-  if (catScores.logic < 11) weakAreas.push("Deret Angka & Deret Gambar (Logika Gambar)");
-  if (catScores.math < 10) weakAreas.push("Perhitungan Cerita Tambang (Aritmatika)");
-  if (catScores.spatial < 10) weakAreas.push("Logika Spasial/3D (Bangun Ruang)");
-  
-  if (weakAreas.length > 0) {
-    feedback += `<br><br><span style="color: #fbbf24;">⚠️ Area Pengembangan:</span> Anda perlu memfokuskan latihan tambahan pada materi <strong>${weakAreas.join(', ')}</strong>.`;
-    feedback += "<br>💡 <em>Saran: Klik tombol <strong>'Kerjakan Ulang Ujian'</strong> di bawah untuk berlatih melatih respon visual dan perhitungan Anda secara berulang.";
+  // Unanswered questions note
+  const unanswered = res.unanswered;
+  if (unanswered === 0) {
+    feedback += `<br><br>✔️ <em>Manajemen Waktu & Skala Prioritas:</em> Luar biasa! Seluruh soal kognitif berhasil diselesaikan tepat waktu. Ini mencerminkan efisiensi keputusan operasional yang matang dan ketangkasan dalam pembagian fokus.`;
+  } else if (unanswered <= 5) {
+    feedback += `<br><br>⚠️ <em>Manajemen Waktu & Skala Prioritas:</em> Terdapat <strong>${unanswered}</strong> soal tidak dijawab. Mengindikasikan kecenderungan perfeksionisme minor atau sedikit keraguan dalam kecepatan pengerjaan.`;
   } else {
-    feedback += "<br><br><span style='color: #10b981;'>✔️ Kekuatan Kompetensi:</span> Profil kognitif Anda seimbang dan konsisten di seluruh aspek penalaran logika, hitungan, maupun visualisasi ruang.";
+    feedback += `<br><br>⚠️ <em>Manajemen Waktu & Skala Prioritas:</em> Terdapat <strong>${unanswered}</strong> soal terlewati (kosong). Hal ini menunjukkan risiko tinggi mengalami <strong>analysis paralysis</strong> (terlalu lama terpaku pada satu kendala sehingga mengabaikan kelancaran backlog lainnya).`;
   }
   
   // Speed analysis
   const mins = durationSeconds / 60;
   if (mins < 30) {
-    feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Gaya pengerjaan Anda tergolong **Sangat Cepat**. Namun, pastikan ketelitian tetap terjaga.";
+    feedback += "<br>🕒 <em>Kecepatan Kerja:</em> Respon pengerjaan tergolong **Sangat Cepat**, namun tetap perhatikan ketelitian.";
   } else if (mins > 55) {
-    feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Anda cenderung menghabiskan waktu terlalu lama untuk menganalisis soal. Latihlah kecepatan respon agar tidak mengalami *delay* pengerjaan di lapangan.";
+    feedback += "<br>🕒 <em>Kecepatan Kerja:</em> Cenderung lambat dalam pengambilan keputusan. Latihlah kelincahan merespon instruksi.";
   } else {
-    feedback += "<br>🕒 <em>Analisis Kecepatan Kerja:</em> Manajemen waktu Anda seimbang dan efisien.";
+    feedback += "<br>🕒 <em>Kecepatan Kerja:</em> Ritme pengerjaan stabil, seimbang, dan efisien.";
   }
   
-  // Unanswered questions note
-  if (unansweredCount !== undefined && unansweredCount > 0) {
-    feedback += `<br>⚠️ <em>Soal Tidak Dijawab:</em> Terdapat <strong>${unansweredCount}</strong> soal yang tidak dijawab/dilewati. Hal ini mengindikasikan kecenderungan perfeksionis berlebih atau kerawanan mengalami *analysis paralysis* di mana pengawas terlalu lama terpaku pada satu kendala kerja dan mengabaikan prioritas unit lainnya.`;
+  // 2. DISC Profile analysis
+  const dDiff = res.disc.diff;
+  let sortedDisc = Object.keys(dDiff).sort((a,b) => dDiff[b] - dDiff[a]);
+  const primaryDisc = sortedDisc[0];
+  const secondaryDisc = sortedDisc[1];
+  
+  const discTypes = {
+    D: { name: "Dominance (D - Dominan & Mandiri)", desc: "Menunjukkan karakter tegas, berani mengambil keputusan cepat di situasi darurat pit tambang, serta berorientasi penuh pada pencapaian target harian." },
+    I: { name: "Influence (I - Komunikatif & Persuasif)", desc: "Menunjukkan karakter yang ramah, ekspresif, pandai berkomunikasi, persuasif, serta mampu membangun kekompakan tim." },
+    S: { name: "Steadiness (S - Sabar & Pendengar Baik)", desc: "Menunjukkan karakter yang sabar, tenang menghadapi kendala, loyal kepada kelompok, serta menjaga stabilitas kerja." },
+    C: { name: "Compliance (C - Teliti & Taat SOP)", desc: "Menunjukkan karakter yang sangat teliti, analitis, patuh pada aturan/SOP keselamatan kerja, serta mengutamakan kualitas bebas rework." }
+  };
+  
+  const discProfileName = `${discTypes[primaryDisc].name} / ${discTypes[secondaryDisc].name}`;
+  const discProfileDesc = `${discTypes[primaryDisc].desc} Kombinasi dengan ${discTypes[secondaryDisc].name} membuat Anda cenderung ${primaryDisc === 'C' || primaryDisc === 'D' ? 'fokus pada penyelesaian tugas teknis' : 'mengutamakan hubungan kerja tim'}.`;
+  
+  feedback += `<br><br>📊 <strong>Profil Kepribadian DISC:</strong> ${discProfileName}<br><em>Gaya Kerja:</em> ${discProfileDesc}`;
+  
+  // 3. Most & Least (Gaya Kepemimpinan) analysis
+  const mlDiff = res.mostLeast.diff;
+  let sortedMl = Object.keys(mlDiff).sort((a,b) => mlDiff[b] - mlDiff[a]);
+  const primaryMl = sortedMl[0];
+  
+  let mlName = "";
+  let mlDesc = "";
+  if (primaryMl === 'A') {
+    mlName = "Task-Oriented / Achievement Focus";
+    mlDesc = "Sangat fokus pada target pengerjaan backlog, kualitas servis, dan efisiensi waktu kerja.";
+  } else if (primaryMl === 'P') {
+    mlName = "People-Oriented / Relationship Focus";
+    mlDesc = "Sangat mengutamakan pembinaan junior (coaching), kekeluargaan, dan iklim workshop yang positif.";
   } else {
-    feedback += `<br>✔️ <em>Soal Tidak Dijawab:</em> Seluruh soal (50 soal) berhasil diselesaikan. Hal ini menunjukkan efisiensi kerja yang taktis dan kelincahan penentuan skala prioritas pengawasan yang matang.`;
+    mlName = "Leadership-Oriented / Directing Focus";
+    mlDesc = "Sangat siap mengambil kendali komando lapangan, mendelegasikan tugas secara terperinci, dan menegakkan kedisiplinan.";
   }
+  
+  feedback += `<br><br>👔 <strong>Gaya Kepemimpinan:</strong> ${mlName}<br><em>Deskripsi Gaya:</em> ${mlDesc}`;
   
   return feedback;
 }
@@ -577,7 +1137,10 @@ function sendToGoogleSheetsAPI(record) {
     score: record.score,
     total: record.total,
     duration: record.duration,
-    insight: record.insight.replace(/<\/?[^>]+(>|$)/g, "") // Strip HTML tags
+    insight: record.insight.replace(/<\/?[^>]+(>|$)/g, ""), // Strip HTML tags
+    level: record.level || 2,
+    disc: record.disc ? JSON.stringify(record.disc) : '-',
+    mostLeast: record.mostLeast ? JSON.stringify(record.mostLeast) : '-'
   };
   
   fetch(state.gasUrl, {
@@ -622,26 +1185,28 @@ function renderAdminDashboard() {
     document.getElementById('admin-avg-score').textContent = '0%';
     document.getElementById('admin-max-score').textContent = '0/100';
     document.getElementById('admin-pass-rate').textContent = '0%';
-    document.getElementById('participants-table-body').innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada riwayat hasil ujian.</td></tr>`;
+    document.getElementById('participants-table-body').innerHTML = `<tr><td colspan="7" style="text-align:center;">Belum ada riwayat hasil ujian.</td></tr>`;
     return;
   }
   
-  let totalScore = 0;
-  let maxScore = 0;
-  let passedCount = 0; // Passing grade threshold is score >= 30 (60%)
+  let totalScorePct = 0;
+  let maxScorePct = 0;
+  let passedCount = 0; // Passing grade threshold is 60%
   
   db.forEach(r => {
-    totalScore += r.score;
-    if (r.score > maxScore) maxScore = r.score;
-    if (r.score >= 30) passedCount++;
+    const numQuestions = r.total || 50;
+    const scorePct = Math.round((r.score / numQuestions) * 100);
+    
+    totalScorePct += scorePct;
+    if (scorePct > maxScorePct) maxScorePct = scorePct;
+    if (scorePct >= 60) passedCount++;
   });
   
-  const avgScore = (totalScore / totalParticipants).toFixed(1);
-  const avgPct = ((avgScore / 50) * 100).toFixed(0);
-  const passRate = ((passedCount / totalParticipants) * 100).toFixed(0);
+  const avgPct = Math.round(totalScorePct / totalParticipants);
+  const passRate = Math.round((passedCount / totalParticipants) * 100);
   
-  document.getElementById('admin-avg-score').textContent = `${avgPct}% (${(avgScore * 2).toFixed(1)}/100)`;
-  document.getElementById('admin-max-score').textContent = `${maxScore * 2}/100`;
+  document.getElementById('admin-avg-score').textContent = `${avgPct}%`;
+  document.getElementById('admin-max-score').textContent = `${maxScorePct}/100`;
   document.getElementById('admin-pass-rate').textContent = `${passRate}%`;
   
   // 3. Render SVG Histogram (Score Distribution Chart)
@@ -871,13 +1436,15 @@ function renderGroupPsychology(db) {
 }
 
 function renderScoreDistributionChart(db) {
-  // We divide scores into 4 intervals: 0-19 (Failed), 20-29 (Low), 30-39 (Average), 40-50 (Excellent)
+  // We divide scores into 4 intervals based on percentage: Kategori A (>=80), B (>=60), C (>=40), D (<40)
   let intervals = { failed: 0, low: 0, average: 0, excellent: 0 };
   
   db.forEach(r => {
-    if (r.score >= 40) intervals.excellent++;
-    else if (r.score >= 30) intervals.average++;
-    else if (r.score >= 20) intervals.low++;
+    const numQuestions = r.total || 50;
+    const scorePct = Math.round((r.score / numQuestions) * 100);
+    if (scorePct >= 80) intervals.excellent++;
+    else if (scorePct >= 60) intervals.average++;
+    else if (scorePct >= 40) intervals.low++;
     else intervals.failed++;
   });
   
@@ -902,30 +1469,32 @@ function renderScoreDistributionChart(db) {
 }
 
 function renderCategoryPerformance(db) {
-  let totalLogic = 0;
-  let totalMath = 0;
-  let totalSpatial = 0;
+  let logicSum = 0, mathSum = 0, spatialSum = 0;
+  const count = db.length;
   
   db.forEach(r => {
-    // If category scores are available
-    if (r.categoryScores) {
-      totalLogic += r.categoryScores.logic || 0;
-      totalMath += r.categoryScores.math || 0;
-      totalSpatial += r.categoryScores.spatial || 0;
+    if (r.level === 1) {
+      const logic = r.categoryScores ? (r.categoryScores.logic || 0) : 0;
+      const math = r.categoryScores ? (r.categoryScores.general || 0) + (r.categoryScores.synonym || 0) + (r.categoryScores.antonym || 0) + (r.categoryScores.analogy || 0) : 0;
+      const spatial = r.categoryScores ? (r.categoryScores.spatial || 0) : 0;
+      
+      logicSum += (logic / 5) * 100;
+      mathSum += (math / 20) * 100;
+      spatialSum += (spatial / 5) * 100;
     } else {
-      // Fallback rough estimate from total score
-      totalLogic += Math.round(r.score * 0.25);
-      totalMath += Math.round(r.score * 0.4);
-      totalSpatial += Math.round(r.score * 0.35);
+      const logic = r.categoryScores ? (r.categoryScores.logic || 0) : Math.round(r.score * 0.36);
+      const math = r.categoryScores ? (r.categoryScores.math || 0) : Math.round(r.score * 0.32);
+      const spatial = r.categoryScores ? (r.categoryScores.spatial || 0) : Math.round(r.score * 0.32);
+      
+      logicSum += (logic / 18) * 100;
+      mathSum += (math / 16) * 100;
+      spatialSum += (spatial / 16) * 100;
     }
   });
   
-  const count = db.length;
-  // Calculate average percentages
-  // Logic: max is 18. Math: max is 16. Spatial: max is 16.
-  const avgLogicPct = (((totalLogic / count) / 18) * 100).toFixed(0);
-  const avgMathPct = (((totalMath / count) / 16) * 100).toFixed(0);
-  const avgSpatialPct = (((totalSpatial / count) / 16) * 100).toFixed(0);
+  const avgLogicPct = (logicSum / count).toFixed(0);
+  const avgMathPct = (mathSum / count).toFixed(0);
+  const avgSpatialPct = (spatialSum / count).toFixed(0);
   
   // Update progress bars
   const logicBar = document.getElementById('progress-logic');
@@ -945,28 +1514,41 @@ function renderCategoryPerformance(db) {
 }
 
 function renderOverallRecommendations(db) {
-  let totalLogic = 0, totalMath = 0, totalSpatial = 0;
+  let logicSum = 0, mathSum = 0, spatialSum = 0;
+  const count = db.length;
+  
   db.forEach(r => {
-    if (r.categoryScores) {
-      totalLogic += r.categoryScores.logic || 0;
-      totalMath += r.categoryScores.math || 0;
-      totalSpatial += r.categoryScores.spatial || 0;
+    if (r.level === 1) {
+      const logic = r.categoryScores ? (r.categoryScores.logic || 0) : 0;
+      const math = r.categoryScores ? (r.categoryScores.general || 0) + (r.categoryScores.synonym || 0) + (r.categoryScores.antonym || 0) + (r.categoryScores.analogy || 0) : 0;
+      const spatial = r.categoryScores ? (r.categoryScores.spatial || 0) : 0;
+      
+      logicSum += (logic / 5) * 100;
+      mathSum += (math / 20) * 100;
+      spatialSum += (spatial / 5) * 100;
+    } else {
+      const logic = r.categoryScores ? (r.categoryScores.logic || 0) : Math.round(r.score * 0.36);
+      const math = r.categoryScores ? (r.categoryScores.math || 0) : Math.round(r.score * 0.32);
+      const spatial = r.categoryScores ? (r.categoryScores.spatial || 0) : Math.round(r.score * 0.32);
+      
+      logicSum += (logic / 18) * 100;
+      mathSum += (math / 16) * 100;
+      spatialSum += (spatial / 16) * 100;
     }
   });
   
-  const count = db.length;
-  const avgLogicPct = ((totalLogic / count) / 18) * 100;
-  const avgMathPct = ((totalMath / count) / 16) * 100;
-  const avgSpatialPct = ((totalSpatial / count) / 16) * 100;
+  const avgLogicVal = logicSum / count;
+  const avgMathVal = mathSum / count;
+  const avgSpatialVal = spatialSum / count;
   
   const recList = document.getElementById('recommendations-list');
   recList.innerHTML = '';
   
   // Find weak points
   let categories = [
-    { name: 'Deret Angka & Kecepatan Kognitif', score: avgLogicPct, rec: 'Lakukan pemanasan soal logika deret 10 menit sebelum shift untuk melatih ketajaman berfikir kru.' },
-    { name: 'Aritmatika & Perhitungan Logis Tambang', score: avgMathPct, rec: 'Adakan review studi kasus perhitungan kapasitas bucket excavator vs vessel dump truck pada pembinaan Group Leader.' },
-    { name: 'Logika Spasial & Bangun Ruang 3D', score: avgSpatialPct, rec: 'Berikan latihan membaca layout penampang tambang dan visualisasi spasial 2D/3D kepada calon GL.' }
+    { name: 'Deret Angka & Kecepatan Kognitif', score: avgLogicVal, rec: 'Lakukan pemanasan soal logika deret 10 menit sebelum shift untuk melatih ketajaman berfikir kru.' },
+    { name: 'Aritmatika & Perhitungan Logis Tambang', score: avgMathVal, rec: 'Adakan review studi kasus perhitungan kapasitas bucket excavator vs vessel dump truck pada pembinaan Group Leader.' },
+    { name: 'Logika Spasial & Bangun Ruang 3D', score: avgSpatialVal, rec: 'Berikan latihan membaca layout penampang tambang dan visualisasi spasial 2D/3D kepada calon GL.' }
   ];
   
   // Sort from lowest performing category
@@ -988,14 +1570,23 @@ function renderParticipantsTable(db) {
   tbody.innerHTML = '';
   
   // Sort by score descending (highest score first) for ranking
-  const sortedByScore = [...db].sort((a, b) => b.score - a.score);
+  const sortedByScore = [...db].sort((a, b) => {
+    const aQuestions = a.total || 50;
+    const bQuestions = b.total || 50;
+    const aPct = (a.score / aQuestions) * 100;
+    const bPct = (b.score / bQuestions) * 100;
+    return bPct - aPct;
+  });
   state.currentlyRenderedDb = sortedByScore; // Save list state for clean onclick indexing
   
   sortedByScore.forEach((r, idx) => {
     const tr = document.createElement('tr');
     
     // Determine score class badge on a scale of 100
-    const scaledScore = r.score * 2;
+    const numQuestions = r.total || 50;
+    const multiplier = 100 / numQuestions;
+    const scaledScore = Math.round(r.score * multiplier);
+    
     let badgeClass = 'score-mid';
     if (scaledScore >= 80) badgeClass = 'score-high';
     else if (scaledScore < 60) badgeClass = 'score-low';
@@ -1003,7 +1594,11 @@ function renderParticipantsTable(db) {
     // Find absolute rank in globally sorted list of all records
     const globalRank = state.resultsDb
       .slice()
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => {
+        const aq = a.total || 50;
+        const bq = b.total || 50;
+        return (b.score / bq) - (a.score / aq);
+      })
       .findIndex(item => item.nrp === r.nrp && item.date === r.date) + 1;
     
     tr.innerHTML = `
@@ -1012,6 +1607,9 @@ function renderParticipantsTable(db) {
         <br>
         <strong>${r.nrp}</strong>
         <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Tes ke-${r.attemptNumber || 1}</div>
+      </td>
+      <td>
+        <span class="badge" style="background: ${r.level === 1 ? '#0284c7' : '#f59e0b'}; color: #fff; padding: 0.2rem 0.4rem; border-radius:4px; font-size:0.75rem; font-weight:bold;">Level ${r.level || 2}</span>
       </td>
       <td>${formatDisplayDate(r.date)}</td>
       <td><span class="score-badge ${badgeClass}">${scaledScore} / 100</span></td>
@@ -1034,7 +1632,7 @@ function filterParticipantsTable(query) {
   const filtered = db.filter(r => r.nrp.includes(query));
   
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">NRP "${query}" tidak ditemukan.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">NRP "${query}" tidak ditemukan.</td></tr>`;
     return;
   }
   
@@ -1050,14 +1648,17 @@ window.viewParticipantDetails = function(index) {
   let traits = '';
   let coachingPlan = '';
   let badgeColor = '';
-  const scaledScore = r.score * 2;
   
-  if (scaledScore >= 84) {
+  const numQuestions = r.total || 50;
+  const multiplier = 100 / numQuestions;
+  const scaledScore = Math.round(r.score * multiplier);
+  
+  if (scaledScore >= 80) {
     competenceClass = 'Sangat Kompeten (Kategori A)';
     badgeColor = 'score-high';
     traits = 'Memiliki logika penalaran taktis dan pemahaman pola visual yang sangat tajam. Sangat mampu menganalisis masalah teknis yang kompleks dan cepat mengambil keputusan pengawasan yang aman.';
     coachingPlan = 'Sangat cocok untuk dipromosikan segera menjadi Group Leader Mandiri dan didelegasikan tanggung jawab pengawasan shift kritis.';
-  } else if (scaledScore >= 64) {
+  } else if (scaledScore >= 60) {
     competenceClass = 'Kompeten (Kategori B)';
     badgeColor = 'score-high';
     traits = 'Memiliki pemahaman logika kerja yang stabil dan perhitungan matematis operasional yang baik. Mampu mengarahkan anggota tim sesuai SOP dengan andal.';
@@ -1074,12 +1675,129 @@ window.viewParticipantDetails = function(index) {
     coachingPlan = 'Wajib mengikuti training ulang (retraining) materi teknis dasar dan didampingi secara ketat oleh Group Leader senior.';
   }
   
-  // Get Aspect Analysis
-  const logicScore = r.categoryScores ? r.categoryScores.logic : Math.round(r.score * 0.36);
-  const mathScore = r.categoryScores ? r.categoryScores.math : Math.round(r.score * 0.32);
-  const spatialScore = r.categoryScores ? r.categoryScores.spatial : Math.round(r.score * 0.32);
+  // Get Aspect Analysis dynamically based on Level
+  const isLevel1 = r.level === 1;
+  let categoryBreakdownHtml = '';
+  let aspectAnalysis = {};
   
-  const aspectAnalysis = getAspectAnalysis(logicScore, mathScore, spatialScore);
+  if (isLevel1) {
+    const general = r.categoryScores ? (r.categoryScores.general || 0) : 0;
+    const logic = r.categoryScores ? (r.categoryScores.logic || 0) : 0;
+    const spatial = r.categoryScores ? (r.categoryScores.spatial || 0) : 0;
+    const synonym = r.categoryScores ? (r.categoryScores.synonym || 0) : 0;
+    const antonym = r.categoryScores ? (r.categoryScores.antonym || 0) : 0;
+    const analogy = r.categoryScores ? (r.categoryScores.analogy || 0) : 0;
+    const scramble = r.categoryScores ? (r.categoryScores.scramble || 0) : 0;
+    const classification = r.categoryScores ? (r.categoryScores.classification || 0) : 0;
+    
+    categoryBreakdownHtml = `
+      <strong>Rincian Kategori Soal (Level 1):</strong><br>
+      • Pengetahuan Umum: ${general}/5<br>
+      • Logika Angka: ${logic}/5<br>
+      • Cermin Bangun Ruang: ${spatial}/5<br>
+      • Sinonim: ${synonym}/5<br>
+      • Antonim: ${antonym}/5<br>
+      • Analogi: ${analogy}/5<br>
+      • Acak Kata: ${scramble}/5<br>
+      • Klasifikasi Verbal: ${classification}/5
+    `;
+    
+    const aspect1Pct = Math.round(((logic + scramble + classification) / 15) * 100);
+    const aspect2Pct = Math.round(((general + synonym + antonym + analogy) / 20) * 100);
+    const aspect3Pct = Math.round((spatial / 5) * 100);
+    
+    aspectAnalysis = {
+      logic: {
+        pct: aspect1Pct,
+        level: aspect1Pct >= 80 ? 'Tinggi' : aspect1Pct >= 50 ? 'Sedang' : 'Kurang',
+        color: aspect1Pct >= 80 ? '#10b981' : aspect1Pct >= 50 ? '#3b82f6' : '#f59e0b',
+        desc: aspect1Pct >= 80 ? "Sangat tajam dalam menyusun pola kerja, memahami instruksi acak, dan mengelompokkan masalah teknis." : aspect1Pct >= 50 ? "Memiliki kemampuan logika lapangan yang cukup stabil untuk memahami alur instruksi standar." : "Kurang taktis dalam menghubungkan alur kerja lapangan; perlu latihan penalaran sistematis."
+      },
+      math: {
+        pct: aspect2Pct,
+        level: aspect2Pct >= 80 ? 'Tinggi' : aspect2Pct >= 50 ? 'Sedang' : 'Kurang',
+        color: aspect2Pct >= 80 ? '#10b981' : aspect2Pct >= 50 ? '#3b82f6' : '#f59e0b',
+        desc: aspect2Pct >= 80 ? "Memiliki pemahaman umum industri yang matang, ketepatan berbahasa/komunikasi presisi, dan daya analogi sangat baik." : aspect2Pct >= 50 ? "Akurasi kerja cukup baik, mampu berkomunikasi standar tanpa hambatan besar." : "Rentan mengalami miskomunikasi atau salah tafsir instruksi tertulis; perlu pembinaan verbal."
+      },
+      spatial: {
+        pct: aspect3Pct,
+        level: aspect3Pct >= 80 ? 'Tinggi' : aspect3Pct >= 50 ? 'Sedang' : 'Kurang',
+        color: aspect3Pct >= 80 ? '#10b981' : aspect3Pct >= 50 ? '#3b82f6' : '#f59e0b',
+        desc: aspect3Pct >= 80 ? "Ketajaman visual ruang dan cermin spasial sangat luar biasa; sangat disiplin terhadap penataan workshop (5S)." : aspect3Pct >= 50 ? "Kesadaran ruang memadai, mampu menjaga kerapian alat kerja sesuai aturan standar." : "Kurang peka terhadap orientasi visual/ruang; disarankan pengawasan intensif untuk aspek penataan K3."
+      }
+    };
+  } else {
+    const logicScore = r.categoryScores ? (r.categoryScores.logic || 0) : Math.round(r.score * 0.36);
+    const mathScore = r.categoryScores ? (r.categoryScores.math || 0) : Math.round(r.score * 0.32);
+    const spatialScore = r.categoryScores ? (r.categoryScores.spatial || 0) : Math.round(r.score * 0.32);
+    
+    categoryBreakdownHtml = `
+      <strong>Rincian Kategori Soal (Level 2):</strong><br>
+      • Deret Angka & Deret Gambar: ${logicScore * 2}/36<br>
+      • Aritmatika Logika (Soal Cerita): ${mathScore * 2}/32<br>
+      • Spasial 2D & Bangun Ruang: ${spatialScore * 2}/32
+    `;
+    
+    aspectAnalysis = getAspectAnalysis(logicScore, mathScore, spatialScore);
+  }
+  
+  // Build detailed personality layout (DISC and Most Least)
+  let personalityHtml = '';
+  if (r.disc && r.disc.most) {
+    const discData = typeof r.disc === 'string' ? JSON.parse(r.disc) : r.disc;
+    const mlData = typeof r.mostLeast === 'string' ? JSON.parse(r.mostLeast) : r.mostLeast;
+    
+    // Sort dimensions
+    const dDiff = discData.diff;
+    let sortedDisc = Object.keys(dDiff).sort((a,b) => dDiff[b] - dDiff[a]);
+    const primary = sortedDisc[0];
+    
+    personalityHtml = `
+      <div style="background: rgba(59,130,246,0.02); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
+        <h4 style="font-size:0.85rem; margin-bottom:0.75rem; color:#3b82f6; text-transform:uppercase; letter-spacing:0.05em;">📊 Hasil Profil Kepribadian DISC:</h4>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem; font-size:0.8rem; margin-bottom:0.75rem;">
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+              <span><strong>Dominance (D):</strong></span>
+              <span>Most ${discData.most.D} | Least ${discData.least.D} | Diff: ${dDiff.D >= 0 ? '+' : ''}${dDiff.D}</span>
+            </div>
+            <div style="height:4px; background:#334155; border-radius:2px;"><div style="width:${Math.max(0, dDiff.D + 24) * 2}%; height:100%; background:#ef4444; border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+              <span><strong>Influence (I):</strong></span>
+              <span>Most ${discData.most.I} | Least ${discData.least.I} | Diff: ${dDiff.I >= 0 ? '+' : ''}${dDiff.I}</span>
+            </div>
+            <div style="height:4px; background:#334155; border-radius:2px;"><div style="width:${Math.max(0, dDiff.I + 24) * 2}%; height:100%; background:#fbbf24; border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+              <span><strong>Steadiness (S):</strong></span>
+              <span>Most ${discData.most.S} | Least ${discData.least.S} | Diff: ${dDiff.S >= 0 ? '+' : ''}${dDiff.S}</span>
+            </div>
+            <div style="height:4px; background:#334155; border-radius:2px;"><div style="width:${Math.max(0, dDiff.S + 24) * 2}%; height:100%; background:#10b981; border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+              <span><strong>Compliance (C):</strong></span>
+              <span>Most ${discData.most.C} | Least ${discData.least.C} | Diff: ${dDiff.C >= 0 ? '+' : ''}${dDiff.C}</span>
+            </div>
+            <div style="height:4px; background:#334155; border-radius:2px;"><div style="width:${Math.max(0, dDiff.C + 24) * 2}%; height:100%; background:#3b82f6; border-radius:2px;"></div></div>
+          </div>
+        </div>
+        
+        <div style="border-top:1px dashed var(--border-color); padding-top:0.75rem; margin-top:0.5rem;">
+          <h4 style="font-size:0.85rem; margin-bottom:0.5rem; color:#10b981; text-transform:uppercase; letter-spacing:0.05em;">👑 Gaya Kepemimpinan (Most & Least):</h4>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0.5rem; font-size:0.8rem; margin-bottom:0.25rem;">
+            <div>🏆 <strong>Tugas (A):</strong> ${mlData.diff.A >= 0 ? '+' : ''}${mlData.diff.A}</div>
+            <div>🤝 <strong>Hubungan (P):</strong> ${mlData.diff.P >= 0 ? '+' : ''}${mlData.diff.P}</div>
+            <div>👑 <strong>Arahan (L):</strong> ${mlData.diff.L >= 0 ? '+' : ''}${mlData.diff.L}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
   
   const unansweredVal = r.unanswered !== undefined ? r.unanswered : 0;
   let unansweredAnalysisText = '';
@@ -1094,9 +1812,10 @@ window.viewParticipantDetails = function(index) {
   document.getElementById('modal-details-title').textContent = `Analisis Hasil: ${r.nrp}`;
   document.getElementById('modal-details-body').innerHTML = `
     <div style="font-family: var(--font-title); font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-      Hasil Tes Online Calon GL
+      Hasil Asesmen Online PPD Site Bukit Asam
     </div>
     <p><strong>NRP Pegawai:</strong> ${r.nrp}</p>
+    <p><strong>Level Tes:</strong> <span class="badge" style="background: ${r.level === 1 ? '#0284c7' : '#f59e0b'}; color: #fff; padding: 0.2rem 0.4rem; border-radius:4px; font-size:0.8rem; font-weight:bold;">Level ${r.level || 2} (${r.level === 1 ? 'Mekanik/Welder/Tyreman Sr.' : 'Group Leader Senior'})</span></p>
     <p><strong>Waktu Selesai:</strong> ${formatDisplayDate(r.date)}</p>
     <p><strong>Skor Total:</strong> <span class="score-badge ${scaledScore >= 80 ? 'score-high' : scaledScore >= 60 ? 'score-mid' : 'score-low'}">${scaledScore} dari 100 poin</span></p>
     <p><strong>Durasi Pengisian:</strong> ${formatDisplayDuration(r.duration)}</p>
@@ -1104,15 +1823,14 @@ window.viewParticipantDetails = function(index) {
     <br>
     
     <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom:1rem;">
-      <strong>Rincian Kategori Soal:</strong><br>
-      • Deret Angka & Deret Gambar: ${logicScore * 2}/36<br>
-      • Aritmatika Logika (Soal Cerita): ${mathScore * 2}/32<br>
-      • Spasial 2D & Bangun Ruang: ${spatialScore * 2}/32
+      ${categoryBreakdownHtml}
     </div>
+
+    ${personalityHtml}
 
     <!-- Multi-Aspect Psychological Analysis -->
     <div style="background: rgba(251,191,36,0.02); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:1rem;">
-      <h4 style="font-size:0.85rem; margin-bottom:0.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em;">Analisis Aspek Psikologi Pengawasan:</h4>
+      <h4 style="font-size:0.85rem; margin-bottom:0.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em;">Analisis Aspek Kognitif Pengawasan K3:</h4>
       
       <!-- Aspek 1 -->
       <div style="margin-bottom:0.75rem;">
@@ -1125,7 +1843,7 @@ window.viewParticipantDetails = function(index) {
         </div>
         <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.5rem;">${aspectAnalysis.logic.desc}</p>
       </div>
-
+      
       <!-- Aspek 2 -->
       <div style="margin-bottom:0.75rem;">
         <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:2px;">
@@ -1137,7 +1855,7 @@ window.viewParticipantDetails = function(index) {
         </div>
         <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.5rem;">${aspectAnalysis.math.desc}</p>
       </div>
-
+      
       <!-- Aspek 3 -->
       <div style="margin-bottom:0.25rem;">
         <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:2px;">

@@ -6,7 +6,7 @@
 // - Soal 25-40: Logika Spasial & Pola Gambar (Spatial Diagram Logic - SVG Choices)
 // - Soal 41-50: Tes Deret Gambar & Matriks (Abstract Reasoning - SVG Choices)
 
-const questionBank = [
+const questionBankLevel2 = [
   // ==========================================
   // BAGIAN A: DERET ANGKA (1 - 8)
   // ==========================================
@@ -1861,6 +1861,830 @@ const questionBank = [
   }
 ];
 
+  }
+];
+
+// ==========================================
+// BANK SOAL KOGNITIF LEVEL 1 (40 Soal)
+// ==========================================
+const questionBankLevel1 = [
+  // --- Pengetahuan Umum (1 - 5) ---
+  {
+    id: 101,
+    category: "general",
+    question: "Alat yang paling tepat digunakan untuk mengukur tegangan listrik pada baterai unit alat berat adalah...",
+    options: ["Tachometer", "Manometer", "Voltmeter", "Ampermeter", "Hydrometer"],
+    answer: "Voltmeter",
+    explanation: "Voltmeter adalah instrumen pengukur yang digunakan untuk mengukur beda potensial atau tegangan listrik antara dua titik dalam sirkuit listrik."
+  },
+  {
+    id: 102,
+    category: "general",
+    question: "Tujuan utama penggunaan sumbat telinga (earplug) saat bekerja di area workshop yang bising adalah...",
+    options: [
+      "Mencegah debu masuk ke dalam telinga",
+      "Memudahkan komunikasi nirkabel dengan pengawas",
+      "Melindungi pendengaran dari kebisingan di atas batas aman",
+      "Mencegah masuknya percikan las ke lubang telinga",
+      "Menjaga kestabilan suhu tubuh"
+    ],
+    answer: "Melindungi pendengaran dari kebisingan di atas batas aman",
+    explanation: "Sumbat telinga (earplug) berfungsi sebagai Alat Pelindung Diri (APD) untuk meredam tingkat kebisingan ekstrim di tempat kerja guna mencegah kerusakan pendengaran (noise-induced hearing loss)."
+  },
+  {
+    id: 103,
+    category: "general",
+    question: "Dalam keselamatan kerja, singkatan dari K3 yang benar adalah...",
+    options: [
+      "Ketertiban, Keindahan, dan Kesehatan Kerja",
+      "Keselamatan, Kesehatan, dan Kesejahteraan Kerja",
+      "Kerapian, Kebersihan, dan Keselamatan Kerja",
+      "Keselamatan dan Kesehatan Kerja",
+      "Kecerdasan, Kepatuhan, dan Keselamatan Kerja"
+    ],
+    answer: "Keselamatan dan Kesehatan Kerja",
+    explanation: "K3 adalah singkatan resmi dari Keselamatan dan Kesehatan Kerja, yang merupakan bidang yang terkait dengan kesehatan, keselamatan, dan kesejahteraan manusia yang bekerja."
+  },
+  {
+    id: 104,
+    category: "general",
+    question: "Pelumas mesin diesel alat berat yang umum digunakan untuk menunjang viskositas suhu kerja tinggi di area pertambangan memiliki spesifikasi kekentalan...",
+    options: ["SAE 5W-30", "SAE 10W-30", "SAE 15W-40", "SAE 90", "SAE 140"],
+    answer: "SAE 15W-40",
+    explanation: "Oli SAE 15W-40 adalah spesifikasi kekentalan standar yang paling umum direkomendasikan untuk mesin diesel heavy duty (alat berat) yang beroperasi di iklim tropis/tambang."
+  },
+  {
+    id: 105,
+    category: "general",
+    question: "Warna label tabung Pemadam Api Ringan (APAR) berjenis Karbon Dioksida (CO2) yang tepat untuk memadamkan kebakaran instalasi listrik adalah...",
+    options: ["Merah dengan label Biru", "Merah dengan label Hitam", "Merah dengan label Kuning", "Merah dengan label Putih", "Merah dengan label Hijau"],
+    answer: "Merah dengan label Hitam",
+    explanation: "Berdasarkan standar internasional, APAR jenis Karbon Dioksida (CO2) ditandai dengan pita atau label berwarna hitam pada tabung merah."
+  },
+
+  // --- Logika Angka (6 - 10) ---
+  {
+    id: 106,
+    category: "logic",
+    question: "Tentukan angka selanjutnya dari deret angka berikut: 4, 8, 16, 32, ...",
+    options: ["48", "60", "64", "72", "80"],
+    answer: "64",
+    explanation: "Pola deret: Menggunakan perkalian dua (x2) berturut-turut. Maka 32 x 2 = 64."
+  },
+  {
+    id: 107,
+    category: "logic",
+    question: "Tentukan angka selanjutnya dari deret angka berikut: 12, 17, 22, 27, ...",
+    options: ["29", "31", "32", "34", "35"],
+    answer: "32",
+    explanation: "Pola deret: Penambahan tetap sebesar 5 (+5). Maka 27 + 5 = 32."
+  },
+  {
+    id: 108,
+    category: "logic",
+    question: "Tentukan angka selanjutnya dari deret angka berikut: 90, 81, 72, 63, ...",
+    options: ["51", "54", "55", "56", "58"],
+    answer: "54",
+    explanation: "Pola deret: Pengurangan tetap sebesar 9 (-9). Maka 63 - 9 = 54."
+  },
+  {
+    id: 109,
+    category: "logic",
+    question: "Tentukan angka selanjutnya dari deret angka berikut: 2, 5, 4, 9, 8, 17, 16, ...",
+    options: ["25", "30", "32", "33", "34"],
+    answer: "33",
+    explanation: "Pola loncat 1. Deret ganjil: 2, 4, 8, 16 (x2). Deret genap: 5, 9, 17 (ditambah 4, lalu ditambah 8, berikutnya ditambah 16). Maka 17 + 16 = 33."
+  },
+  {
+    id: 110,
+    category: "logic",
+    question: "Tentukan angka selanjutnya dari deret angka berikut: 1, 3, 7, 13, 21, ...",
+    options: ["28", "29", "31", "33", "35"],
+    answer: "31",
+    explanation: "Pola deret: Penambahan bilangan genap berurutan (+2, +4, +6, +8). Selanjutnya adalah +10, maka 21 + 10 = 31."
+  },
+
+  // --- Cermin Bangun Ruang (11 - 15) ---
+  {
+    id: 111,
+    category: "spatial",
+    question: "Manakah gambar yang merupakan cerminan sempurna terhadap sumbu vertikal (garis putus-putus) dari bentuk di kiri?",
+    svg: `
+      <svg viewBox="0 0 200 100" width="100%" height="100">
+        <!-- Cermin vertikal -->
+        <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+        
+        <!-- Objek Asli (Kiri) -->
+        <g transform="translate(20, 20)">
+          <!-- Segitiga dengan lubang bulat di atas kanan -->
+          <polygon points="10,60 60,60 35,10" fill="none" stroke="#fbbf24" stroke-width="3"/>
+          <circle cx="45" cy="35" r="5" fill="#ef4444"/>
+        </g>
+      </svg>
+    `,
+    options: [
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,50 60,50 35,10" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>`, // Correct A
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,50 60,50 35,10" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="45" cy="25" r="4" fill="#ef4444"/></svg>`, // B (no mirror)
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,10 60,10 35,50" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="25" cy="35" r="4" fill="#ef4444"/></svg>`, // C
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,50 60,50 35,10" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="35" cy="50" r="4" fill="#ef4444"/></svg>`, // D
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,50 60,50 35,10" fill="#fbbf24" stroke="none"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>` // E
+    ],
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="10,50 60,50 35,10" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>`,
+    explanation: "Ketika dicerminkan secara vertikal, objek segitiga tetap di posisi tegak, namun lingkaran kecil merah yang awalnya berada di kanan atas akan berpindah ke posisi kiri atas (cermin)."
+  },
+  {
+    id: 112,
+    category: "spatial",
+    question: "Manakah gambar yang menunjukkan hasil refleksi yang benar dari bentuk panah berikut?",
+    svg: `
+      <svg viewBox="0 0 200 100" width="100%" height="100">
+        <!-- Cermin vertikal -->
+        <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+        
+        <!-- Objek Asli (Kiri) -->
+        <g transform="translate(30, 30)">
+          <!-- Panah miring kanan atas dengan pangkal bulat -->
+          <line x1="10" y1="35" x2="40" y2="10" stroke="#fbbf24" stroke-width="4"/>
+          <polygon points="40,10 32,8 38,18" fill="#fbbf24"/>
+          <circle cx="10" cy="35" r="6" fill="#10b981"/>
+        </g>
+      </svg>
+    `,
+    options: [
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 23,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`, // Correct C
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 37,13 43,23" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`
+    ],
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 23,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
+    explanation: "Panah miring ke kanan atas dengan pangkal bulat di kiri bawah bila dicerminkan vertikal akan menghadap ke kiri atas, dengan pangkal bulat berada di kanan bawah."
+  },
+  {
+    id: 113,
+    category: "spatial",
+    question: "Tentukan hasil pencerminan bangun trapesium siku-siku berikut terhadap garis cermin vertikal:",
+    svg: `
+      <svg viewBox="0 0 200 100" width="100%" height="100">
+        <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+        <g transform="translate(30, 25)">
+          <polygon points="10,10 40,10 40,50 10,35" fill="none" stroke="#fbbf24" stroke-width="3"/>
+          <line x1="40" y1="10" x2="10" y2="35" stroke="#ef4444" stroke-width="2"/>
+        </g>
+      </svg>
+    `,
+    options: [
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="15,15 45,15 45,50 15,35" fill="none" stroke="#fbbf24" stroke-width="2"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="45,15 15,15 15,50 45,35" fill="none" stroke="#fbbf24" stroke-width="2"/><line x1="15" y1="15" x2="45" y2="35" stroke="#ef4444" stroke-width="1.5"/></svg>`, // Correct B
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="15,50 45,50 45,15 15,30" fill="none" stroke="#fbbf24" stroke-width="2"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="45,50 15,50 15,15 45,30" fill="none" stroke="#fbbf24" stroke-width="2"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="15,15 45,15 45,50 15,35" fill="#fbbf24" stroke="none"/></svg>`
+    ],
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><polygon points="45,15 15,15 15,50 45,35" fill="none" stroke="#fbbf24" stroke-width="2"/><line x1="15" y1="15" x2="45" y2="35" stroke="#ef4444" stroke-width="1.5"/></svg>`,
+    explanation: "Trapesium siku-siku dengan sisi lurus vertikal di sebelah kanan, setelah dicerminkan vertikal akan memiliki sisi lurus vertikal di sebelah kiri, dan arah garis diagonal di dalamnya juga berbalik arah."
+  },
+  {
+    id: 114,
+    category: "spatial",
+    question: "Manakah pola cermin yang tepat untuk bangun lingkaran terarsir sebagian berikut?",
+    svg: `
+      <svg viewBox="0 0 200 100" width="100%" height="100">
+        <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+        <g transform="translate(35, 25)">
+          <circle cx="25" cy="25" r="25" fill="none" stroke="#fbbf24" stroke-width="3"/>
+          <path d="M 25 25 L 25 0 A 25 25 0 0 1 50 25 Z" fill="#fbbf24"/>
+        </g>
+      </svg>
+    `,
+    options: [
+      `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 30 30 L 30 10 A 20 20 0 0 0 10 30 Z" fill="#fbbf24"/></svg>`, // Correct A
+      `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 30 30 L 30 10 A 20 20 0 0 1 50 30 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 30 30 L 30 50 A 20 20 0 0 1 10 30 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 30 30 L 30 50 A 20 20 0 0 0 50 30 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="#fbbf24" stroke="none"/></svg>`
+    ],
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><circle cx="30" cy="30" r="20" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 30 30 L 30 10 A 20 20 0 0 0 10 30 Z" fill="#fbbf24"/></svg>`,
+    explanation: "Arsiran berbentuk kuadran lingkaran berada di kuadran kanan-atas (jam 12 hingga jam 3). Setelah dicerminkan vertikal, posisi arsiran berpindah ke kuadran kiri-atas (jam 9 hingga jam 12)."
+  },
+  {
+    id: 115,
+    category: "spatial",
+    question: "Carilah bayangan cermin vertikal yang benar untuk huruf F bergaya berikut:",
+    svg: `
+      <svg viewBox="0 0 200 100" width="100%" height="100">
+        <line x1="100" y1="5" x2="100" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+        <g transform="translate(45, 25)">
+          <path d="M 10 10 L 35 10 L 35 18 L 18 18 L 18 28 L 30 28 L 30 36 L 18 36 L 18 50 L 10 50 Z" fill="#fbbf24"/>
+        </g>
+      </svg>
+    `,
+    options: [
+      `<svg viewBox="0 0 60 60" width="40" height="40"><path d="M 15 15 L 40 15 L 40 23 L 23 23 L 23 33 L 35 33 L 35 41 L 23 41 L 23 55 L 15 55 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><path d="M 45 15 L 20 15 L 20 23 L 37 23 L 37 33 L 25 33 L 25 41 L 37 41 L 37 55 L 45 55 Z" fill="#fbbf24"/></svg>`, // Correct B
+      `<svg viewBox="0 0 60 60" width="40" height="40"><path d="M 15 55 L 40 55 L 40 47 L 23 47 L 23 37 L 35 37 L 35 29 L 23 29 L 23 15 L 15 15 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><path d="M 45 55 L 20 55 L 20 47 L 37 47 L 37 37 L 25 37 L 25 29 L 37 29 L 37 15 L 45 15 Z" fill="#fbbf24"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><rect x="15" y="15" width="30" height="40" fill="#fbbf24"/></svg>`
+    ],
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><path d="M 45 15 L 20 15 L 20 23 L 37 23 L 37 33 L 25 33 L 25 41 L 37 41 L 37 55 L 45 55 Z" fill="#fbbf24"/></svg>`,
+    explanation: "Huruf F yang dicerminkan vertikal akan berbalik menghadap ke arah kiri (F terbalik secara horizontal)."
+  },
+
+  // --- Persamaan Kata / Sinonim (16 - 20) ---
+  {
+    id: 1016,
+    category: "synonym",
+    question: "Carilah kata yang memiliki arti yang paling dekat atau sama dengan kata: EVAKUASI",
+    options: ["Pemberhentian", "Pengamanan", "Pemindahan", "Penghancuran", "Penyaringan"],
+    answer: "Pemindahan",
+    explanation: "Menurut KBBI, evakuasi adalah pemindahan penduduk atau barang dari daerah-daerah yang berbahaya ke daerah aman."
+  },
+  {
+    id: 1017,
+    category: "synonym",
+    question: "Carilah kata yang memiliki arti yang paling dekat atau sama dengan kata: REKAN",
+    options: ["Musuh", "Atasan", "Mitra", "Helper", "Karyawan"],
+    answer: "Mitra",
+    explanation: "Rekan berarti teman sejawat, teman sepekerjaan, atau mitra kerja."
+  },
+  {
+    id: 1018,
+    category: "synonym",
+    question: "Carilah kata yang memiliki arti yang paling dekat atau sama dengan kata: PRESISI",
+    options: ["Longgar", "Akurat", "Bagus", "Cepat", "Kuat"],
+    answer: "Akurat",
+    explanation: "Presisi diartikan sebagai ketepatan, ketelitian, keakuratan, atau ketetapan."
+  },
+  {
+    id: 1019,
+    category: "synonym",
+    question: "Carilah kata yang memiliki arti yang paling dekat atau sama dengan kata: PROSEDUR",
+    options: ["Hasil akhir", "Tahapan metode", "Kegagalan", "Instruksi lisan", "Sanksi disiplin"],
+    answer: "Tahapan metode",
+    explanation: "Prosedur adalah tahap kegiatan untuk menyelesaikan suatu aktivitas atau metode langkah demi langkah."
+  },
+  {
+    id: 1020,
+    category: "synonym",
+    question: "Carilah kata yang memiliki arti yang paling dekat atau sama dengan kata: PEMELIHARAAN",
+    options: ["Perawatan", "Pengoperasian", "Pembangunan", "Pelepasan", "Pemberian"],
+    answer: "Perawatan",
+    explanation: "Pemeliharaan (maintenance) memiliki arti yang sama dengan perawatan, yaitu menjaga agar unit tetap berfungsi dengan baik."
+  },
+
+  // --- Lawan Kata / Antonim (21 - 25) ---
+  {
+    id: 1021,
+    category: "antonym",
+    question: "Carilah lawan kata yang paling tepat dari kata: STATIS",
+    options: ["Diam", "Dinamis", "Pasif", "Konstan", "Lambat"],
+    answer: "Dinamis",
+    explanation: "Statis berarti diam atau tidak bergerak/berkembang. Lawan katanya adalah dinamis yang berarti penuh gerak/perubahan."
+  },
+  {
+    id: 1022,
+    category: "antonym",
+    question: "Carilah lawan kata yang paling tepat dari kata: RENGGANG",
+    options: ["Jauh", "Lepas", "Rapat", "Retak", "Tipis"],
+    answer: "Rapat",
+    explanation: "Renggang berarti ada sela atau tidak rapat. Lawan katanya adalah rapat."
+  },
+  {
+    id: 1023,
+    category: "antonym",
+    question: "Carilah lawan kata yang paling tepat dari kata: EFISIEN",
+    options: ["Hemat", "Efektif", "Boros", "Produktif", "Tepat"],
+    answer: "Boros",
+    explanation: "Efisien adalah berdaya guna atau berhemat energi/biaya/waktu. Lawan katanya adalah boros."
+  },
+  {
+    id: 1024,
+    category: "antonym",
+    question: "Carilah lawan kata yang paling tepat dari kata: KRITIS",
+    options: ["Bahaya", "Parah", "Stabil", "Penting", "Sensitif"],
+    answer: "Stabil",
+    explanation: "Kritis merujuk pada situasi genting atau gawat. Lawan katanya adalah stabil atau aman."
+  },
+  {
+    id: 1025,
+    category: "antonym",
+    question: "Carilah lawan kata yang paling tepat dari kata: MANDIRI",
+    options: ["Bebas", "Sendiri", "Bergantung", "Kuat", "Tegas"],
+    answer: "Bergantung",
+    explanation: "Mandiri berarti tidak bergantung pada orang lain. Lawan katanya adalah bergantung (dependen)."
+  },
+
+  // --- Analogi (26 - 30) ---
+  {
+    id: 1026,
+    category: "analogy",
+    question: "PALU : PAKU berhubungan erat seperti halnya...",
+    options: [
+      "Obeng : Sekrup",
+      "Kunci : Pintu",
+      "Tang : Kabel",
+      "Gergaji : Besi",
+      "Dongkrak : Ban"
+    ],
+    answer: "Obeng : Sekrup",
+    explanation: "Palu digunakan untuk memukul paku agar masuk ke benda kerja. Analogi yang sama adalah Obeng digunakan untuk memutar sekrup agar masuk ke benda kerja."
+  },
+  {
+    id: 1027,
+    category: "analogy",
+    question: "RODA : MOBIL berhubungan erat seperti halnya...",
+    options: [
+      "Sayap : Pesawat",
+      "Kaki : Manusia",
+      "Kemudi : Kapal",
+      "Mesin : Motor",
+      "Rel : Kereta"
+    ],
+    answer: "Kaki : Manusia",
+    explanation: "Roda merupakan alat gerak utama bagi mobil. Secara analogi, kaki merupakan alat gerak utama bagi manusia."
+  },
+  {
+    id: 1028,
+    category: "analogy",
+    question: "OLI : MESIN berhubungan erat seperti halnya...",
+    options: [
+      "Air : Tanaman",
+      "Darah : Tubuh",
+      "Bensin : Karburator",
+      "Udara : Ban",
+      "Aki : Kabel"
+    ],
+    answer: "Darah : Tubuh",
+    explanation: "Oli mengalir di dalam mesin untuk melumasi dan menjaga kinerjanya. Analogi yang paling setara adalah darah yang mengalir di dalam tubuh untuk menyalurkan nutrisi."
+  },
+  {
+    id: 1029,
+    category: "analogy",
+    question: "HELM : KEPALA berhubungan erat seperti halnya...",
+    options: [
+      "Sarung Tangan : Jari",
+      "Sabuk Pengaman : Pinggang",
+      "Sepatu Safety : Kaki",
+      "Masker : Hidung",
+      "Kacamata : Mata"
+    ],
+    answer: "Sepatu Safety : Kaki",
+    explanation: "Helm adalah APD pelindung kepala dari benturan benda keras. Analogi yang paling tepat adalah Sepatu Safety sebagai APD pelindung kaki dari benturan atau tusukan benda keras."
+  },
+  {
+    id: 1030,
+    category: "analogy",
+    question: "LISTRIK : KABEL berhubungan erat seperti halnya...",
+    options: [
+      "Air : Pipa",
+      "Gas : Tabung",
+      "Cahaya : Kaca",
+      "Angin : Kipas",
+      "Baterai : Charger"
+    ],
+    answer: "Air : Pipa",
+    explanation: "Listrik mengalir ke tujuannya dihantarkan oleh kabel. Analogi yang sama adalah air mengalir dihantarkan oleh pipa."
+  },
+
+  // --- Acak Kata (31 - 35) ---
+  {
+    id: 1031,
+    category: "scramble",
+    question: "Susunlah acak kata berikut menjadi nama sebuah PROFESI: K - A - N - E - M - I - K",
+    options: ["Welder", "Helper", "Mekanik", "Tyreman", "Operator"],
+    answer: "Mekanik",
+    explanation: "Huruf K-A-N-E-M-I-K jika disusun dengan urutan yang benar membentuk kata MEKANIK."
+  },
+  {
+    id: 1032,
+    category: "scramble",
+    question: "Susunlah acak kata berikut menjadi nama sebuah TEMPAT KERJA: W - O - R - K - S - H - O - P",
+    options: ["Workshop", "Tambang", "Kantor", "Mess", "Gudang"],
+    answer: "Workshop",
+    explanation: "Huruf W-O-R-K-S-H-O-P jika disusun dengan urutan yang benar membentuk kata WORKSHOP."
+  },
+  {
+    id: 1033,
+    category: "scramble",
+    question: "Susunlah acak kata berikut menjadi sebuah PRINSIP KERJA: T - E - F - A - S - Y",
+    options: ["Safety", "Loyal", "Target", "Disiplin", "Fokus"],
+    answer: "Safety",
+    explanation: "Huruf T-E-F-A-S-Y jika disusun secara tepat membentuk kata SAFETY (keselamatan)."
+  },
+  {
+    id: 1034,
+    category: "scramble",
+    question: "Susunlah acak kata berikut menjadi nama KOMPONEN kelistrikan unit: R - A - T - E - T - A - B - I",
+    options: ["Alternator", "Dinamo", "Baterai", "Starter", "Sekring"],
+    answer: "Baterai",
+    explanation: "Huruf R-A-T-E-T-A-B-I jika disusun dengan urutan yang benar membentuk kata BATERAI."
+  },
+  {
+    id: 1035,
+    category: "scramble",
+    question: "Susunlah acak kata berikut menjadi istilah FISIKA kelistrikan: G - E - N - T - A - N - G - A - N",
+    options: ["Hambatan", "Tegangan", "Arus", "Daya", "Kapasitansi"],
+    answer: "Tegangan",
+    explanation: "Huruf G-E-N-T-A-N-G-A-N jika disusun dengan urutan yang benar membentuk kata TEGANGAN."
+  },
+
+  // --- Klasifikasi Verbal (36 - 40) ---
+  {
+    id: 1036,
+    category: "classification",
+    question: "Manakah kata yang TIDAK termasuk dalam kelompoknya (ganjil sendiri)?",
+    options: ["Obeng", "Tang", "Palu", "Kunci Inggris", "Helm"],
+    answer: "Helm",
+    explanation: "Obeng, Tang, Palu, dan Kunci Inggris adalah perkakas kerja (hand tools), sedangkan Helm adalah Alat Pelindung Diri (APD)."
+  },
+  {
+    id: 1037,
+    category: "classification",
+    question: "Manakah kata yang TIDAK termasuk dalam kelompoknya?",
+    options: ["Excavator", "Dump Truck", "Bulldozer", "Grader", "Sedan"],
+    answer: "Sedan",
+    explanation: "Excavator, Dump Truck, Bulldozer, dan Grader merupakan alat berat operasional pertambangan, sedangkan Sedan adalah mobil penumpang pribadi."
+  },
+  {
+    id: 1038,
+    category: "classification",
+    question: "Manakah kata yang TIDAK termasuk dalam kelompoknya?",
+    options: ["Solar", "Bensin", "Avtur", "Pertalite", "Oli"],
+    answer: "Oli",
+    explanation: "Solar, Bensin, Avtur, dan Pertalite merupakan bahan bakar (fuel), sedangkan Oli merupakan bahan pelumas (lubricant)."
+  },
+  {
+    id: 1039,
+    category: "classification",
+    question: "Manakah kata yang TIDAK termasuk dalam kelompok APD wajib standar?",
+    options: ["Helm Safety", "Sepatu Boot Baja", "Kacamata Pelindung", "Kaos Kaki", "Sarung Tangan Las"],
+    answer: "Kaos Kaki",
+    explanation: "Helm safety, sepatu boot baja, kacamata pelindung, dan sarung tangan las adalah Alat Pelindung Diri (APD) keselamatan wajib standar di workshop, sedangkan kaos kaki adalah pakaian pelengkap biasa."
+  },
+  {
+    id: 1040,
+    category: "classification",
+    question: "Manakah kata yang TIDAK termasuk dalam kelompok aktivitas fabrikasi logam?",
+    options: ["Welding", "Cutting", "Grinding", "Bending", "Sleeping"],
+    answer: "Sleeping",
+    explanation: "Welding (mengelas), Cutting (memotong), Grinding (menggerinda), dan Bending (menekuk) adalah aktivitas fabrikasi logam di workshop, sedangkan Sleeping (tidur) bukan."
+  }
+];
+
+// ==========================================
+// BAB 2: TES KEPRIBADIAN DISC (24 Soal)
+// Masing-masing soal berisi 4 pilihan pernyataan
+// yang mengarah ke D, I, S, atau C.
+// ==========================================
+const discQuestions = [
+  {
+    id: 201,
+    statements: [
+      { text: "Cepat mengambil keputusan tegas di bawah tekanan", dimension: "D" },
+      { text: "Menginspirasi rekan kerja dengan ide kreatif dan antusias", dimension: "I" },
+      { text: "Sabar membimbing junior dan menjaga suasana kerja yang damai", dimension: "S" },
+      { text: "Teliti mencocokkan checklist servis unit dengan SOP", dimension: "C" }
+    ]
+  },
+  {
+    id: 202,
+    statements: [
+      { text: "Menyukai tantangan memimpin perbaikan kerusakan unit kritis", dimension: "D" },
+      { text: "Menjelaskan diagnosa troubleshooting secara verbal yang meyakinkan", dimension: "I" },
+      { text: "Siap mendukung dan mengikuti keputusan pimpinan shift", dimension: "S" },
+      { text: "Fokus pada data teknis hasil pengukuran micrometer", dimension: "C" }
+    ]
+  },
+  {
+    id: 203,
+    statements: [
+      { text: "Berambisi mencapai target Physical Availability (PA) 90%", dimension: "D" },
+      { text: "Senang bercengkrama dan mencairkan ketegangan kru saat istirahat", dimension: "I" },
+      { text: "Tenang, stabil, dan tidak gampang emosi di lapangan", dimension: "S" },
+      { text: "Memeriksa kelayakan safety device secara berulang demi presisi", dimension: "C" }
+    ]
+  },
+  {
+    id: 204,
+    statements: [
+      { text: "Berani menegur rekan kerja yang melakukan unsafe action", dimension: "D" },
+      { text: "Mudah mengajak kru untuk bersemangat lembur perbaikan", dimension: "I" },
+      { text: "Menyukai lingkungan kerja kelompok yang loyal dan harmonis", dimension: "S" },
+      { text: "Membuat dokumentasi SPK dan backlog servis secara rapi", dimension: "C" }
+    ]
+  },
+  {
+    id: 205,
+    statements: [
+      { text: "Langsung bertindak menyelesaikan kendala tanpa menunda-nunda", dimension: "D" },
+      { text: "Banyak dikenal kru dan disenangi karena humoris", dimension: "I" },
+      { text: "Menghindari perselisihan dengan kru lain di workshop", dimension: "S" },
+      { text: "Merancang perbaikan alat (KAIZEN) dengan perhitungan matematis", dimension: "C" }
+    ]
+  },
+  {
+    id: 206,
+    statements: [
+      { text: "Menuntut kru bekerja cepat demi mengejar target breakdown", dimension: "D" },
+      { text: "Aktif memberikan pidato motivasi saat safety briefing pagi (P5M)", dimension: "I" },
+      { text: "Sedia mendengarkan keluhan kru dan memberikan solusi empati", dimension: "S" },
+      { text: "Sangat patuh pada jam masuk kerja dan aturan disiplin perusahaan", dimension: "C" }
+    ]
+  },
+  {
+    id: 207,
+    statements: [
+      { text: "Fokus pada penyelesaian masalah tanpa mempedulikan urusan pribadi", dimension: "D" },
+      { text: "Mampu memeriahkan suasana meeting departemen yang kaku", dimension: "I" },
+      { text: "Bekerja secara stabil dan teratur tanpa perlu banyak perubahan", dimension: "S" },
+      { text: "Menganalisis skema sirkuit hidrolik dengan sangat terperinci", dimension: "C" }
+    ]
+  },
+  {
+    id: 208,
+    statements: [
+      { text: "Menyukai otoritas untuk memimpin pengawasan kru shift", dimension: "D" },
+      { text: "Mengajak orang lain mencoba metode pemecahan yang baru", dimension: "I" },
+      { text: "Nyaman bekerja dalam rutinitas harian yang sudah dipolakan", dimension: "S" },
+      { text: "Memastikan semua laporan kerusakan ditulis berbasis bukti fisik", dimension: "C" }
+    ]
+  },
+  {
+    id: 209,
+    statements: [
+      { text: "Tegas menentukan skala prioritas unit mana yang dikerjakan dulu", dimension: "D" },
+      { text: "Mampu merangkul mekanik pendiam agar mau membaur di tim", dimension: "I" },
+      { text: "Mudah memaafkan kesalahan kru junior demi kekeluargaan", dimension: "S" },
+      { text: "Mengutamakan kualitas pengerjaan daripada kecepatan buru-buru", dimension: "C" }
+    ]
+  },
+  {
+    id: 210,
+    statements: [
+      { text: "Bersikap kompetitif untuk membuktikan performa kerja terbaik", dimension: "D" },
+      { text: "Suka berdiskusi terbuka mencari solusi alternatif bersama kru", dimension: "I" },
+      { text: "Sabar menunggu giliran tugas yang didelegasikan pengawas", dimension: "S" },
+      { text: "Merujuk langsung pada buku manual pabrikan (OMM) saat troubleshooting", dimension: "C" }
+    ]
+  },
+  {
+    id: 211,
+    statements: [
+      { text: "Mengambil tanggung jawab atas kesalahan hasil kerja shift", dimension: "D" },
+      { text: "Menawarkan ide baru yang out-of-the-box di workshop", dimension: "I" },
+      { text: "Membantu merapikan peralatan kerja rekan lain demi kebersihan bersama", dimension: "S" },
+      { text: "Menuntut standarisasi kualitas pengerjaan agar tidak ada rework", dimension: "C" }
+    ]
+  },
+  {
+    id: 212,
+    statements: [
+      { text: "Menyukai kompetisi sehat antar regu pemeliharaan", dimension: "D" },
+      { text: "Mampu memotivasi tim yang sedang mengalami kelelahan kerja", dimension: "I" },
+      { text: "Menjadi penengah yang damai jika terjadi konflik antar mekanik", dimension: "S" },
+      { text: "Melakukan inspeksi kelayakan unit dengan standar kelulusan ketat", dimension: "C" }
+    ]
+  },
+  {
+    id: 213,
+    statements: [
+      { text: "Mandiri menyelesaikan troubleshooting kelistrikan yang rumit", dimension: "D" },
+      { text: "Ekspresif menunjukkan apresiasi secara verbal kepada kru", dimension: "I" },
+      { text: "Lebih senang mendengarkan instruksi daripada mendebat atasan", dimension: "S" },
+      { text: "Mencatat penggunaan sparepart secara rinci agar inventory akurat", dimension: "C" }
+    ]
+  },
+  {
+    id: 214,
+    statements: [
+      { text: "Menargetkan efisiensi waktu kerja di workshop", dimension: "D" },
+      { text: "Senang berjejaring dan berkomunikasi dengan seksi lain", dimension: "I" },
+      { text: "Menunjukkan loyalitas tinggi kepada komitmen tim", dimension: "S" },
+      { text: "Menolak merilis unit jika analisis hazard belum terpenuhi", dimension: "C" }
+    ]
+  },
+  {
+    id: 215,
+    statements: [
+      { text: "Berani mengambil keputusan berisiko demi kelancaran produksi", dimension: "D" },
+      { text: "Suka bernegosiasi untuk menyelaraskan kepentingan kru", dimension: "I" },
+      { text: "Siap mengalah demi menjaga kekompakan kelompok", dimension: "S" },
+      { text: "Menyusun file riwayat perawatan unit secara sistematis", dimension: "C" }
+    ]
+  },
+  {
+    id: 216,
+    statements: [
+      { text: "Mengarahkan kru dengan instruksi tegas yang tak bisa dibantah", dimension: "D" },
+      { text: "Pandai membangun komunikasi informal yang akrab di workshop", dimension: "I" },
+      { text: "Mudah beradaptasi dengan karakter kru yang bermacam-macam", dimension: "S" },
+      { text: "Memegang teguh kebenaran data teknis dibanding opini lisan", dimension: "C" }
+    ]
+  },
+  {
+    id: 217,
+    statements: [
+      { text: "Mendorong tim untuk terus melakukan peningkatan produktivitas", dimension: "D" },
+      { text: "Suka bercerita tentang pengalaman menarik untuk memotivasi kru", dimension: "I" },
+      { text: "Konsisten melaksanakan tugas rutin harian hingga selesai", dimension: "S" },
+      { text: "Menghindari asumsi dan selalu meminta bukti pengukuran fisik", dimension: "C" }
+    ]
+  },
+  {
+    id: 218,
+    statements: [
+      { text: "Cepat merespon panggilan darurat breakdown unit di pit tambang", dimension: "D" },
+      { text: "Menyukai kerja sama kelompok daripada bekerja sendirian", dimension: "I" },
+      { text: "Menjaga sikap ramah tamah kepada semua kru tanpa terkecuali", dimension: "S" },
+      { text: "Mengikuti alur birokrasi dan administrasi kerja sesuai aturan", dimension: "C" }
+    ]
+  },
+  {
+    id: 219,
+    statements: [
+      { text: "Fokus pada target harian tanpa terdistraksi masalah sosial workshop", dimension: "D" },
+      { text: "Menyukai sesi brainstorming untuk mencari solusi kreatif", dimension: "I" },
+      { text: "Sabar menghadapi keluhan pelanggan (produksi) dengan tenang", dimension: "S" },
+      { text: "Sangat berhati-hati sebelum menyetujui pelepasan komponen penting", dimension: "C" }
+    ]
+  },
+  {
+    id: 220,
+    statements: [
+      { text: "Mampu memimpin tim besar dalam proyek renovasi major overhaul", dimension: "D" },
+      { text: "Pandai membangun networking dengan vendor atau pihak luar", dimension: "I" },
+      { text: "Menghargai tradisi dan kebiasaan kerja baik yang sudah ada", dimension: "S" },
+      { text: "Menuntut ketelitian tinggi pada pengisian form checklist JSA", dimension: "C" }
+    ]
+  },
+  {
+    id: 221,
+    statements: [
+      { text: "Menetapkan target performa yang tinggi untuk diri sendiri", dimension: "D" },
+      { text: "Optimis menghadapi kegagalan pencapaian target produksi", dimension: "I" },
+      { text: "Suka memberikan bantuan teknis tanpa diminta kepada kru lain", dimension: "S" },
+      { text: "Disiplin melapor setiap deviasi kecil kepada Section Head", dimension: "C" }
+    ]
+  },
+  {
+    id: 222,
+    statements: [
+      { text: "Tegas menuntut disiplin kru dalam penggunaan APD wajib", dimension: "D" },
+      { text: "Senang berpartisipasi dalam aktivitas sosial perusahaan", dimension: "I" },
+      { text: "Mudah mempercayai kejujuran rekan kerja di regunya", dimension: "S" },
+      { text: "Melakukan analisa data historis kerusakan untuk tindakan preventif", dimension: "C" }
+    ]
+  },
+  {
+    id: 223,
+    statements: [
+      { text: "Mengambil tindakan korektif darurat demi menjaga keselamatan kru", dimension: "D" },
+      { text: "Mampu mencairkan konflik interpersonal kru lewat komunikasi hangat", dimension: "I" },
+      { text: "Tetap tenang dan kooperatif meski atasan sedang marah", dimension: "S" },
+      { text: "Mengevaluasi secara logis efektivitas metode kerja yang lama", dimension: "C" }
+    ]
+  },
+  {
+    id: 224,
+    statements: [
+      { text: "Bertekad menyelesaikan masalah tersulit yang dihindari kru lain", dimension: "D" },
+      { text: "Menularkan energi positif dan antusiasme pada rekan kerja", dimension: "I" },
+      { text: "Menerima kritik atasan dengan berlapang dada untuk perbaikan", dimension: "S" },
+      { text: "Selalu menaati petunjuk keselamatan kerja (K3) dengan patuh", dimension: "C" }
+    ]
+  }
+];
+
+// ==========================================
+// BAB 3: TES KEPRIBADIAN GAYA KEPEMIMPINAN
+// MOST & LEAST (15 Soal, Pilihan 3 Pernyataan)
+// Pilihan dipetakan ke:
+// A: Achievement (Fokus Target & Kinerja)
+// P: People (Fokus Hubungan & Kerja Tim)
+// L: Leadership (Fokus Arahan & Pengambilan Keputusan)
+// ==========================================
+const mostLeastQuestions = [
+  {
+    id: 301,
+    statements: [
+      { text: "Menuntaskan tugas perbaikan unit tepat waktu sesuai target target", dimension: "A" },
+      { text: "Membangun kekompakan kelompok agar tidak ada perpecahan", dimension: "P" },
+      { text: "Mengambil tanggung jawab penuh memimpin kru di lapangan", dimension: "L" }
+    ]
+  },
+  {
+    id: 302,
+    statements: [
+      { text: "Fokus pada peningkatan kualitas hasil repair (zero rework)", dimension: "A" },
+      { text: "Sabar mendengarkan keluhan kru demi menjaga keharmonisan", dimension: "P" },
+      { text: "Berani menegur dan menertibkan kru yang melanggar aturan", dimension: "L" }
+    ]
+  },
+  {
+    id: 303,
+    statements: [
+      { text: "Bekerja mandiri menyelesaikan troubleshooting rumit", dimension: "A" },
+      { text: "Mengutamakan diskusi tim untuk mencapai mufakat", dimension: "P" },
+      { text: "Mengambil keputusan cepat saat terjadi breakdown darurat", dimension: "L" }
+    ]
+  },
+  {
+    id: 304,
+    statements: [
+      { text: "Mengejar produktivitas kerja kru agar mencapai nilai PA optimal", dimension: "A" },
+      { text: "Senang berbagi ilmu dan membimbing kru junior", dimension: "P" },
+      { text: "Mendelegasikan tugas secara terperinci kepada setiap kru", dimension: "L" }
+    ]
+  },
+  {
+    id: 305,
+    statements: [
+      { text: "Melakukan improvement (Kaizen) untuk mempercepat kerja workshop", dimension: "A" },
+      { text: "Menjaga hubungan kerja yang hangat dan kekeluargaan", dimension: "P" },
+      { text: "Menetapkan standar kualitas kerja yang wajib dituruti tim", dimension: "L" }
+    ]
+  },
+  {
+    id: 306,
+    statements: [
+      { text: "Menyukai tantangan memecahkan problem mekanis baru", dimension: "A" },
+      { text: "Menghindari konflik personal dengan kru di lingkungan kerja", dimension: "P" },
+      { text: "Mengarahkan regu untuk selalu siap mengikuti instruksi shift", dimension: "L" }
+    ]
+  },
+  {
+    id: 307,
+    statements: [
+      { text: "Mengutamakan keakuratan data pengisian form JSA", dimension: "A" },
+      { text: "Mengapresiasi usaha kerja kru secara verbal", dimension: "P" },
+      { text: "Mendorong kru untuk meningkatkan level skill kompetensi mereka", dimension: "L" }
+    ]
+  },
+  {
+    id: 308,
+    statements: [
+      { text: "Konsisten memenuhi target kerja individu yang ditetapkan", dimension: "A" },
+      { text: "Senang membantu tugas rekan kerja lain yang menumpuk", dimension: "P" },
+      { text: "Mewakili tim dalam bernegosiasi dengan atasan/seksi lain", dimension: "L" }
+    ]
+  },
+  {
+    id: 309,
+    statements: [
+      { text: "Mempelajari spesifikasi manual book unit dengan tekun", dimension: "A" },
+      { text: "Membangun hubungan komunikasi yang ramah dengan tim produksi", dimension: "P" },
+      { text: "Berani mengambil inisiatif perubahan sistem di workshop", dimension: "L" }
+    ]
+  },
+  {
+    id: 310,
+    statements: [
+      { text: "Fokus pada efisiensi penggunaan anggaran sparepart", dimension: "A" },
+      { text: "Menciptakan lingkungan kerja yang menyenangkan dan minim stres", dimension: "P" },
+      { text: "Tegas membagi tugas lembur kru secara adil", dimension: "L" }
+    ]
+  },
+  {
+    id: 311,
+    statements: [
+      { text: "Menuntaskan backlog perawatan unit secara sistematis", dimension: "A" },
+      { text: "Menghargai saran dan kritik kru junior dengan terbuka", dimension: "P" },
+      { text: "Memimpin penegakan aturan keselamatan kerja (safety) secara konsisten", dimension: "L" }
+    ]
+  },
+  {
+    id: 312,
+    statements: [
+      { text: "Meningkatkan kemampuan keahlian teknis pribadi secara berkala", dimension: "A" },
+      { text: "Menyelenggarakan acara kebersamaan regu untuk mempererat tim", dimension: "P" },
+      { text: "Mengambil alih kendali di lapangan saat situasi menjadi kacau", dimension: "L" }
+    ]
+  },
+  {
+    id: 313,
+    statements: [
+      { text: "Menghindari rework (perbaikan berulang) dengan inspeksi ketat", dimension: "A" },
+      { text: "Mengutamakan kesejahteraan kru di bawah pengawasan saya", dimension: "P" },
+      { text: "Mengatur rotasi shift kru secara efektif dan terencana", dimension: "L" }
+    ]
+  },
+  {
+    id: 314,
+    statements: [
+      { text: "Memeriksa kelayakan alat ukur (kalibrasi) sebelum servis", dimension: "A" },
+      { text: "Memberikan motivasi kepada kru yang sedang jenuh bekerja", dimension: "P" },
+      { text: "Menginstruksikan perbaikan unit dengan panduan yang jelas", dimension: "L" }
+    ]
+  },
+  {
+    id: 315,
+    statements: [
+      { text: "Berkomitmen pada target KPI pencapaian performa regu", dimension: "A" },
+      { text: "Mengutamakan persahabatan jangka panjang dengan rekan kerja", dimension: "P" },
+      { text: "Mengambil keputusan strategis demi keberlangsungan divisi", dimension: "L" }
+    ]
+  }
+];
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { questionBank };
+  module.exports = { questionBankLevel1, questionBankLevel2, discQuestions, mostLeastQuestions };
 }

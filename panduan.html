@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Materi & Panduan Belajar Psikotes Online - PPD BA</title>
+  <title>Materi & Panduan Belajar Asesmen Online - PPD BA</title>
   <style>
     :root {
       --primary: #0f172a;
@@ -13,6 +13,7 @@
       --text-muted: #94a3b8;
       --border: #334155;
       --success: #10b981;
+      --blue: #3b82f6;
     }
 
     * {
@@ -30,7 +31,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 850px;
       margin: 0 auto;
       background-color: var(--secondary);
       border: 1px solid var(--border);
@@ -73,7 +74,7 @@
 
     h2 {
       font-size: 1.3rem;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       margin-bottom: 1rem;
       border-left: 4px solid var(--accent);
       padding-left: 0.75rem;
@@ -103,6 +104,50 @@
 
     .btn-print:hover {
       background-color: #f59e0b;
+    }
+
+    /* Tabs Navigation */
+    .tabs-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 0.4rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      background-color: transparent;
+      color: var(--text-muted);
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background-color: var(--accent);
+      color: #000;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
     }
 
     .tips-box {
@@ -168,6 +213,11 @@
       margin: 1rem 0;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Print Styles */
     @media print {
       body {
@@ -184,8 +234,13 @@
         max-width: 100%;
       }
 
-      .btn-print {
+      .btn-print, .tabs-container {
         display: none;
+      }
+
+      .tab-content {
+        display: block !important;
+        page-break-after: always;
       }
 
       h1, h2 {
@@ -230,242 +285,203 @@
     <div class="header">
       <div class="logo-text">PPD <span>BA</span></div>
       <div class="subtitle">Plant People Development Bukit Asam</div>
-      <h1>Materi & Panduan Belajar Psikotes Calon Group Leader</h1>
+      <h1>Materi & Panduan Tes PPD Site Bukit Asam</h1>
     </div>
 
     <div style="text-align: center;" class="no-print">
       <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan Sebagai PDF</button>
     </div>
 
-    <p>Selamat datang di panduan belajar PPD BA. Materi ini disusun untuk membantu Anda memahami pola-pola soal psikotes logika kognitif yang akan diujikan, yang meliputi: <strong>Deret Angka & Gambar</strong>, <strong>Aritmatika Logika (Soal Cerita)</strong>, serta <strong>Logika Spasial (Visual Dimensi)</strong>.</p>
-
-    <!-- SECTION 1 -->
-    <h2>1. Deret Angka & Deret Gambar (Logika Pola)</h2>
-    <p>Soal deret menguji ketajaman Anda dalam melihat keteraturan/pola dari barisan angka atau gambar yang disajikan secara berurutan.</p>
-    
-    <div class="tips-box">
-      <div class="tips-title">💡 Tips Mengerjakan:</div>
-      <ul>
-        <li><strong>Cek Pola Sederhana</strong>: Periksa operasi penambahan (+), pengurangan (-), perkalian (x), atau pembagian (:) antara dua angka berurutan terlebih dahulu.</li>
-        <li><strong>Pola Loncat</strong>: Jika angka berurutan tampak naik-turun secara acak, coba lihat pola dengan melompati satu angka (loncat 1) atau dua angka (loncat 2).</li>
-        <li><strong>Perubahan Bertingkat</strong>: Kadang selisih antar angka tidak tetap, tetapi selisihnya membentuk pola baru (selisih bertingkat, misal: +2, +3, +4, +5).</li>
-      </ul>
+    <!-- Tabs Navigation Control -->
+    <div class="tabs-container no-print">
+      <button class="tab-btn active" data-tab="tab-level1">Tips Psikotest Level 1</button>
+      <button class="tab-btn" data-tab="tab-level2">Tips Psikotest Level 2</button>
+      <button class="tab-btn" data-tab="tab-interview">Tips Interview (Wawancara)</button>
     </div>
 
-    <div class="example-box">
-      <div class="example-title">Contoh Soal 1 (Deret Angka Loncat 1):</div>
-      <p>Tentukan angka selanjutnya dari deret berikut: <strong>4, 7, 5, 8, 6, 9, ...</strong></p>
-      <div class="explanation">
-        <strong>Pembahasan:</strong><br>
-        • Dari 4 ke 7: <strong>+3</strong><br>
-        • Dari 7 ke 5: <strong>-2</strong><br>
-        • Dari 5 ke 8: <strong>+3</strong><br>
-        • Dari 8 ke 6: <strong>-2</strong><br>
-        • Dari 6 ke 9: <strong>+3</strong><br>
-        Pola operasi adalah berulang secara bergantian: <strong>(+3, -2, +3, -2, +3, ...)</strong>.<br>
-        Maka langkah berikutnya setelah 9 adalah <strong>9 - 2 = 7</strong>.
+    <!-- ========================================== -->
+    <!-- TAB 1: TIPS PSIKOTEST LEVEL 1              -->
+    <!-- Target: Mekanik/Welder/Tyreman Sr., Calon GL-->
+    <!-- ========================================== -->
+    <div id="tab-level1" class="tab-content active">
+      <h2>Panduan Level 1 (Mekanik Sr., Welder Sr., Tyreman Sr., Calon GL)</h2>
+      <p>Materi Level 1 diujikan untuk menilai kesiapan kompetensi logika praktis, ketelitian gambar, dan pemahaman K3 dasar.</p>
+      
+      <div class="tips-box">
+        <div class="tips-title">💡 Pengetahuan Umum & Prosedur K3 Workshop:</div>
+        <p>Soal menguji pengetahuan keselamatan standar industri tambang dan workshop.</p>
+        <ul>
+          <li>Pahami kegunaan APD wajib (Helm, kacamata las, safety shoes, earplug, welding mask).</li>
+          <li>Ketahui standar APAR (Alat Pemadam Api Ringan) berlabel hitam (CO2) untuk kebakaran sirkuit listrik.</li>
+          <li>Pahami singkatan K3: Keselamatan dan Kesehatan Kerja.</li>
+        </ul>
+      </div>
+
+      <div class="tips-box">
+        <div class="tips-title">💡 Sinonim, Antonim & Analogi Verbal:</div>
+        <p>Menguji ketajaman kosakata dan hubungan kata operasional.</p>
+        <ul>
+          <li><strong>Sinonim (Persamaan Kata)</strong>: Evakuasi = Pemindahan; Presisi = Akurasi; Prosedur = Tahapan metode.</li>
+          <li><strong>Antonim (Lawan Kata)</strong>: Statis &harr; Dinamis; Renggang &harr; Rapat; Efisien &harr; Boros.</li>
+          <li><strong>Analogi (Hubungan Kata)</strong>: Listrik dialirkan melalui kabel, seperti halnya air dialirkan melalui pipa (Listrik : Kabel &rArr; Air : Pipa).</li>
+        </ul>
+      </div>
+
+      <div class="example-box">
+        <div class="example-title">Contoh Soal (Acak Kata & Klasifikasi Verbal):</div>
+        <p>1. Susun acak kata menjadi nama profesi: <strong>K - A - N - E - M - I - K</strong>. &rArr; Jawaban: <strong>Mekanik</strong>.</p>
+        <p>2. Cari kata yang tidak masuk kelompoknya: <strong>Obeng, Tang, Palu, Kunci Inggris, Helm</strong>. &rArr; Jawaban: <strong>Helm</strong> (Helm adalah APD, yang lainnya adalah perkakas/hand tools).</p>
+      </div>
+
+      <div class="example-box">
+        <div class="example-title">Contoh Soal (Cermin Bangun Ruang):</div>
+        <p>Tentukan pencerminan vertikal dari objek segitiga siku-siku yang memiliki lubang lingkaran di pojok kanan bawah.</p>
+        <div class="explanation">
+          <strong>Pembahasan:</strong><br>
+          Jika cermin diletakkan vertikal di samping segitiga, sisi segitiga siku-siku akan berbalik arah menghadap ke kiri. Lubang lingkaran kecil yang tadinya berada di kanan bawah akan berpindah posisi ke kiri bawah. Sisi atas segitiga tetap berada di atas (tidak terbalik atas-bawah).
+        </div>
       </div>
     </div>
 
-    <div class="example-box">
-      <div class="example-title">Contoh Soal 2 (Deret Angka Bertingkat):</div>
-      <p>Tentukan angka selanjutnya dari deret berikut: <strong>2, 3, 5, 8, 12, ...</strong></p>
-      <div class="explanation">
-        <strong>Pembahasan:</strong><br>
-        • Selisih 2 ke 3: <strong>+1</strong><br>
-        • Selisih 3 ke 5: <strong>+2</strong><br>
-        • Selisih 5 ke 8: <strong>+3</strong><br>
-        • Selisih 8 ke 12: <strong>+4</strong><br>
-        Selisih selalu bertambah 1 dari selisih sebelumnya (+1, +2, +3, +4, ...).<br>
-        Maka langkah berikutnya adalah penambahan sebesar <strong>+5</strong>. Angka selanjutnya: <strong>12 + 5 = 17</strong>.
+    <!-- ========================================== -->
+    <!-- TAB 2: TIPS PSIKOTEST LEVEL 2              -->
+    <!-- Target: Group Leader Senior                -->
+    <!-- ========================================== -->
+    <div id="tab-level2" class="tab-content">
+      <h2>Panduan Level 2 (Group Leader Senior)</h2>
+      <p>Materi Level 2 berfokus pada ketajaman analisis kuantitatif cerita pertambangan, deret kompleks, dan logika spasial 3D.</p>
+
+      <div class="tips-box">
+        <div class="tips-title">💡 Deret Angka & Deret Gambar:</div>
+        <ul>
+          <li><strong>Periksa Selisih Bertingkat</strong>: Pola penambahan sering kali tidak statis (misal: +2, +4, +6, +8).</li>
+          <li><strong>Pola Loncat 1 atau 2</strong>: Jika angka naik-turun drastis, periksa hubungan antara suku ke-1, ke-3, ke-5, dst.</li>
+        </ul>
+      </div>
+
+      <div class="example-box">
+        <div class="example-title">Contoh Soal (Aritmatika Logika Soal Cerita):</div>
+        <p>Suatu tangki bahan bakar genset workshop dapat diisi penuh oleh Pipa A dalam waktu 4 jam dan Pipa B dalam waktu 6 jam. Jika kedua pipa dibuka bersamaan, berapa jam tangki terisi penuh?</p>
+        <div class="explanation">
+          <strong>Pembahasan:</strong><br>
+          Gunakan rumus kerja bersama: <strong>Waktu = (X * Y) / (X + Y)</strong><br>
+          Waktu bersama = (4 * 6) / (4 + 6) = 24 / 10 = <strong>2,4 Jam</strong> (2 jam 24 menit).
+        </div>
+      </div>
+
+      <div class="example-box">
+        <div class="example-title">Contoh Soal (Logika Spasial 3D / Gambar Berputar):</div>
+        <p>Pola gambar berputar searah jarum jam secara berkala:</p>
+        <div class="svg-container">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 100" width="100%" height="80">
+            <g transform="translate(10, 10)">
+              <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+              <line x1="40" y1="10" x2="40" y2="70" stroke="#fbbf24" stroke-width="3"/>
+              <polygon points="40,5 35,15 45,15" fill="#fbbf24"/>
+              <circle cx="40" cy="70" r="6" fill="#ef4444"/>
+            </g>
+            <text x="100" y="55" fill="#fbbf24" font-size="20">→</text>
+            <g transform="translate(130, 10)">
+              <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+              <line x1="70" y1="40" x2="10" y2="40" stroke="#fbbf24" stroke-width="3"/>
+              <polygon points="75,40 65,35 65,45" fill="#fbbf24"/>
+              <circle cx="10" cy="40" r="6" fill="#ef4444"/>
+            </g>
+            <text x="220" y="55" fill="#fbbf24" font-size="20">→</text>
+            <g transform="translate(250, 10)">
+              <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
+              <line x1="40" y1="70" x2="40" y2="10" stroke="#fbbf24" stroke-width="3"/>
+              <polygon points="40,75 35,65 45,65" fill="#fbbf24"/>
+              <circle cx="40" cy="10" r="6" fill="#ef4444"/>
+            </g>
+            <text x="340" y="55" fill="#fbbf24" font-size="20">→</text>
+            <g transform="translate(360, 10)">
+              <rect width="80" height="80" fill="none" stroke="#fbbf24" stroke-width="2" rx="6" stroke-dasharray="4"/>
+              <text x="35" y="48" fill="#fbbf24" font-size="24" font-weight="bold">?</text>
+            </g>
+          </svg>
+        </div>
+        <div class="explanation">
+          <strong>Pembahasan:</strong><br>
+          Langkah 1 menghadap ke atas. Langkah 2 berputar 90° searah jarum jam (kanan). Langkah 3 berputar kembali 90° (bawah). Maka kelanjutannya harus berputar ke <strong>kiri</strong> (panah menghadap kiri, lingkaran merah di kanan).
+        </div>
       </div>
     </div>
 
-    <!-- SECTION 2 -->
-    <h2>2. Aritmatika Logika (Soal Cerita Matematika)</h2>
-    <p>Menguji kemampuan analisis matematis praktis dalam menyelesaikan kasus sehari-hari.</p>
+    <!-- ========================================== -->
+    <!-- TAB 3: TIPS INTERVIEW (WAWANCARA)          -->
+    <!-- Target: Kesiapan Wawancara Perilaku / STAR -->
+    <!-- ========================================== -->
+    <div id="tab-interview" class="tab-content">
+      <h2>Panduan & Kisi-kisi Interview Calon Pengawas / Group Leader</h2>
+      <p>Wawancara ditujukan untuk mengevaluasi kedewasaan sikap kepemimpinan, kepatuhan safety, dan penyelesaian masalah kerja secara andal.</p>
 
-    <div class="tips-box">
-      <div class="tips-title">💡 Tips Mengerjakan:</div>
-      <ul>
-        <li><strong>Fokus pada Pertanyaan</strong>: Tuliskan terlebih dahulu apa yang diketahui secara ringkas, dan apa yang ditanyakan.</li>
-        <li><strong>Konsep Kecepatan Kerja Kerja Bersama</strong>: Jika A menyelesaikan tugas dalam X jam dan B dalam Y jam, waktu kerja bersama adalah: <strong>(X * Y) / (X + Y)</strong>.</li>
-        <li><strong>Rasio & Persentase</strong>: Pelajari cara mencari nilai perbandingan senilai (misal: jumlah bensin dan jarak tempuh) dan perbandingan berbalik nilai (misal: jumlah pekerja dan waktu penyelesaian).</li>
-      </ul>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title">Contoh Soal 3 (Perbandingan Berbalik Nilai):</div>
-      <p>Suatu pekerjaan renovasi rumah dapat diselesaikan oleh 6 pekerja dalam waktu 10 hari. Jika pekerjaan tersebut ingin diselesaikan dalam waktu 5 hari saja, berapa total pekerja yang dibutuhkan?</p>
-      <div class="explanation">
-        <strong>Pembahasan:</strong><br>
-        Ini adalah perbandingan berbalik nilai, karena semakin cepat waktu pengerjaan yang diinginkan, semakin banyak pekerja yang harus ditambahkan.<br>
-        • Total beban pekerjaan = <strong>6 pekerja x 10 hari = 60 pekerja-hari</strong>.<br>
-        • Jika ingin selesai dalam 5 hari: <strong>Jumlah Pekerja = 60 pekerja-hari / 5 hari = 12 pekerja</strong>.<br>
-        Maka total pekerja yang dibutuhkan adalah <strong>12 orang</strong>.
+      <!-- Topic 1 -->
+      <div class="example-box">
+        <div class="example-title">1. Menceritakan Pengalaman Kerja & Job Description:</div>
+        <p>Jelaskan rekam jejak Anda secara ringkas namun bermakna. Sebutkan keahlian spesifik Anda:</p>
+        <ul>
+          <li><strong>Mekanik Senior</strong>: Ahli dalam mendiagnosa troubleshooting major engine, sistem hidrolik, dan transmisi alat berat.</li>
+          <li><strong>Welder Senior</strong>: Mahir melakukan fabrikasi bucket, pengelasan struktur kritis, serta mematuhi sertifikasi pengelasan aman.</li>
+          <li><strong>Tyreman Senior</strong>: Berfokus pada pengelolaan umur pakai ban raksasa (tyre life management), penggantian aman, dan rotasi ban unit.</li>
+        </ul>
+        <div class="explanation">
+          <em>Tips:</em> Hubungkan keahlian praktis Anda dengan kontribusi terhadap kelancaran target operasional departemen maintenance.
+        </div>
       </div>
-    </div>
 
-    <div class="example-box">
-      <div class="example-title">Contoh Soal 4 (Rata-rata Gabungan):</div>
-      <p>Rata-rata tinggi badan 5 orang siswa adalah 160 cm. Jika 1 siswa baru bergabung, rata-rata tinggi badannya menjadi 161 cm. Berapakah tinggi badan siswa baru tersebut?</p>
-      <div class="explanation">
-        <strong>Pembahasan:</strong><br>
-        • Total tinggi 5 orang pertama = 5 x 160 cm = <strong>800 cm</strong>.<br>
-        • Total tinggi setelah ditambah 1 orang (menjadi 6 orang) = 6 x 161 cm = <strong>966 cm</strong>.<br>
-        • Tinggi badan siswa baru = Total baru - Total lama = 966 cm - 800 cm = <strong>166 cm</strong>.
+      <!-- Topic 2 -->
+      <div class="example-box">
+        <div class="example-title">2. Menceritakan Keseharian dalam Pekerjaan:</div>
+        <p>Pengawas harus memahami alur operasional harian yang tertib:</p>
+        <ul>
+          <li>Memulai hari dengan memimpin briefing pagi keselamatan kerja (P5M) secara antusias.</li>
+          <li>Menganalisis lembar Surat Perintah Kerja (SPK) dan dokumen JSA (Job Safety Analysis) bersama regu.</li>
+          <li>Melakukan pembagian tugas kru secara merata dan memantau progres perbaikan unit di pit tambang.</li>
+          <li>Membuat dokumentasi laporan backlog sparepart dan update status kesiapan unit (PA/MA).</li>
+        </ul>
       </div>
-    </div>
 
-    <!-- SECTION 3 -->
-    <h2>3. Logika Spasial & Bangun Ruang (Analisis Visual)</h2>
-    <p>Menguji visualisasi mental Anda dalam memutar bangun datar, melipat jaring-jaring menjadi bangun ruang 3D, atau menentukan kelanjutan gambar pola.</p>
-
-    <div class="tips-box">
-      <div class="tips-title">💡 Tips Mengerjakan:</div>
-      <ul>
-        <li><strong>Ikuti Satu Komponen Saja</strong>: Di dalam gambar yang rumit, pilih satu bagian kecil (misal: bulatan hitam, garis panah, atau arsiran) lalu ikuti gerakannya di setiap langkah (apakah berputar 90°, bergeser, atau bertambah besar).</li>
-        <li><strong>Gunakan Eliminasi</strong>: Coret pilihan jawaban yang langsung terlihat salah agar Anda fokus pada pilihan yang tersisa saja.</li>
-        <li><strong>Metode Jaring-jaring 3D</strong>: Perhatikan sisi mana saja yang saling menempel/bersebelahan dan sisi mana yang saling berhadapan (sisi berhadapan tidak mungkin terlihat bersamaan dari satu sudut pandang).</li>
-      </ul>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title">Contoh Soal 5 (Pola Rotasi Gambar):</div>
-      <p>Pola gambar di bawah ini berputar secara bertahap. Tentukan kelanjutan pola berikutnya:</p>
-      <div class="svg-container">
-        <!-- SVG Pola Spasial Rantai Contoh -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 100" width="100%" height="80">
-          <!-- Step 1 -->
-          <g transform="translate(10, 10)">
-            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
-            <line x1="40" y1="10" x2="40" y2="70" stroke="#fbbf24" stroke-width="3"/>
-            <polygon points="40,5 35,15 45,15" fill="#fbbf24"/>
-            <circle cx="40" cy="70" r="6" fill="#ef4444"/>
-            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 1</text>
-          </g>
-          <!-- Panah -->
-          <text x="100" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
-          <!-- Step 2 (Rotated 90 deg clockwise) -->
-          <g transform="translate(130, 10)">
-            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
-            <line x1="70" y1="40" x2="10" y2="40" stroke="#fbbf24" stroke-width="3"/>
-            <polygon points="75,40 65,35 65,45" fill="#fbbf24"/>
-            <circle cx="10" cy="40" r="6" fill="#ef4444"/>
-            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 2</text>
-          </g>
-          <!-- Panah -->
-          <text x="220" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
-          <!-- Step 3 (Rotated 180 deg) -->
-          <g transform="translate(250, 10)">
-            <rect width="80" height="80" fill="none" stroke="#fff" stroke-width="2" rx="6"/>
-            <line x1="40" y1="70" x2="40" y2="10" stroke="#fbbf24" stroke-width="3"/>
-            <polygon points="40,75 35,65 45,65" fill="#fbbf24"/>
-            <circle cx="40" cy="10" r="6" fill="#ef4444"/>
-            <text x="5" y="20" fill="#94a3b8" font-size="10">Langkah 3</text>
-          </g>
-          <!-- Panah -->
-          <text x="340" y="55" fill="#fbbf24" font-size="20" font-weight="bold">→</text>
-          <!-- Target (?) -->
-          <g transform="translate(360, 10)">
-            <rect width="80" height="80" fill="none" stroke="#fbbf24" stroke-width="2" rx="6" stroke-dasharray="4"/>
-            <text x="35" y="48" fill="#fbbf24" font-size="24" font-weight="bold">?</text>
-          </g>
-        </svg>
+      <!-- Topic 3 -->
+      <div class="example-box">
+        <div class="example-title">3. Masalah yang Pernah Dihadapi & Cara Menyelesaikannya (STAR):</div>
+        <p>Gunakan format **STAR** (Situation, Task, Action, Result) untuk menceritakan troubleshooting kritis:</p>
+        <div class="explanation">
+          <strong>Contoh:</strong><br>
+          • <strong>Situation</strong>: Terjadi breakdown mendadak pada Excavator utama di pit tambang saat target produksi harian kritis.<br>
+          • <strong>Task</strong>: Anda bertugas mendiagnosa dan memimpin perbaikan kerusakan kelistrikan agar unit segera beroperasi aman.<br>
+          • <strong>Action</strong>: Anda merujuk pada manual book (OMM), mengukur tegangan sirkuit menggunakan multimeter, melokalisir kabel putus akibat gesekan, dan mengisolasi aman.<br>
+          • <strong>Result</strong>: Unit berhasil dirilis dalam waktu 45 menit (lebih cepat dari target MTTR) dan beroperasi normal dengan zero rework.
+        </div>
       </div>
-      <div class="explanation">
-        <strong>Pembahasan:</strong><br>
-        Perhatikan arah anak panah berwarna kuning dan posisi lingkaran merah:<br>
-        • Langkah 1: Anak panah menghadap ke <strong>atas</strong>, lingkaran merah di <strong>bawah</strong>.<br>
-        • Langkah 2: Gambar berputar 90° searah jarum jam. Anak panah menghadap ke <strong>kanan</strong>, lingkaran merah di <strong>kiri</strong>.<br>
-        • Langkah 3: Gambar berputar kembali 90° searah jarum jam. Anak panah menghadap ke <strong>bawah</strong>, lingkaran merah di <strong>atas</strong>.<br>
-        Maka langkah berikutnya (pada tanda "?") gambar harus berputar 90° lagi, sehingga anak panah menghadap ke <strong>kiri</strong> dan lingkaran merah berada di sisi <strong>kanan</strong>.
+
+      <!-- Topic 4 -->
+      <div class="example-box">
+        <div class="example-title">4. Perbaikan / Inovasi (Kaizen/Improvement) Workshop:</div>
+        <p>Tunjukkan inisiatif Anda untuk meningkatkan kualitas kerja:</p>
+        <ul>
+          <li><strong>Shadow Board Tools</strong>: Merancang papan gantungan alat khusus agar hand tools tidak tercecer, memangkas waktu pengerjaan 15 menit.</li>
+          <li><strong>Standardisasi Rak Sparepart</strong>: Menata ulang susunan seal kit berdasarkan part number untuk mempercepat pengambilan.</li>
+          <li><strong>Checklist JSA Praktis</strong>: Menyederhanakan form pemeriksaan bahaya kelistrikan workshop agar dipahami kru junior.</li>
+        </ul>
       </div>
-    </div>
 
-    <!-- SECTION 4 -->
-    <h2>4. Panduan & Tips Wawancara (Interview Calon Group Leader Maintenance)</h2>
-    <p>Tahap wawancara ini dirancang khusus untuk menguji kesiapan Anda bertransisi dari peran <strong>Mekanik (Pelaksana Teknis)</strong> menjadi seorang <strong>Group Leader / Foreman Maintenance (Pengawas Lapangan)</strong>. Aspek yang dinilai meliputi kepemimpinan, kepatuhan keselamatan (safety), pemecahan masalah (troubleshooting), serta inisiatif perbaikan workshop.</p>
-    
-    <div class="tips-box" style="background-color: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2);">
-      <div class="tips-title" style="color: #3b82f6;">💡 Metode Menjawab STAR:</div>
-      <p>Gunakan metode <strong>STAR</strong> saat menjawab pertanyaan perilaku untuk menunjukkan bukti nyata kompetensi Anda di lapangan:</p>
-      <ul>
-        <li><strong>S - Situation (Situasi)</strong>: Jelaskan situasi breakdown unit, antrean workshop, atau masalah kru yang terjadi.</li>
-        <li><strong>T - Task (Tugas)</strong>: Apa tanggung jawab atau target yang harus dicapai (misal: merilis unit tepat waktu, menjaga aspek safety).</li>
-        <li><strong>A - Action (Tindakan)</strong>: Terangkan tindakan konkret yang Anda ambil (misal: membagi tugas mekanik, menganalisis skema hidrolik/elektrik).</li>
-        <li><strong>R - Result (Hasil)</strong>: Hasil akhir yang dicapai (misal: target PA/MA terpenuhi, zero rework, nihil kecelakaan kerja).</li>
-      </ul>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 1: Motivasi & Pemahaman Transisi Peran</div>
-      <p><em>"Mengapa Anda ingin menjadi Group Leader (Foreman Maintenance) dan menurut Anda apa perbedaan terbesar antara menjadi Mekanik dengan menjadi Group Leader?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai kesadaran Anda terhadap perubahan tanggung jawab dari bekerja mandiri ke memimpin orang lain.<br>
-        <strong>Cara Menjawab Terbaik:</strong><br>
-        • <strong>Motivasi</strong>: Jelaskan keinginan Anda berkontribusi lebih luas dalam menjaga <em>Physical Availability</em> (PA) dan <em>Mean Time To Repair</em> (MTTR) unit site melalui koordinasi tim yang baik.<br>
-        • <strong>Perbedaan Peran</strong>: Katakan bahwa <em>Mekanik</em> fokus pada keahlian teknis memperbaiki unit (<em>hands-on</em>), sedangkan <em>Group Leader</em> fokus pada keselamatan tim (<em>safety</em>), pembagian tugas yang adil (<em>delegation</em>), pengawasan kualitas kerja (<em>zero rework</em>), administrasi (backlog/SPK), serta pembinaan mekanik junior (<em>coaching</em>).
+      <!-- Topic 5 -->
+      <div class="example-box">
+        <div class="example-title">5. Kelebihan & Kekurangan Diri (Fokus GL):</div>
+        <ul>
+          <li><strong>Kelebihan</strong>: Memiliki kedisiplinan keselamatan kerja tinggi, tidak berkompromi pada unsafe action, dan komunikatif dalam memandu kru junior.</li>
+          <li><strong>Kekurangan</strong>: "Saya cenderung perfeksionis dan dulu sulit mendelegasikan tugas teknis karena ingin pengerjaan bebas dari salah. Namun, kini saya belajar mendelegasikan dan mengawasi kru secara adil agar tim berkembang bersama."</li>
+        </ul>
       </div>
-    </div>
 
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 2: Kekurangan & Kelebihan Diri (Fokus Kepemimpinan)</div>
-      <p><em>"Apa kelebihan dan kekurangan diri Anda yang paling memengaruhi kinerja Anda jika terpilih menjadi Group Leader?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai tingkat pengenalan diri (<em>self-awareness</em>) dan komitmen pengembangan diri Anda.<br>
-        <strong>Cara Menjawab Terbaik:</strong><br>
-        • <strong>Kelebihan</strong>: Hubungkan dengan pekerjaan pengawas, misalnya: memiliki ketelitian tinggi dalam membaca skema elektrik/hidrolik (mencegah salah diagnosa), disiplin menggunakan APD lengkap, atau terbiasa mengajari mekanik baru/helper di workshop.<br>
-        • <strong>Kekurangan</strong>: Sebutkan kelemahan nyata yang tidak merusak integritas, dan jelaskan solusi yang Anda lakukan. <em>Contoh</em>: "Kekurangan saya dulu adalah sulit mendelegasikan pekerjaan karena merasa lebih cepat jika dikerjakan sendiri. Namun, sekarang saya sadar bahwa sebagai pengawas saya harus mempercayai dan melatih rekan kerja agar pekerjaan selesai tepat waktu melalui pembagian tugas yang terstruktur."
-      </div>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 3: Hal yang Membuat Anda Merasa Siap Menjadi GL</div>
-      <p><em>"Apa saja pengalaman atau hal konkret selama menjadi mekanik yang membuat Anda merasa yakin dan siap mengemban tanggung jawab sebagai Group Leader?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai kesiapan kompetensi kepemimpinan informal yang telah Anda tunjukkan selama ini.<br>
-        <strong>Cara Menjawab Terbaik:</strong><br>
-        • Sebutkan momen saat Anda memimpin investigasi breakdown kritis (<em>major breakdown</em>) unit utama (misal: Excavator atau Dump Truck besar) secara mandiri hingga tuntas.<br>
-        • Ceritakan inisiatif Anda dalam membuat laporan evaluasi kerusakan (<em>backlog</em>) atau memimpin briefing pagi keselamatan kerja (P5M) saat Group Leader definitif sedang berhalangan.<br>
-        • Tekankan bahwa rekan-rekan kerja di workshop sering berdiskusi atau meminta saran teknis kepada Anda, yang melatih kemampuan Anda dalam membimbing orang lain.
-      </div>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 4: Program Perbaikan (Improvement / 5S / Kaizen)</div>
-      <p><em>"Jika terpilih menjadi Group Leader, perbaikan (improvement) apa yang ingin Anda rancang dan terapkan di workshop tempat Anda bertugas?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai pemikiran kritis, inovasi, dan pemahaman Anda tentang efisiensi kerja workshop.<br>
-        <strong>Cara Menjawab Terbaik (Pilih salah satu ide perbaikan nyata):</strong><br>
-        • <strong>Penataan Alat (5S / 5R)</strong>: Membuat <em>shadow board</em> khusus untuk Special Tools (alat-alat khusus) agar tidak mudah hilang dan memangkas waktu pencarian alat saat unit breakdown kritis.<br>
-        • <strong>Pencegahan Breakdown (Preventive Maintenance)</strong>: Membuat checklist inspeksi mandiri harian yang lebih sederhana bagi mekanik sebelum mulai melakukan servis berkala, guna meminimalkan kerusakan berulang (<em>rework</em>).<br>
-        • <strong>Peningkatan Skill Tim</strong>: Merancang sesi <em>Sharing Knowledge</em> mingguan selama 30 menit antar-mekanik untuk membahas kendala troubleshooting tersulit yang dihadapi di shift sebelumnya.
-      </div>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 5: Konflik & Penegakan Disiplin Anggota Tim</div>
-      <p><em>"Bagaimana Anda menyikapi mekanik di bawah pengawasan Anda yang malas, menolak instruksi kerja, atau berulang kali tidak memakai APD lengkap?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai ketegasan, kepatuhan keselamatan (<em>safety</em>), dan kontrol emosi Anda.<br>
-        <strong>Cara Menjawab Terbaik:</strong><br>
-        • Terangkan bahwa tindakan tidak aman (<em>unsafe action</em>) dan tidak disiplin <strong>tidak boleh dibiarkan</strong> karena dapat mencederai diri sendiri maupun rekan kerja lainnya.<br>
-        • Lakukan pendekatan personal terlebih dahulu (ajak diskusi empat mata) untuk mencari tahu alasan di balik perilakunya.<br>
-        • Ingatkan kembali konsekuensi fatal bagi keselamatan pribadi dan keluarga di rumah jika mengabaikan prosedur K3.<br>
-        • Jika pendekatan persuasif telah dilakukan dan kesalahan tetap berulang, Anda akan mengambil langkah formal dengan memberikan teguran lisan terencana dan melaporkannya kepada Section Head sesuai SOP ketenagakerjaan.
-      </div>
-    </div>
-
-    <div class="example-box">
-      <div class="example-title" style="color: var(--accent);">Pertanyaan 6: Dilema Operasional (Kecepatan vs Keselamatan & Kualitas)</div>
-      <p><em>"Unit Dump Truck utama mengalami breakdown kelistrikan di tengah target produksi yang padat. Atasan meminta unit segera dirilis (diserahterjemahkan), namun Anda menganalisis unit masih butuh uji kelayakan pengaman (safety device) selama 30 menit lagi agar terhindar dari risiko korsleting/kebakaran. Apa tindakan Anda?"</em></p>
-      <div class="explanation">
-        <strong>Tujuan Pertanyaan:</strong> Menilai integritas Anda terhadap aspek keselamatan kerja dan komitmen menghindari <em>rework</em> di bawah tekanan waktu.<br>
-        <strong>Cara Menjawab Terbaik:</strong><br>
-        • Tegaskan sikap Anda: <strong>Keselamatan kerja dan kualitas perbaikan (zero rework) adalah hal utama</strong> yang tidak boleh dikompromikan.<br>
-        • Jelaskan risiko fatal secara objektif kepada atasan jika unit dirilis tanpa pengujian penuh (misal: potensi korsleting fatal yang dapat membakar unit dan mematikan produktivitas dalam jangka panjang).<br>
-        • Sampaikan perkiraan waktu yang realistis (30 menit) dan berikan solusi penyeimbang: Anda akan memimpin pengujian kelayakan dengan fokus tinggi, atau membagi tugas mekanik lain agar pengujian selesai lebih cepat, kemudian segera mengabari jika unit telah aman dirilis.
+      <!-- Topic 6 -->
+      <div class="example-box">
+        <div class="example-title">6. Pengalaman Memimpin Tim & Penegakan Disiplin:</div>
+        <p>Sampaikan cara Anda menyikapi kru yang melanggar aturan atau tidak memakai APD:</p>
+        <div class="explanation">
+          "Keselamatan kru adalah prioritas tertinggi saya sebagai pengawas. Jika ada kru mengabaikan prosedur K3, saya akan segera menghentikan pengerjaan unit (Stop Work Authority), mengajak bicara empat mata untuk mengingatkan bahaya cedera bagi dirinya dan keluarga di rumah. Apabila kesalahan tetap diulang dengan sengaja, saya akan menegakkan sanksi disiplin formal sesuai SOP perusahaan demi keselamatan bersama."
+        </div>
       </div>
     </div>
 
@@ -475,5 +491,17 @@
     </div>
   </div>
 
+  <script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>

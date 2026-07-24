@@ -16,7 +16,10 @@ function doGet(e) {
       score: parseInt(data[i][2]),
       total: parseInt(data[i][3]),
       duration: displayData[i][4], // Ambil teks tampilan langsung dari kolom E (misal: "0:39:27" atau "46:58:00")
-      insight: displayData[i][5]
+      insight: displayData[i][5],
+      level: displayData[i][6] ? parseInt(displayData[i][6]) : 2, // Kolom F (Level: 1 atau 2)
+      disc: displayData[i][7] || '-', // Kolom G (Profil DISC)
+      mostLeast: displayData[i][8] || '-' // Kolom H (Profil Most & Least)
     });
   }
   
@@ -38,7 +41,10 @@ function doPost(e) {
         params.score,
         params.total,
         params.duration,
-        params.insight
+        params.insight,
+        params.level || 2,
+        params.disc || '-',
+        params.mostLeast || '-'
       ]);
       
       return ContentService.createTextOutput(JSON.stringify({ status: 'success', message: 'Data berhasil disimpan!' }))
@@ -79,10 +85,13 @@ function getOrCreateSheet() {
       "Jumlah Benar",
       "Total Soal",
       "Durasi Pengoperasian",
-      "Analisis & Saran Evaluasi"
+      "Analisis & Saran Evaluasi",
+      "Level Tes",
+      "Profil DISC",
+      "Profil Most & Least"
     ]);
     // Format Header agar rapi
-    sheet.getRange("A1:F1").setFontWeight("bold").setBackground("#f3f4f6");
+    sheet.getRange("A1:I1").setFontWeight("bold").setBackground("#f3f4f6");
     sheet.setFrozenRows(1);
   }
   return sheet;

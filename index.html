@@ -41,6 +41,13 @@
               <label for="nrp-input">NRP Karyawan</label>
               <input type="text" class="input-control" id="nrp-input" placeholder="Contoh: 18105249" required autocomplete="off">
             </div>
+            <div class="form-group" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+              <label for="level-select">Level Evaluasi / Jabatan Target</label>
+              <select class="input-control" id="level-select" required>
+                <option value="1">Level 1 (Mekanik Sr., Welder Sr., Tyreman Sr., Calon Group Leader)</option>
+                <option value="2" selected>Level 2 (Group Leader Senior)</option>
+              </select>
+            </div>
             <button type="submit" class="btn btn-primary login-btn">Mulai Tes</button>
           </form>
 
@@ -292,6 +299,7 @@
             <thead>
               <tr>
                 <th>NRP Pegawai</th>
+                <th>Level</th>
                 <th>Tanggal Selesai</th>
                 <th>Skor Akhir</th>
                 <th>Durasi</th>
@@ -366,18 +374,56 @@
     <div class="modal-overlay" id="instructions-modal">
       <div class="modal-card">
         <div class="modal-header">
-          <h3 class="modal-title">Petunjuk Pengerjaan</h3>
+          <h3 class="modal-title">Petunjuk Bab 1: Tes Kognitif</h3>
           <button class="modal-close btn-close-modal">&times;</button>
         </div>
         <div class="modal-body" style="line-height: 1.6; font-size: 0.95rem;">
           <p style="margin-bottom: 0.75rem; font-weight: bold; color: var(--accent);">Petunjuk:</p>
           <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Persiapkan kertas kosong dan alat tulis terlebih dahulu untuk coret-coret/menghitung sebelum memulai tes.</p>
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Tes akan diberi waktu selama 60 menit, terdiri dari 50 soal pilihan ganda.</p>
+          <p style="margin-bottom: 1rem; color: var(--text-secondary);" id="instructions-text-cognitive">Tes akan diberi waktu selama 60 menit, terdiri dari soal pilihan ganda.</p>
           <p style="font-weight: bold; color: var(--success); margin-top: 1rem; font-size: 1.05rem;">Selamat mengerjakan!</p>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary btn-close-modal">Batal</button>
-          <button class="btn btn-primary" id="btn-start-confirm" style="font-weight: bold; padding: 0.75rem 2rem;">MULAI</button>
+          <button class="btn btn-primary" id="btn-start-confirm" style="font-weight: bold; padding: 0.75rem 2rem;">MULAI BAB 1</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions DISC Modal (Bab 2) -->
+    <div class="modal-overlay" id="instructions-disc-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Petunjuk Bab 2: Tes Kepribadian DISC</h3>
+        </div>
+        <div class="modal-body" style="line-height: 1.6; font-size: 0.95rem;">
+          <p style="margin-bottom: 0.75rem; font-weight: bold; color: var(--accent);">Petunjuk:</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Pada Bab 2 ini, Anda akan menghadapi **24 nomor** pernyataan kepribadian.</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Untuk setiap nomor, terdapat **4 pilihan pernyataan**.</p>
+          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Anda wajib memilih **satu pernyataan** yang **PALING** menggambarkan diri Anda pada kolom **MOST (P)**, dan **satu pernyataan** yang **PALING TIDAK** menggambarkan diri Anda pada kolom **LEAST (M)**.</p>
+          <p style="font-weight: bold; color: var(--success); margin-top: 1rem; font-size: 1.05rem;">Jawablah dengan jujur sesuai dengan diri Anda!</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="btn-start-disc" style="font-weight: bold; padding: 0.75rem 2rem;">MULAI BAB 2</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions Most & Least Modal (Bab 3) -->
+    <div class="modal-overlay" id="instructions-mostleast-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Petunjuk Bab 3: Gaya Kerja (Most & Least)</h3>
+        </div>
+        <div class="modal-body" style="line-height: 1.6; font-size: 0.95rem;">
+          <p style="margin-bottom: 0.75rem; font-weight: bold; color: var(--accent);">Petunjuk:</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Pada Bab 3 ini, Anda akan menghadapi **15 nomor** situasi gaya kerja dan kepemimpinan.</p>
+          <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Untuk setiap nomor, terdapat **3 pilihan pernyataan**.</p>
+          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Anda wajib memilih **satu pernyataan** yang **PALING** menggambarkan perilaku kerja Anda pada kolom **MOST (P)**, dan **satu pernyataan** yang **PALING TIDAK** menggambarkan pada kolom **LEAST (M)**.</p>
+          <p style="font-weight: bold; color: var(--success); margin-top: 1rem; font-size: 1.05rem;">Jawablah secara spontan sesuai respon pertama Anda!</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="btn-start-mostleast" style="font-weight: bold; padding: 0.75rem 2rem;">MULAI BAB 3</button>
         </div>
       </div>
     </div>
