@@ -2008,13 +2008,13 @@ const questionBankLevel1 = [
       </svg>
     `,
     options: [
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 23,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`, // Correct C
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 37,13 43,23" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
-      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 20,22" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`, // Correct A
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="15" x2="45" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="45,45 35,48 40,38" fill="#fbbf24"/><circle cx="15" cy="15" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 25,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="45" x2="45" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="45,15 35,12 40,22" fill="#fbbf24"/><circle cx="15" cy="45" r="5" fill="#10b981"/></svg>`,
+      `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="15" y1="30" x2="45" y2="30" stroke="#fbbf24" stroke-width="3"/><polygon points="45,30 37,25 37,35" fill="#fbbf24"/><circle cx="15" cy="30" r="5" fill="#10b981"/></svg>`
     ],
-    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="15" x2="15" y2="45" stroke="#fbbf24" stroke-width="3"/><polygon points="15,45 23,47 17,37" fill="#fbbf24"/><circle cx="45" cy="15" r="5" fill="#10b981"/></svg>`,
+    answer: `<svg viewBox="0 0 60 60" width="40" height="40"><line x1="45" y1="45" x2="15" y2="15" stroke="#fbbf24" stroke-width="3"/><polygon points="15,15 25,12 20,22" fill="#fbbf24"/><circle cx="45" cy="45" r="5" fill="#10b981"/></svg>`,
     explanation: "Panah miring ke kanan atas dengan pangkal bulat di kiri bawah bila dicerminkan vertikal akan menghadap ke kiri atas, dengan pangkal bulat berada di kanan bawah."
   },
   {
@@ -2246,42 +2246,42 @@ const questionBankLevel1 = [
   {
     id: 1031,
     category: "scramble",
-    question: "Susunlah acak kata berikut menjadi nama sebuah PROFESI: K - A - N - E - M - I - K",
+    question: "Susunlah acak kata berikut menjadi nama sebuah PROFESI: I - K - M - E - A - K - N",
     options: ["Welder", "Helper", "Mekanik", "Tyreman", "Operator"],
     answer: "Mekanik",
-    explanation: "Huruf K-A-N-E-M-I-K jika disusun dengan urutan yang benar membentuk kata MEKANIK."
+    explanation: "Huruf I-K-M-E-A-K-N jika disusun dengan urutan yang benar membentuk kata MEKANIK."
   },
   {
     id: 1032,
     category: "scramble",
-    question: "Susunlah acak kata berikut menjadi nama sebuah TEMPAT KERJA: W - O - R - K - S - H - O - P",
+    question: "Susunlah acak kata berikut menjadi nama sebuah TEMPAT KERJA: O - K - S - P - O - H - R - W",
     options: ["Workshop", "Tambang", "Kantor", "Mess", "Gudang"],
     answer: "Workshop",
-    explanation: "Huruf W-O-R-K-S-H-O-P jika disusun dengan urutan yang benar membentuk kata WORKSHOP."
+    explanation: "Huruf O-K-S-P-O-H-R-W jika disusun dengan urutan yang benar membentuk kata WORKSHOP."
   },
   {
     id: 1033,
     category: "scramble",
-    question: "Susunlah acak kata berikut menjadi sebuah PRINSIP KERJA: T - E - F - A - S - Y",
+    question: "Susunlah acak kata berikut menjadi sebuah PRINSIP KERJA: F - Y - T - E - S - A",
     options: ["Safety", "Loyal", "Target", "Disiplin", "Fokus"],
     answer: "Safety",
-    explanation: "Huruf T-E-F-A-S-Y jika disusun secara tepat membentuk kata SAFETY (keselamatan)."
+    explanation: "Huruf F-Y-T-E-S-A jika disusun secara tepat membentuk kata SAFETY (keselamatan)."
   },
   {
     id: 1034,
     category: "scramble",
-    question: "Susunlah acak kata berikut menjadi nama KOMPONEN kelistrikan unit: R - A - T - E - T - A - B - I",
+    question: "Susunlah acak kata berikut menjadi nama KOMPONEN kelistrikan unit: T - E - I - R - B - A - A",
     options: ["Alternator", "Dinamo", "Baterai", "Starter", "Sekring"],
     answer: "Baterai",
-    explanation: "Huruf R-A-T-E-T-A-B-I jika disusun dengan urutan yang benar membentuk kata BATERAI."
+    explanation: "Huruf T-E-I-R-B-A-A jika disusun dengan urutan yang benar membentuk kata BATERAI."
   },
   {
     id: 1035,
     category: "scramble",
-    question: "Susunlah acak kata berikut menjadi istilah FISIKA kelistrikan: G - E - N - T - A - N - G - A - N",
+    question: "Susunlah acak kata berikut menjadi istilah FISIKA kelistrikan: G - A - T - E - N - N - G - A",
     options: ["Hambatan", "Tegangan", "Arus", "Daya", "Kapasitansi"],
     answer: "Tegangan",
-    explanation: "Huruf G-E-N-T-A-N-G-A-N jika disusun dengan urutan yang benar membentuk kata TEGANGAN."
+    explanation: "Huruf G-A-T-E-N-N-G-A jika disusun dengan urutan yang benar membentuk kata TEGANGAN."
   },
 
   // --- Klasifikasi Verbal (36 - 40) ---
@@ -2289,7 +2289,7 @@ const questionBankLevel1 = [
     id: 1036,
     category: "classification",
     question: "Manakah kata yang TIDAK termasuk dalam kelompoknya (ganjil sendiri)?",
-    options: ["Obeng", "Tang", "Palu", "Kunci Inggris", "Helm"],
+    options: ["Obeng", "Helm", "Tang", "Palu", "Kunci Inggris"],
     answer: "Helm",
     explanation: "Obeng, Tang, Palu, dan Kunci Inggris adalah perkakas kerja (hand tools), sedangkan Helm adalah Alat Pelindung Diri (APD)."
   },
@@ -2297,7 +2297,7 @@ const questionBankLevel1 = [
     id: 1037,
     category: "classification",
     question: "Manakah kata yang TIDAK termasuk dalam kelompoknya?",
-    options: ["Excavator", "Dump Truck", "Bulldozer", "Grader", "Sedan"],
+    options: ["Sedan", "Excavator", "Dump Truck", "Bulldozer", "Grader"],
     answer: "Sedan",
     explanation: "Excavator, Dump Truck, Bulldozer, dan Grader merupakan alat berat operasional pertambangan, sedangkan Sedan adalah mobil penumpang pribadi."
   },
@@ -2305,7 +2305,7 @@ const questionBankLevel1 = [
     id: 1038,
     category: "classification",
     question: "Manakah kata yang TIDAK termasuk dalam kelompoknya?",
-    options: ["Solar", "Bensin", "Avtur", "Pertalite", "Oli"],
+    options: ["Solar", "Bensin", "Oli", "Avtur", "Pertalite"],
     answer: "Oli",
     explanation: "Solar, Bensin, Avtur, dan Pertalite merupakan bahan bakar (fuel), sedangkan Oli merupakan bahan pelumas (lubricant)."
   },
@@ -2313,7 +2313,7 @@ const questionBankLevel1 = [
     id: 1039,
     category: "classification",
     question: "Manakah kata yang TIDAK termasuk dalam kelompok APD wajib standar?",
-    options: ["Helm Safety", "Sepatu Boot Baja", "Kacamata Pelindung", "Kaos Kaki", "Sarung Tangan Las"],
+    options: ["Helm Safety", "Sepatu Boot Baja", "Kaos Kaki", "Kacamata Pelindung", "Sarung Tangan Las"],
     answer: "Kaos Kaki",
     explanation: "Helm safety, sepatu boot baja, kacamata pelindung, dan sarung tangan las adalah Alat Pelindung Diri (APD) keselamatan wajib standar di workshop, sedangkan kaos kaki adalah pakaian pelengkap biasa."
   },
@@ -2321,7 +2321,7 @@ const questionBankLevel1 = [
     id: 1040,
     category: "classification",
     question: "Manakah kata yang TIDAK termasuk dalam kelompok aktivitas fabrikasi logam?",
-    options: ["Welding", "Cutting", "Grinding", "Bending", "Sleeping"],
+    options: ["Welding", "Sleeping", "Cutting", "Grinding", "Bending"],
     answer: "Sleeping",
     explanation: "Welding (mengelas), Cutting (memotong), Grinding (menggerinda), dan Bending (menekuk) adalah aktivitas fabrikasi logam di workshop, sedangkan Sleeping (tidur) bukan."
   }
