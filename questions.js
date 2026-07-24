@@ -1868,54 +1868,42 @@ const questionBankLevel1 = [
   {
     id: 101,
     category: "general",
-    question: "Di era digital saat ini, layanan penyimpanan awan (cloud storage) yang dikembangkan oleh Google untuk menyimpan dokumen kerja secara online adalah...",
-    options: ["Dropbox", "OneDrive", "Google Drive", "iCloud", "Amazon S3"],
-    answer: "Google Drive",
-    explanation: "Google Drive adalah layanan penyimpanan awan (cloud storage) gratis milik Google yang memungkinkan pengguna menyimpan file secara online, berbagi file, dan mengedit dokumen bersama secara real-time."
+    question: "Apa ibu kota negara Korea Selatan?",
+    options: ["Tokyo", "Seoul", "Beijing", "Bangkok"],
+    answer: "Seoul",
+    explanation: "Ibu kota Korea Selatan adalah Seoul. Tokyo adalah ibu kota Jepang, Beijing adalah ibu kota Tiongkok, dan Bangkok adalah ibu kota Thailand."
   },
   {
     id: 102,
     category: "general",
-    question: "Dalam dunia bisnis dan pemasaran, konsep 'Brand Awareness' merujuk pada...",
-    options: [
-      "Tingkat kemampuan konsumen dalam mengenali atau mengingat suatu merek",
-      "Jumlah keuntungan bersih yang didapatkan dari penjualan suatu produk",
-      "Strategi memangkas biaya operasional produksi barang",
-      "Proses pengiriman barang dari pabrik langsung ke konsumen akhir",
-      "Jumlah varian warna dan ukuran yang dimiliki suatu produk"
-    ],
-    answer: "Tingkat kemampuan konsumen dalam mengenali atau mengingat suatu merek",
-    explanation: "Brand Awareness (kesadaran merek) adalah kemampuan konsumen untuk langsung mengenali dan mengingat suatu produk atau merek di antara kompetitor lainnya."
+    question: "Siapa presiden pertama Indonesia?",
+    options: ["Soekarno", "Soeharto", "Habibie", "Jokowi"],
+    answer: "Soekarno",
+    explanation: "Presiden pertama Republik Indonesia adalah Ir. Soekarno (menjabat tahun 1945–1967)."
   },
   {
     id: 103,
     category: "general",
-    question: "Kanal komunikasi formal yang paling standar dan sah digunakan untuk mengirimkan laporan resmi, undangan rapat formal, atau berkas administrasi dalam lingkup kerja perusahaan profesional adalah...",
-    options: ["Media Sosial Pribadi", "Short Message Service (SMS)", "Surat Elektronik (E-mail)", "Aplikasi Pesan Instan Kasual", "Panggilan Suara Langsung"],
-    answer: "Surat Elektronik (E-mail)",
-    explanation: "Surat Elektronik atau E-mail merupakan sarana komunikasi tertulis formal standar industri yang digunakan untuk bertukar pesan bisnis resmi karena memiliki validitas arsip dokumen yang baik."
+    question: "Apa lambang kimia untuk air?",
+    options: ["CO2", "H2O", "O2", "NaCl"],
+    answer: "H2O",
+    explanation: "Lambang kimia untuk air adalah H2O (dua atom hidrogen dan satu atom oksigen). CO2 adalah karbon dioksida, O2 adalah oksigen gas, dan NaCl adalah garam dapur."
   },
   {
     id: 104,
     category: "general",
-    question: "Pada program pengolah data spreadsheet seperti Microsoft Excel atau Google Sheets, rumus (formula) standar yang digunakan untuk menghitung rata-rata dari sekumpulan data angka adalah...",
-    options: ["SUM", "AVERAGE", "COUNT", "MAX", "IF"],
-    answer: "AVERAGE",
-    explanation: "Rumus AVERAGE digunakan untuk menghitung nilai rata-rata aritmatika dari range sel data tertentu. SUM untuk penjumlahan, COUNT untuk menghitung jumlah sel terisi data, MAX untuk nilai tertinggi, dan IF untuk logika syarat."
+    question: "Gunung tertinggi di dunia adalah...",
+    options: ["Kilimanjaro", "Fuji", "Everest", "Elbrus"],
+    answer: "Everest",
+    explanation: "Gunung tertinggi di dunia adalah Gunung Everest yang terletak di pegunungan Himalaya (perbatasan Nepal dan Daerah Otonomi Tibet, Tiongkok) dengan ketinggian sekitar 8.848 meter di atas permukaan laut."
   },
   {
     id: 105,
     category: "general",
-    question: "Inflasi merupakan suatu kondisi ekonomi makro di mana terjadi...",
-    options: [
-      "Penurunan jumlah pengangguran secara drastis dalam jangka pendek",
-      "Kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu",
-      "Peningkatan nilai tukar mata uang dalam negeri terhadap mata uang asing secara tajam",
-      "Penurunan daya beli masyarakat secara instan akibat suku bunga bank nol persen",
-      "Kondisi surplus anggaran belanja negara karena naiknya hasil ekspor komoditas"
-    ],
-    answer: "Kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu",
-    explanation: "Inflasi adalah kecenderungan naiknya harga barang dan jasa pada umumnya secara terus menerus dalam waktu tertentu akibat berkurangnya nilai mata uang."
+    question: "Organisasi dunia yang mengurus kesehatan adalah...",
+    options: ["WTO", "WHO", "UNICEF", "UNDP"],
+    answer: "WHO",
+    explanation: "Organisasi kesehatan dunia adalah WHO (World Health Organization). WTO bergerak di bidang perdagangan dunia, UNICEF di bidang anak-anak, dan UNDP di bidang pembangunan PBB."
   },
 
   // --- Logika Angka (6 - 10) ---
